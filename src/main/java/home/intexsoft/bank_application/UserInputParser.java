@@ -13,6 +13,9 @@ public class UserInputParser {
 
 
 
+    public void printCommands() {
+        System.out.println(Arrays.toString(FirstCommands.values()));
+    }
 
     public String enterCommand() {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));

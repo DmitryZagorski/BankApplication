@@ -7,7 +7,6 @@ public class CommandDescriptor {
     // К примеру, сюда приходит описание команды CreateBank, в FactoryRepresentation мы получаем её класс и инстанциируем её, а в
     // CommandRepresentation проверяем, есть ли у нас всё, чтобы выполнить нужную команду
 
-
     private String command;
     private String[] attributes;
 
@@ -20,15 +19,8 @@ public class CommandDescriptor {
         return command;
     }
 
-    public void setCommand(String command) {
-        this.command = command;
-    }
-
     public String[] getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(String[] attributes) {
-        this.attributes = attributes;
-    }
 }
