@@ -13,12 +13,6 @@ public class UserInputParser {
     // Принимает введенные данные; валидирует; определяет, какой метод commandDescriptor вызвать, учитывая введенные данные.
     // Парсинг введенных данных
 
-
-
-    public void printCommands() {
-        System.out.println(Arrays.toString(FirstCommands.values()));
-    }
-
     public String enterCommand() {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         String string = null;
