@@ -12,9 +12,7 @@ public class UserInputParser {
     // Парсинг введенных данных
 
 
-    public void printCommands() {
-        System.out.println(Arrays.toString(Commands.values()));
-    }
+
 
     public String enterCommand() {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
