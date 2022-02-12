@@ -1,4 +1,4 @@
-package home.intexsoft.bank_application;
+package home.intexsoft.bank_application.commands;
 
 public enum Commands {
 
