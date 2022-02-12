@@ -1,6 +1,6 @@
 package home.intexsoft.bank_application;
 
-public enum Commands {
+public enum FirstCommands {
 
     Banks,
     Clients,

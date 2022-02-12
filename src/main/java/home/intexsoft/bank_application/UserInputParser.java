@@ -13,7 +13,7 @@ public class UserInputParser {
 
 
     public void printCommands() {
-        System.out.println(Arrays.toString(Commands.values()));
+        System.out.println(Arrays.toString(FirstCommands.values()));
     }
 
     public String enterCommand() {

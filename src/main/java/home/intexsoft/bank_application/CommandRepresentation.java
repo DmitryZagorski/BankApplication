@@ -8,4 +8,15 @@ public class CommandRepresentation {
     // Вызываем Validate и передаем в него Descriptor
     // Данный класс проверяет наличие данных для выполнения команды
 
+    public boolean validateAttributes(String[] attributes){
+
+        return true;
+    }
+
+    public void executeCommandBank(){ 
+
+
+
+    }
+
 }
