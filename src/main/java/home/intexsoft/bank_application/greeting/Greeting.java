@@ -1,6 +1,5 @@
 package home.intexsoft.bank_application.greeting;
 
-
 public class Greeting {
 
     public void firstPhrase() {
