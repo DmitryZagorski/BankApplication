@@ -15,6 +15,17 @@ public class Greeting {
         System.out.println(Arrays.toString(Commands.values()));
     }
 
+    public void printBankCommands(){
+
+    }
+
+    public void printClientCommands(){
+
+    }
+
+    public void printTransactionCommand(){
+
+    }
 
 
 }
