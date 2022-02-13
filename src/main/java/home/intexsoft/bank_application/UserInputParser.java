@@ -37,7 +37,7 @@ public class UserInputParser {
             s.trim();
         }
         String command = enteredString[0];
-        String[] attributes = new String[enteredString.length-1];
+        String[] attributes = new String[enteredString.length - 1];
         for (int i = 1; i < enteredString.length; i++) {
             attributes[i - 1] = enteredString[i];
         }
