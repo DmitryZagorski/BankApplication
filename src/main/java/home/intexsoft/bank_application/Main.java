@@ -17,3 +17,4 @@ public class Main {
 
     }
 }
+// Нужно ли делать отдельный пакет для BankRepresentation, ClientRepresentation чтобы соманды разбить по отдельным классам?

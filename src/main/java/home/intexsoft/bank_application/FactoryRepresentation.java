@@ -1,58 +1,65 @@
 package home.intexsoft.bank_application;
 
+import home.intexsoft.bank_application.commandRepresentation.BankRepresentation;
+import home.intexsoft.bank_application.commandRepresentation.ClientRepresentation;
+import home.intexsoft.bank_application.commandRepresentation.TransactionRepesentation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class FactoryRepresentation {
 
     // Получаем класс команды или команду, которая должна выполняться
 
-    public void chooseMethod(CommandDescriptor commandDescriptor) {
+    private static final Logger Log = LoggerFactory.getLogger(FactoryRepresentation.class);
 
-        CommandRepresentation commandRepresentation = new CommandRepresentation();
+    public void chooseMethod(CommandDescriptor commandDescriptor) {
+        Log.info("Choosing of method by command started");
+
+        BankRepresentation bankRepresentation = new BankRepresentation();
+        TransactionRepesentation transactionRepesentation = new TransactionRepesentation();
+        ClientRepresentation clientRepresentation = new ClientRepresentation();
         String[] attributes = commandDescriptor.getAttributes();
 
         switch (commandDescriptor.getCommand()) {
             case "addBank":
-                commandRepresentation.addBank(attributes);
+                bankRepresentation.addBank(attributes);
                 break;
             case "viewAllBanks":
-                commandRepresentation.viewAllBanks();
+                bankRepresentation.viewAllBanks();
                 break;
             case "findClientsOfBank":
-                commandRepresentation.viewClientsOfBank(attributes);
+                bankRepresentation.viewClientsOfBank(attributes);
                 break;
             case "removeBank":
-                commandRepresentation.removeBank(attributes);
+                bankRepresentation.removeBank(attributes);
                 break;
             case "removeAllBanks":
-                commandRepresentation.removeAllBanks();
+                bankRepresentation.removeAllBanks();
                 break;
             case "addClient":
-                commandRepresentation.addClient(attributes);
+                clientRepresentation.addClient(attributes);
                 break;
             case "viewAllClients":
-                commandRepresentation.viewAllClients();
+                clientRepresentation.viewAllClients();
                 break;
             case "removeClient":
-                commandRepresentation.removeClient(attributes);
+                clientRepresentation.removeClient(attributes);
                 break;
             case "removeAllClients":
-                commandRepresentation.removeAllClients();
+                clientRepresentation.removeAllClients();
                 break;
             case "addClientsBankAccount":
-                commandRepresentation.addClientsBankAccount(attributes);
+                clientRepresentation.addClientsBankAccount(attributes);
                 break;
             case "findClientsBankAccount":
-                commandRepresentation.findClientsBankAccount(attributes);
+                clientRepresentation.findClientsBankAccount(attributes);
                 break;
             case "addTransaction":
-                commandRepresentation.addTransaction(attributes);
+                transactionRepesentation.addTransaction(attributes);
                 break;
-            case "findClientsTransactions":
-                commandRepresentation.findClientsTransactions(attributes);
+            case "viewClientsTransactions":
+                transactionRepesentation.viewClientsTransactions(attributes);
                 break;
-
         }
-
-
-}
-
+    }
 }
