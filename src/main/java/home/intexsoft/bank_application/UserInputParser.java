@@ -1,11 +1,8 @@
 package home.intexsoft.bank_application;
 
-import home.intexsoft.bank_application.commands.Commands;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class UserInputParser {
 
@@ -30,11 +27,11 @@ public class UserInputParser {
         for (String s : enteredString) {
             s.trim();
         }
-        String command = enteredString[1];
-        String[] params = new String[enteredString.length - 1];
+        String command = enteredString[0];
+        String[] attributes = new String[enteredString.length-1];
         for (int i = 1; i < enteredString.length; i++) {
-            params[i - 1] = enteredString[i];
+            attributes[i - 1] = enteredString[i];
         }
-        return new CommandDescriptor(command, params);
+        return new CommandDescriptor(command, attributes);
     }
 }
