@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserInputParser {
 
@@ -44,4 +46,19 @@ public class UserInputParser {
         Log.info("Parsing of command finished");
         return new CommandDescriptor(command, attributes);
     }
+
+//    public Map<String, String[]> parse1(String string) {
+//        String[] enteredString = string.split(" ");
+//        for (String s : enteredString) {
+//            s.trim();
+//        }
+//        String command = enteredString[0];
+//        String[] attributes = new String[enteredString.length - 1];
+//        for (int i = 1; i < enteredString.length; i++) {
+//            attributes[i - 1] = enteredString[i];
+//        }
+//        Map<String, String[]> comAtr = new HashMap<>();
+//        comAtr.put(command, attributes);
+//        return comAtr;
+//    }
 }

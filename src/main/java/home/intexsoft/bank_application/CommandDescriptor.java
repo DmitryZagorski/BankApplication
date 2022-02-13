@@ -1,5 +1,7 @@
 package home.intexsoft.bank_application;
 
+import java.util.Map;
+
 public class CommandDescriptor {
 
     // Описывает команду, которую мы хотим выполнить
@@ -22,5 +24,6 @@ public class CommandDescriptor {
     public String[] getAttributes() {
         return attributes;
     }
+
 
 }

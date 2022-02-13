@@ -9,8 +9,7 @@ import java.util.Arrays;
 public class Greeting {
 
     public void chooseCommand() {
-        System.out.println("Hello. Let's start our application." +
-                             "Enter one of these commands");
+        System.out.println("Enter one of these commands");
         printBankCommands();
         printClientCommands();
         printTransactionCommand();

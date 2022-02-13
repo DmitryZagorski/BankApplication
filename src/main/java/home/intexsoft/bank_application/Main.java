@@ -6,15 +6,17 @@ public class Main {
 
     public static void main(String[] args) {
 
-        new Greeting().chooseCommand();
-
-        UserInputParser inputParser = new UserInputParser();
-        String command = inputParser.enterCommand();
-        CommandDescriptor commandWithAttributes = inputParser.parse(command);
-        FactoryRepresentation factoryRepresentation = new FactoryRepresentation();
-        factoryRepresentation.chooseMethod(commandWithAttributes);
-
-
+        while(true){
+            new Greeting().chooseCommand();
+            UserInputParser inputParser = new UserInputParser();
+            String command = inputParser.enterCommand();
+            if (command.equalsIgnoreCase("end")){
+                break;
+            }
+            CommandDescriptor commandWithAttributes = inputParser.parse(command);
+            FactoryRepresentation factoryRepresentation = new FactoryRepresentation();
+            factoryRepresentation.chooseMethod(commandWithAttributes);
+        }
     }
 }
-// Нужно ли делать отдельный пакет для BankRepresentation, ClientRepresentation чтобы соманды разбить по отдельным классам?
+// Разбить commandRepresentation на классы? Также отдельные методы в классах BankRepresentation & ClientsRepresentation вынести в отдельный класс?
