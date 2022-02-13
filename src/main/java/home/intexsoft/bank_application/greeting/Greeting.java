@@ -2,37 +2,32 @@ package home.intexsoft.bank_application.greeting;
 
 import home.intexsoft.bank_application.commands.BanksCommands;
 import home.intexsoft.bank_application.commands.ClientsCommands;
-import home.intexsoft.bank_application.commands.Commands;
 import home.intexsoft.bank_application.commands.TransactionsCommands;
 
 import java.util.Arrays;
 
 public class Greeting {
 
-    public void firstPhrase() {
-        System.out.println("Hello. Let's start our application.");
-    }
-
     public void chooseCommand() {
-        System.out.println("Enter one of these commands");
+        System.out.println("Hello. Let's start our application." +
+                             "Enter one of these commands");
+        printBankCommands();
+        printClientCommands();
+        printTransactionCommand();
     }
 
-    public void printFirstCommands() {
-        System.out.println(Arrays.toString(Commands.values()));
-    }
-
-    public void printBankCommands() {
+    private void printBankCommands() {
+        System.out.print("Bank commands: ");
         System.out.println(Arrays.toString(BanksCommands.values()));
     }
 
-    public void printClientCommands() {
+    private void printClientCommands() {
+        System.out.print("Client commands: ");
         System.out.println(Arrays.toString(ClientsCommands.values()));
     }
 
-    public void printTransactionCommand() {
+    private void printTransactionCommand() {
+        System.out.print("Transaction commands: ");
         System.out.println(Arrays.toString(TransactionsCommands.values()));
     }
-
-
-
 }
