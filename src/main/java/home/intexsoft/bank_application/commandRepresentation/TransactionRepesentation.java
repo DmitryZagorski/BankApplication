@@ -140,27 +140,25 @@ public class TransactionRepesentation {
         }
     }
 
-    public void viewClientsTransactions(String[] attributes) {
+    public List<Transaction> findClientsTransactions(String[] attributes) {
         Log.info("Getting list of transactions by clientId and date");
         Integer clientId = Integer.parseInt(attributes[0]);
         String getTransaction = "select transactions.id, clients.name, clients.surname, transactions.sender_bank_account_id, transactions.recipient_bank_account_id, currency.currency_name, transactions.amount_of_money, transactions.creation_date from transactions inner join clients on client_id = clients.id inner join currency on transactions.currency_id = currency.id where client_id =".concat(String.valueOf(clientId));
+        List<Transaction> transactions = new ArrayList<>();
         Connection connection;
         try {
             connection = ConnectionPoolProvider.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(getTransaction);
-            List<Transaction> transactions = new ArrayList<>();
             while (resultSet.next()) {
                 Transaction transaction = createTransaction(resultSet);
                 transactions.add(transaction);
-            }
-            for (Transaction transaction : transactions) {
-                System.out.println(transaction.toString());
             }
         } catch (SQLException e) {
             Log.error("Something wrong during retrieval entity ", e);
             throw new EntityRetrievalException(e);
         }
+        return transactions;
     }
 
     private Transaction createTransaction(ResultSet resultSet) throws SQLException {

@@ -330,10 +330,11 @@ public class ClientRepresentation {
         return isValidated;
     }
 
-    public void findClientsBankAccount(String[] attributes) {
+    public List<BankAccount> findClientsBankAccount(String[] attributes) {
         Log.info("Finding bank accounts of clients");
         Integer clientId = Integer.parseInt(attributes[0]);
 
+        List<BankAccount> accounts = new ArrayList<>();
         if (validateDataDuringAddClient(clientId)) {
             String findAllAccountsByClientId = "select bank_accounts.id, currency.currency_name, bank_accounts.amount_of_money, banks.bank_name, clients.name, clients.surname from bank_accounts inner join currency on bank_accounts.currency_id = currency.id inner join banks on bank_accounts.bank_id = banks.id inner join clients on bank_accounts.client_id = clients.id where client_id=".concat(String.valueOf(clientId));
             Connection connection = null;
@@ -344,15 +345,13 @@ public class ClientRepresentation {
                 connection.setAutoCommit(false);
                 statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(findAllAccountsByClientId);
-                List<BankAccount> accounts = new ArrayList<>();
+                accounts = new ArrayList<>();
                 while (resultSet.next()) {
                     BankAccount bankAccount = setBankAccount(resultSet);
                     accounts.add(bankAccount);
                 }
                 connection.commit();
-                for (BankAccount account : accounts) {
-                    System.out.println(account.toString());
-                }
+
             } catch (SQLException e) {
                 try {
                     connection.rollback();
@@ -362,11 +361,13 @@ public class ClientRepresentation {
                 Log.error("Something wrong during retrieval entity ", e);
                 throw new EntityRetrievalException(e);
             }
+
             Log.info("All bank accounts of client with id = " + clientId + " were found");
         }
+        return accounts;
     }
 
-    private List<Client> findAllClients() {
+    public List<Client> findAllClients() {
         Log.info("FindAllClients method started");
         String selectAll = "select * from clients";
         try (Connection connection = ConnectionPoolProvider.getConnection();
@@ -384,7 +385,7 @@ public class ClientRepresentation {
         }
     }
 
-    private List<ClientStatus> findAllStatuses() {
+    public List<ClientStatus> findAllStatuses() {
         String selectAll = "select * from client_status";
         try (Connection connection = ConnectionPoolProvider.getConnection();
              Statement statement = connection.createStatement();
@@ -401,7 +402,7 @@ public class ClientRepresentation {
         }
     }
 
-    private List<Currency> findAllCurrency() {
+    public List<Currency> findAllCurrency() {
         String selectAll = "select * from currency";
         try (Connection connection = ConnectionPoolProvider.getConnection();
              Statement statement = connection.createStatement();

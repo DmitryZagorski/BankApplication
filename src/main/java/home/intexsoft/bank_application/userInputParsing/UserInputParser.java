@@ -1,14 +1,20 @@
 package home.intexsoft.bank_application.userInputParsing;
 
 
+import home.intexsoft.bank_application.commandRepresentation.BankRepresentation;
+import home.intexsoft.bank_application.commandRepresentation.ClientRepresentation;
 import home.intexsoft.bank_application.commands.BanksCommands;
 import home.intexsoft.bank_application.commands.ClientsCommands;
 import home.intexsoft.bank_application.commands.FirstLineCommands;
 import home.intexsoft.bank_application.commands.TransactionsCommands;
+import home.intexsoft.bank_application.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 public class UserInputParser extends AbstractCommandMapCreator {
 
@@ -29,7 +35,7 @@ public class UserInputParser extends AbstractCommandMapCreator {
 
     public void runningOfParser() {
         String[] mainCommands = printCommands(createMainMenu());
-        chooseInputDataMethod( enterCommandsNumber(mainCommands));
+        chooseInputDataMethod(enterCommandsNumber(mainCommands));
     }
 
     public void runBankSubmenu() {
@@ -125,52 +131,57 @@ public class UserInputParser extends AbstractCommandMapCreator {
 
 
     public void chooseInputDataMethod(String command) {
+        BankRepresentation bankRepresentation = new BankRepresentation();
+        ClientRepresentation clientRepresentation = new ClientRepresentation();
         if (commandsLevel == 0) {
             if ("banks".equals(command)) {
                 runBankSubmenu();
             }
-        } else {
-            if ("addBank".equals(command)) {
+
+
+        }
+        switch (command) {
+            case "addBank":
                 enterDataToAddBank(command);
-                //                case "viewAllBanks":
-//                    bankRepresentation.viewAllBanks();
-//                    break;
-//                case "findClientsOfBank":
-//                    bankRepresentation.viewClientsOfBank(attributes);
-//                    break;
-//                case "removeBank":
-//                    bankRepresentation.removeBank(attributes);
-//                    break;
-//                case "removeAllBanks":
-//                    bankRepresentation.removeAllBanks();
-//                    break;
-//                case "addClient":
-//                    clientRepresentation.addClient(attributes);
-//                    break;
-//                case "viewAllClients":
-//                    clientRepresentation.viewAllClients();
-//                    break;
-//                case "removeClient":
-//                    clientRepresentation.removeClient(attributes);
-//                    break;
-//                case "removeAllClients":
-//                    clientRepresentation.removeAllClients();
-//                    break;
-//                case "addClientsBankAccount":
-//                    clientRepresentation.addClientsBankAccount(attributes);
-//                    break;
-//                case "findClientsBankAccount":
-//                    clientRepresentation.findClientsBankAccount(attributes);
-//                    break;
-//                case "addTransaction":
-//                    transactionRepesentation.addTransaction(attributes);
-//                    break;
-//                case "viewClientsTransactions":
-//                    transactionRepesentation.viewClientsTransactions(attributes);
-//                    break;
-            }
+            case "viewAllBanks":
+                bankRepresentation.viewAllBanks();
+                break;
+            case "findClientsOfBank":
+                enterDataToFindClientsOfBank(command);
+                break;
+            case "removeBank":
+                enterDataToRemoveBank(command);
+                break;
+            case "removeAllBanks":
+                bankRepresentation.removeAllBanks();
+                break;
+            case "addClient":
+                enterDataToAddClient(command);
+                break;
+            case "viewAllClients":
+                clientRepresentation.viewAllClients();
+                break;
+            case "removeClient":
+                enterDataToRemoveClient(command);
+                break;
+            case "removeAllClients":
+                clientRepresentation.removeAllClients();
+                break;
+            case "addClientsBankAccount":
+                enterDataToAddBankAccount(command);
+                break;
+            case "findClientsBankAccount":
+                enterDataToFindClientsAccount(command);
+                break;
+            case "addTransaction":
+                enterDataToAddTransaction(command);
+                break;
+            case "viewClientsTransactions":
+                enterDataToFindClientsTransactions(command);
+                break;
         }
     }
+
 
     public Map<String, Map<String, String>> enterDataToAddBank(String commandName) {
         System.out.println("Enter the name of bank");
@@ -183,16 +194,236 @@ public class UserInputParser extends AbstractCommandMapCreator {
 
         CommandDescriptor commandDescriptor = new CommandDescriptor();
         Map<String, String> attributes = commandDescriptor.getAttributes();
-        attributes.put("Bank name", bankName);
-        attributes.put("Commission For Individual", commissionForIndividual.toString());
-        attributes.put("Commission For Entity", commissionForEntity.toString());
+        attributes.put("bankName", bankName);
+        attributes.put("commissionForIndividual", commissionForIndividual.toString());
+        attributes.put("commissionForEntity", commissionForEntity.toString());
 
         Map<String, Map<String, String>> commandWithAttributes = new HashMap<>();
         commandWithAttributes.put(commandName, attributes);
 
         return commandWithAttributes;
+    }
+
+    public Map<String, Map<String, String>> enterDataToFindClientsOfBank(String commandName) {
+        System.out.println("Enter the bank id from list: ");
+        viewAllBanks();
+        Scanner scanner = new Scanner(System.in);
+        Integer bankId = enterInteger(scanner);
+
+        CommandDescriptor commandDescriptor = new CommandDescriptor();
+        Map<String, String> attributes = commandDescriptor.getAttributes();
+        attributes.put("findClientsOfBank", bankId.toString());
+
+        Map<String, Map<String, String>> commandWithAttributes = new HashMap<>();
+        commandWithAttributes.put(commandName, attributes);
+
+        return commandWithAttributes;
+    }
+
+    public Map<String, Map<String, String>> enterDataToRemoveBank(String commandName) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the bank id from list: ");
+        viewAllBanks();
+        Integer bankId = enterInteger(scanner);
+
+        CommandDescriptor commandDescriptor = new CommandDescriptor();
+        Map<String, String> attributes = commandDescriptor.getAttributes();
+        attributes.put("removeBank", bankId.toString());
+
+        Map<String, Map<String, String>> commandWithAttributes = new HashMap<>();
+        commandWithAttributes.put(commandName, attributes);
+
+        return commandWithAttributes;
+    }
+
+    public Map<String, Map<String, String>> enterDataToAddClient(String commandName) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the name of client");
+        String clientName = enterString(scanner).trim();
+        System.out.println("Enter the surname of client");
+        String clientSurname = enterString(scanner).trim();
+        System.out.println("Enter the number of clients status");
+        viewClientStatuses();
+        Integer clientStatusId = enterInteger(scanner);
+        System.out.println("Enter the number of currency");
+        viewAllCurrency();
+        Integer currencyId = enterInteger(scanner);
+        System.out.println("Enter the number of bank");
+        viewAllBanks();
+        Integer bankId = enterInteger(scanner);
+        System.out.println("Enter amount of money");
+        Double amountOfMoney = enterDouble(scanner);
+
+        CommandDescriptor commandDescriptor = new CommandDescriptor();
+        Map<String, String> attributes = commandDescriptor.getAttributes();
+        attributes.put("clientName", clientName);
+        attributes.put("clientSurname", clientSurname);
+        attributes.put("clientStatusId", clientStatusId.toString());
+        attributes.put("currencyId", currencyId.toString());
+        attributes.put("bankId", bankId.toString());
+        attributes.put("amountOfMoney", amountOfMoney.toString());
+
+        Map<String, Map<String, String>> commandWithAttributes = new HashMap<>();
+        commandWithAttributes.put(commandName, attributes);
+
+        return commandWithAttributes;
+    }
+
+    public Map<String, Map<String, String>> enterDataToRemoveClient(String commandName) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the client id from list: ");
+        viewAllClients();
+        Integer clientId = enterInteger(scanner);
+
+        CommandDescriptor commandDescriptor = new CommandDescriptor();
+        Map<String, String> attributes = commandDescriptor.getAttributes();
+        attributes.put("removeClient", clientId.toString());
+
+        Map<String, Map<String, String>> commandWithAttributes = new HashMap<>();
+        commandWithAttributes.put(commandName, attributes);
+
+        return commandWithAttributes;
+    }
+
+    public Map<String, Map<String, String>> enterDataToAddBankAccount(String commandName) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the number of client");
+        viewAllClients();
+        String clientName = enterString(scanner).trim();
+        System.out.println("Enter the number of bank");
+        viewAllBanks();
+        Integer bankId = enterInteger(scanner);
+        System.out.println("Enter the number of currency");
+        viewAllCurrency();
+        Integer currencyId = enterInteger(scanner);
+        System.out.println("Enter amount of money");
+        Double amountOfMoney = enterDouble(scanner);
+
+        CommandDescriptor commandDescriptor = new CommandDescriptor();
+        Map<String, String> attributes = commandDescriptor.getAttributes();
+        attributes.put("clientName", clientName);
+        attributes.put("bankId", bankId.toString());
+        attributes.put("currencyId", currencyId.toString());
+        attributes.put("amountOfMoney", amountOfMoney.toString());
+
+        Map<String, Map<String, String>> commandWithAttributes = new HashMap<>();
+        commandWithAttributes.put(commandName, attributes);
+
+        return commandWithAttributes;
+    }
+
+    public Map<String, Map<String, String>> enterDataToFindClientsAccount(String commandName) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the client id from list: ");
+        viewAllClients();
+        Integer clientId = enterInteger(scanner);
+
+        CommandDescriptor commandDescriptor = new CommandDescriptor();
+        Map<String, String> attributes = commandDescriptor.getAttributes();
+        attributes.put("findClientsAccount", clientId.toString());
+
+        Map<String, Map<String, String>> commandWithAttributes = new HashMap<>();
+        commandWithAttributes.put(commandName, attributes);
+
+        return commandWithAttributes;
+    }
+
+    public Map<String, Map<String, String>> enterDataToAddTransaction(String commandName) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter id of client from list: ");
+        viewAllClients();
+        Integer clientId = enterInteger(scanner);
+        System.out.println("Enter bank account of sender from list: ");
+        viewClientsBankAccount(clientId);
+        Integer senderBankAccount = enterInteger(scanner);
+        System.out.println("Enter bank account of recipient from list: ");
+        viewAvailableRecipientAccounts(clientId);
+        Integer recipientBankAccount = enterInteger(scanner);
+        System.out.println("Enter amount of money");
+        Double amountOfMoney = enterDouble(scanner);
+
+        CommandDescriptor commandDescriptor = new CommandDescriptor();
+        Map<String, String> attributes = commandDescriptor.getAttributes();
+        attributes.put("clientId", clientId.toString());
+        attributes.put("senderBankAccount", senderBankAccount.toString());
+        attributes.put("recipientBankAccount", recipientBankAccount.toString());
+        attributes.put("amountOfMoney", amountOfMoney.toString());
+
+        Map<String, Map<String, String>> commandWithAttributes = new HashMap<>();
+        commandWithAttributes.put(commandName, attributes);
+
+        return commandWithAttributes;
+    }
+
+    public Map<String, Map<String, String>> enterDataToFindClientsTransactions(String commandName) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter id of client from list: ");
+        viewAllClients();
+        Integer clientId = enterInteger(scanner);
+        System.out.println("Enter date of transactions (mm-dd-yyyy)");
+        String date = enterString(scanner);
+
+        CommandDescriptor commandDescriptor = new CommandDescriptor();
+        Map<String, String> attributes = commandDescriptor.getAttributes();
+        attributes.put("clientId", clientId.toString());
+        attributes.put("dateBefore", date);
+
+        Map<String, Map<String, String>> commandWithAttributes = new HashMap<>();
+        commandWithAttributes.put(commandName, attributes);
+
+        return commandWithAttributes;
+    }
 
 
+    private void viewAvailableRecipientAccounts(Integer clientId) {
+        List<BankAccount> allBankAccounts = new BankRepresentation().findAvailableBankAccountsForRecipient(clientId);
+        for (BankAccount allBankAccount : allBankAccounts) {
+            System.out.println(allBankAccount.getId());
+        }
+    }
+
+    private void viewClientsBankAccount(Integer clientId) {
+        String[] id = new String[]{clientId.toString()};
+        List<BankAccount> clientsBankAccount = new ClientRepresentation().findClientsBankAccount(id);
+        for (BankAccount bankAccount : clientsBankAccount) {
+            System.out.println(bankAccount.getId());
+        }
+    }
+
+    private void viewAllBanks() {
+        List<Bank> allBanks = new BankRepresentation().findAllBanks();
+        Bank bank;
+        for (Bank allBank : allBanks) {
+            bank = allBank;
+            System.out.println(bank.getId() + " " + bank.getName());
+        }
+    }
+
+    private void viewAllClients() {
+        List<Client> allClients = new ClientRepresentation().findAllClients();
+        Client client;
+        for (int i = 0; i < allClients.size(); i++) {
+            client = allClients.get(i);
+            System.out.println(client.getId() + " " + client.getName());
+        }
+    }
+
+    public void viewClientStatuses() {
+        List<ClientStatus> allStatuses = new ClientRepresentation().findAllStatuses();
+        ClientStatus clientStatus;
+        for (int i = 0; i < allStatuses.size(); i++) {
+            clientStatus = allStatuses.get(i);
+            System.out.println(clientStatus.getId() + " " + clientStatus.getName());
+        }
+    }
+
+    public void viewAllCurrency() {
+        List<Currency> allCurrency = new ClientRepresentation().findAllCurrency();
+        Currency currency;
+        for (int i = 0; i < allCurrency.size(); i++) {
+            currency = allCurrency.get(i);
+            System.out.println(currency.getId() + " " + currency.getName());
+        }
     }
 
     public Double enterDouble(Scanner scanner) {
@@ -210,14 +441,28 @@ public class UserInputParser extends AbstractCommandMapCreator {
         return number;
     }
 
+    public Integer enterInteger(Scanner scanner) {
+        int number;
+        do {
+            while (!scanner.hasNextInt()) {
+                System.out.println("That's not a number!");
+                scanner.next();
+            }
+            number = scanner.nextInt();
+            if (number == 111) {
+                break;
+            }
+        } while (number < 0);
+        return number;
+    }
+
     public String enterString(Scanner scanner) {
         Log.info("Entering data starts");
         String string = "";
-        while (string.trim().isEmpty()){
-            System.out.println("Wrong data. Try one more time.");
+        while (string.trim().isEmpty()) {
             string = scanner.nextLine();
         }
-        return string;
+        return string.trim();
     }
 
 //    public String enterString(Scanner scanner) {
@@ -271,9 +516,6 @@ public class UserInputParser extends AbstractCommandMapCreator {
 //        System.out.println("Thank you! You entered command number " + commandNumber);
 //        return commandNumber;
 //    }
-
-
-
 
 
 //    public String enterCommand() {

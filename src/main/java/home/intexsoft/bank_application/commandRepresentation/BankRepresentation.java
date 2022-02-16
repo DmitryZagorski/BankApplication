@@ -5,6 +5,7 @@ import home.intexsoft.bank_application.exceptions.EntityRemoveException;
 import home.intexsoft.bank_application.exceptions.EntityRetrievalException;
 import home.intexsoft.bank_application.exceptions.EntitySavingException;
 import home.intexsoft.bank_application.models.Bank;
+import home.intexsoft.bank_application.models.BankAccount;
 import home.intexsoft.bank_application.models.BankClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -161,6 +162,36 @@ public class BankRepresentation {
             Log.error("Something wrong during removing all banks", e);
             throw new EntityRemoveException(e);
         }
+    }
+
+    public List<BankAccount> findAvailableBankAccountsForRecipient(Integer clientId) {
+        Log.info("Finding available bank account for recipient");
+        String findAllAccountsByClientId = "select bank_accounts.id, currency.currency_name, banks.bank_name, clients.name, clients.surname from bank_accounts inner join currency on bank_accounts.currency_id = currency.id inner join banks on bank_accounts.bank_id = banks.id inner join clients on bank_accounts.client_id = clients.id where client_id != ".concat(String.valueOf(clientId));
+        Connection connection;
+        try {
+            connection = ConnectionPoolProvider.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(findAllAccountsByClientId);
+            List<BankAccount> accounts = new ArrayList<>();
+            while (resultSet.next()) {
+                BankAccount bankAccount = createAnotherBankAccount(resultSet);
+                accounts.add(bankAccount);
+            }
+            return accounts;
+        } catch (SQLException e) {
+            Log.error("Something wrong during retrieval entity ", e);
+            throw new EntityRetrievalException(e);
+        }
+    }
+
+    private BankAccount createAnotherBankAccount(ResultSet resultSet) throws SQLException {
+        BankAccount bankAccount = new BankAccount();
+        bankAccount.setId(resultSet.getInt("id"));
+        bankAccount.setClientName(resultSet.getString("name"));
+        bankAccount.setClientSurname(resultSet.getString("surname"));
+        bankAccount.setBankName(resultSet.getString("bank_name"));
+        bankAccount.setCurrencyName(resultSet.getString("currency_name"));
+        return bankAccount;
     }
 
     private BankClient mapBankClient(ResultSet resultSet) throws SQLException {
