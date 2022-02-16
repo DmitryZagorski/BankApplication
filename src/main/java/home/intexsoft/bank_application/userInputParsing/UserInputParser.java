@@ -24,28 +24,29 @@ public class UserInputParser extends AbstractCommandMapCreator {
 
     private static final Logger Log = LoggerFactory.getLogger(UserInputParser.class);
     private static int commandsLevel;
-
-
-    public void createApplicationMenu() {
-        createMainMenu();
-        createBankMenu();
-        createClientMenu();
-        createTransactionMenu();
-    }
+    private static String submenuName;
 
     public void runningOfParser() {
+        commandsLevel = 0;
+        submenuName = null;
         String[] mainCommands = printCommands(createMainMenu());
         chooseInputDataMethod(enterCommandsNumber(mainCommands));
     }
 
-    public void runBankSubmenu() {
-
+    private void runBankSubmenu() {
         String[] bankCommands = printCommands(createBankMenu());
         chooseInputDataMethod(enterCommandsNumber(bankCommands));
-
-
     }
 
+    private void runClientSubmenu() {
+        String[] clientCommands = printCommands(createClientMenu());
+        chooseInputDataMethod(enterCommandsNumber(clientCommands));
+    }
+
+    private void runTransactionSubmenu() {
+        String[] transactionCommands = printCommands(createTransactionMenu());
+        chooseInputDataMethod(enterCommandsNumber(transactionCommands));
+    }
 
     private Map<Integer, String[]> createMainMenu() {
         commandsLevel = 0;
@@ -69,7 +70,6 @@ public class UserInputParser extends AbstractCommandMapCreator {
         commandsLevel = 1;
         return createCommandMap(TransactionsCommands.values(), commandsLevel);
     }
-
 
     private String[] printCommands(Map<Integer, String[]> commandMap) {
         Log.info("Printing of Commands");
@@ -99,7 +99,6 @@ public class UserInputParser extends AbstractCommandMapCreator {
         return mapValues;
     }
 
-
     private String enterCommandsNumber(String[] commands) {
         Log.info("Entering of commands number");
         Scanner scanner = new Scanner(System.in);
@@ -112,12 +111,11 @@ public class UserInputParser extends AbstractCommandMapCreator {
             commandNumber = scanner.nextInt();
             if (commandsLevel > 0) {
                 if (commandNumber == 9) {
-                    // returning to previous menu
                     returnToPreviousMenu();
                 }
             }
             if (commandNumber == 0) {
-                break;
+                System.exit(0);
             }
         } while (commandNumber < 0 || commandNumber > commands.length + 1);
         String chosenCommand = commands[commandNumber - 1];
@@ -126,7 +124,17 @@ public class UserInputParser extends AbstractCommandMapCreator {
     }
 
     private void returnToPreviousMenu() {
-        // How to realize this method ?????????????
+        if (commandsLevel == 0) {
+            new UserInputParser().runningOfParser();
+        } else if (commandsLevel == 1) {
+            new UserInputParser().runningOfParser();
+        } else if (commandsLevel == 2 & "banks".equalsIgnoreCase(submenuName)) {
+            new UserInputParser().runBankSubmenu();
+        } else if (commandsLevel == 2 & "clients".equalsIgnoreCase(submenuName)) {
+            new UserInputParser().runClientSubmenu();
+        } else if (commandsLevel == 2 & "transactions".equalsIgnoreCase(submenuName)) {
+            new UserInputParser().runTransactionSubmenu();
+        }
     }
 
 
@@ -135,51 +143,74 @@ public class UserInputParser extends AbstractCommandMapCreator {
         ClientRepresentation clientRepresentation = new ClientRepresentation();
         if (commandsLevel == 0) {
             if ("banks".equals(command)) {
+                submenuName = command;
                 runBankSubmenu();
             }
-
-
+            if ("clients".equals(command)) {
+                submenuName = command;
+                runClientSubmenu();
+            }
+            if ("transaction".equals(command)) {
+                submenuName = command;
+                runTransactionSubmenu();
+            }
         }
-        switch (command) {
-            case "addBank":
-                enterDataToAddBank(command);
-            case "viewAllBanks":
-                bankRepresentation.viewAllBanks();
-                break;
-            case "findClientsOfBank":
-                enterDataToFindClientsOfBank(command);
-                break;
-            case "removeBank":
-                enterDataToRemoveBank(command);
-                break;
-            case "removeAllBanks":
-                bankRepresentation.removeAllBanks();
-                break;
-            case "addClient":
-                enterDataToAddClient(command);
-                break;
-            case "viewAllClients":
-                clientRepresentation.viewAllClients();
-                break;
-            case "removeClient":
-                enterDataToRemoveClient(command);
-                break;
-            case "removeAllClients":
-                clientRepresentation.removeAllClients();
-                break;
-            case "addClientsBankAccount":
-                enterDataToAddBankAccount(command);
-                break;
-            case "findClientsBankAccount":
-                enterDataToFindClientsAccount(command);
-                break;
-            case "addTransaction":
-                enterDataToAddTransaction(command);
-                break;
-            case "viewClientsTransactions":
-                enterDataToFindClientsTransactions(command);
-                break;
+        if (commandsLevel == 1) {
+            switch (command) {
+                case "addBank":
+                    commandsLevel = 2;
+                    enterDataToAddBank(command);
+                case "viewAllBanks":
+                    commandsLevel = 2;
+                    bankRepresentation.viewAllBanks();
+                    break;
+                case "findClientsOfBank":
+                    commandsLevel = 2;
+                    enterDataToFindClientsOfBank(command);
+                    break;
+                case "removeBank":
+                    commandsLevel = 2;
+                    enterDataToRemoveBank(command);
+                    break;
+                case "removeAllBanks":
+                    commandsLevel = 2;
+                    bankRepresentation.removeAllBanks();
+                    break;
+                case "addClient":
+                    commandsLevel = 2;
+                    enterDataToAddClient(command);
+                    break;
+                case "viewAllClients":
+                    commandsLevel = 2;
+                    clientRepresentation.viewAllClients();
+                    break;
+                case "removeClient":
+                    commandsLevel = 2;
+                    enterDataToRemoveClient(command);
+                    break;
+                case "removeAllClients":
+                    commandsLevel = 2;
+                    clientRepresentation.removeAllClients();
+                    break;
+                case "addClientsBankAccount":
+                    commandsLevel = 2;
+                    enterDataToAddBankAccount(command);
+                    break;
+                case "findClientsBankAccount":
+                    commandsLevel = 2;
+                    enterDataToFindClientsAccount(command);
+                    break;
+                case "addTransaction":
+                    commandsLevel = 2;
+                    enterDataToAddTransaction(command);
+                    break;
+                case "viewClientsTransactions":
+                    commandsLevel = 2;
+                    enterDataToFindClientsTransactions(command);
+                    break;
+            }
         }
+
     }
 
 

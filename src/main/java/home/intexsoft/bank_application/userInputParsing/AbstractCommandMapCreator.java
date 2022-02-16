@@ -1,6 +1,5 @@
 package home.intexsoft.bank_application.userInputParsing;
 
-import home.intexsoft.bank_application.commands.FirstLineCommands;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +32,6 @@ public abstract class AbstractCommandMapCreator {
     }
 
 
-
 //    private Map<String, Map<Integer, String>> createMapOfCommandsWithMap(int numberOfCommandLine, String[] stringArray) {
 //        Map<String, String> commandsMap = new HashMap<>();
 //        String commandLineNumber = "" + numberOfCommandLine;
@@ -42,7 +40,6 @@ public abstract class AbstractCommandMapCreator {
 //        }
 //        return commandsMap;
 //    }
-
 
 
 }
