@@ -1,22 +1,25 @@
 package home.intexsoft.bank_application;
 
-import home.intexsoft.bank_application.greeting.Greeting;
+import home.intexsoft.bank_application.userInputParsing.UserInputParser;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        while(true){
-            new Greeting().chooseCommand();
-            UserInputParser inputParser = new UserInputParser();
-            String command = inputParser.enterCommand();
-            if (command.equalsIgnoreCase("end")){
-                break;
-            }
-            CommandDescriptor commandWithAttributes = inputParser.parse(command);
-            FactoryRepresentation factoryRepresentation = new FactoryRepresentation();
-            factoryRepresentation.chooseMethod(commandWithAttributes);
-        }
+        UserInputParser userInputParser = new UserInputParser();
+//        while(true){
+//            new Greeting().chooseCommand();
+//            // incupsulation of command of parser!!!!!
+//            String command = userInputParser.enterCommand();
+//            if ("end".equalsIgnoreCase(command)){
+//                break;
+//            }
+//            CommandDescriptor commandWithAttributes = userInputParser.parse(command);
+//            FactoryRepresentation factoryRepresentation = new FactoryRepresentation();
+//            factoryRepresentation.chooseMethod(commandWithAttributes);
+//        }
+
+        userInputParser.runningOfParser();
+
     }
 }
-// Разбить commandRepresentation на классы? Также отдельные методы в классах BankRepresentation & ClientsRepresentation вынести в отдельный класс?
