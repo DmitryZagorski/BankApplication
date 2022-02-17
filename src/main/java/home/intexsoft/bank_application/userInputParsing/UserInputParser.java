@@ -84,9 +84,9 @@ public class UserInputParser extends AbstractCommandMapCreator {
             indexOfCommand = item.getKey();
         }
         if (indexOfCommand > 0) {
-            System.out.println("Enter '9' to return to previous menu");
+            System.out.println("Enter '111' to return to previous menu");
         }
-        System.out.println("Enter '0' to exit");
+        System.out.println("Enter '222' to exit");
         Log.info("Finished of printing firstLineCommands");
         return mapValues;
     }
@@ -110,11 +110,11 @@ public class UserInputParser extends AbstractCommandMapCreator {
             }
             commandNumber = scanner.nextInt();
             if (commandsLevel > 0) {
-                if (commandNumber == 9) {
+                if (commandNumber == 111) {
                     returnToPreviousMenu();
                 }
             }
-            if (commandNumber == 0) {
+            if (commandNumber == 222) {
                 System.exit(0);
             }
         } while (commandNumber < 0 || commandNumber > commands.length + 1);
@@ -215,13 +215,17 @@ public class UserInputParser extends AbstractCommandMapCreator {
 
 
     public Map<String, Map<String, String>> enterDataToAddBank(String commandName) {
-        System.out.println("Enter the name of bank");
         Scanner scanner = new Scanner(System.in);
-        String bankName = enterString(scanner).trim();
+        String bankName = null;
+        Double commissionForIndividual = 0.0;
+        Double commissionForEntity = 0.0;
+
+        System.out.println("Enter the name of bank");
+        bankName = enterString(scanner).trim();
         System.out.println("Enter the commission for individual");
-        Double commissionForIndividual = enterDouble(scanner);
+        commissionForIndividual = enterDouble(scanner);
         System.out.println("Enter the commission for entity");
-        Double commissionForEntity = enterDouble(scanner);
+        commissionForEntity = enterDouble(scanner);
 
         CommandDescriptor commandDescriptor = new CommandDescriptor();
         Map<String, String> attributes = commandDescriptor.getAttributes();
@@ -466,7 +470,10 @@ public class UserInputParser extends AbstractCommandMapCreator {
             }
             number = scanner.nextDouble();
             if (number == 111) {
-                break;
+                returnToPreviousMenu();
+            }
+            if (number == 222) {
+                System.exit(0);
             }
         } while (number < 0);
         return number;
@@ -481,7 +488,10 @@ public class UserInputParser extends AbstractCommandMapCreator {
             }
             number = scanner.nextInt();
             if (number == 111) {
-                break;
+                returnToPreviousMenu();
+            }
+            if (number == 222) {
+                System.exit(0);
             }
         } while (number < 0);
         return number;
@@ -492,6 +502,12 @@ public class UserInputParser extends AbstractCommandMapCreator {
         String string = "";
         while (string.trim().isEmpty()) {
             string = scanner.nextLine();
+        }
+        if ("111".equalsIgnoreCase(string)){
+            returnToPreviousMenu();
+        }
+        if ("222".equalsIgnoreCase(string)){
+            System.exit(0);
         }
         return string.trim();
     }
