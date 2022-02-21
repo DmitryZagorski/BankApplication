@@ -18,6 +18,9 @@ import java.util.Scanner;
 
 public class UserInputParser extends AbstractCommandMapCreator {
 
+    // stateless
+
+
     // 1
     // Принимает введенные данные; валидирует; определяет, какой метод commandDescriptor вызвать, учитывая введенные данные.
     // Парсинг введенных данных
