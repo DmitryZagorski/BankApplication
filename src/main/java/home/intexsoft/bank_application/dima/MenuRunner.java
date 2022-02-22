@@ -1,9 +1,14 @@
 package home.intexsoft.bank_application.dima;
 
+import home.intexsoft.bank_application.dima.commandRepresentation.*;
 import home.intexsoft.bank_application.dima.userInputData.AddBankInput;
+import home.intexsoft.bank_application.dima.userInputData.AddClientInput;
+import home.intexsoft.bank_application.dima.userInputData.DeleteBankInput;
+import home.intexsoft.bank_application.dima.userInputData.DeleteClientInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.Scanner;
 
 public class MenuRunner {
@@ -11,6 +16,7 @@ public class MenuRunner {
     private static final Logger Log = LoggerFactory.getLogger(MenuRunner.class);
 
     private static Menu menu;
+    private static CommandFactory commandFactory;
 
     static {
         menu = new Menu();
@@ -72,7 +78,7 @@ public class MenuRunner {
             } else {
                 MenuItem activeItem = menu.getActiveItem().getChildren().get(command);
                 if (activeItem.isCommand()) {
-                    createCommand(activeItem);
+                    executeCommand(createCommand(activeItem));
                     break;
                 } else {
                     menu.setActiveItem(activeItem);
@@ -85,27 +91,51 @@ public class MenuRunner {
         System.out.println("Chosen command is " + activeItem.getName());
         Command command = new Command();
         command.setName(activeItem.getName());
-        return command;
+        return addCommandArguments(command);
     }
 
-    private Command parseCommand(Command command) {
+    private Command addCommandArguments(Command command) {
         switch (command.getName()) {
             case "add bank":
                 new AddBankInput().execute(command);
                 break;
             case "delete bank":
-
+                new DeleteBankInput().execute(command);
                 break;
             case "add client":
-
+                new AddClientInput().execute(command);
                 break;
             case "delete client":
-
+                new DeleteClientInput().execute(command);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + command.getName());
         }
         return command;
+    }
+
+    static {
+        commandFactory = new CommandFactory();
+        commandFactory.getFactory().put("add bank", AddBank.class);
+        commandFactory.getFactory().put("delete bank", DeleteBank.class);
+        commandFactory.getFactory().put("add client", AddClient.class);
+        commandFactory.getFactory().put("delete client", DeleteClient.class);
+    }
+
+    private void executeCommand(Command command) {
+        commandFactory.getFactory().forEach((key, value) -> {
+            if (key.equalsIgnoreCase(command.getName())) {
+                value;
+            }
+        });
+
+//        for (Map.Entry<String, Class<? extends CommandRepresentation>> stringClassEntry : commandFactory.getFactory().entrySet()) {
+//            if (command.getName().equalsIgnoreCase(stringClassEntry.getKey())) {
+//                stringClassEntry.getValue();
+//            }
+//        }
+
+
     }
 
 
