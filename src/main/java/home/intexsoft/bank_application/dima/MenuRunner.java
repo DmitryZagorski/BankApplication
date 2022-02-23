@@ -78,7 +78,7 @@ public class MenuRunner {
             } else {
                 MenuItem activeItem = menu.getActiveItem().getChildren().get(command);
                 if (activeItem.isCommand()) {
-                    executeCommand(createCommand(activeItem));
+                    createCommandFactory(activeItem);
                     break;
                 } else {
                     menu.setActiveItem(activeItem);
@@ -87,11 +87,11 @@ public class MenuRunner {
         }
     }
 
-    private Command createCommand(MenuItem activeItem) {
+    private CommandFactory createCommandFactory(MenuItem activeItem) {
         System.out.println("Chosen command is " + activeItem.getName());
-        Command command = new Command();
-        command.setName(activeItem.getName());
-        return addCommandArguments(command);
+        CommandFactory commandFactory = new CommandFactory();
+        commandFactory.factory.put(Commands.valueOf(activeItem.getName()), null);
+        return commandFactory;
     }
 
     private Command addCommandArguments(Command command) {

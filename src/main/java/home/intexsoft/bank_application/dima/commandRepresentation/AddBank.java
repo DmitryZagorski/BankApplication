@@ -10,55 +10,55 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class AddBank extends CommandRepresentation {
+public class AddBank extends Command {
+
+    {
+        this.getAttributes().put("bank name", null);
+        this.getAttributes().put("commission for individual", null);
+        this.getAttributes().put("commission for entity", null);
+    }
 
     private static final Logger Log = LoggerFactory.getLogger(AddBank.class);
 
     @Override
-    public void execute(Command command) {
+    protected void execute() {
         Log.info("Adding new bank");
         String insertBankSQL = "select * from ";
-            PreparedStatement prStatement = null;
-            Connection connection = null;
-            try {
-                connection = ConnectionPoolProvider.getConnection();
-                connection.setSavepoint();
-                connection.setAutoCommit(false);
+        PreparedStatement prStatement = null;
+        Connection connection = null;
+        try {
+            connection = ConnectionPoolProvider.getConnection();
+            connection.setSavepoint();
+            connection.setAutoCommit(false);
 
-                prStatement = connection.prepareStatement(insertBankSQL);
-                int result = prStatement.executeUpdate();
-                if (result != 1) {
-                    throw new EntitySavingException("Bank was not added!");
-                }
-                connection.commit();
+            prStatement = connection.prepareStatement(insertBankSQL);
+            int result = prStatement.executeUpdate();
+            if (result != 1) {
+                throw new EntitySavingException("Bank was not added!");
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                Log.info("Error during rollback");
+            }
+            Log.error("Something wrong during adding bank", e);
+            throw new EntitySavingException(e);
+        } finally {
+            try {
+                connection.close();
             } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if (prStatement != null) {
                 try {
-                    connection.rollback();
-                } catch (SQLException ex) {
-                    Log.info("Error during rollback");
-                }
-                Log.error("Something wrong during adding bank", e);
-                throw new EntitySavingException(e);
-            } finally {
-                try {
-                    connection.close();
+                    prStatement.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                if (prStatement != null) {
-                    try {
-                        prStatement.close();
-                    } catch (SQLException e) {
-                        throw new EntitySavingException(e);
-                    }
+                    throw new EntitySavingException(e);
                 }
             }
+        }
         // Log.info("Bank " + attributes[0] + " was added");
-    }
-
-    @Override
-    public boolean validateData(Command command) {
-
-        return true;
     }
 }

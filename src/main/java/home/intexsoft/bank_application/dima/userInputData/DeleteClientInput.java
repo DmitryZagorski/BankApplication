@@ -1,7 +1,6 @@
 package home.intexsoft.bank_application.dima.userInputData;
 
 import home.intexsoft.bank_application.dima.Command;
-import home.intexsoft.bank_application.dima.commandRepresentation.CommandRepresentation;
 
 import java.util.Scanner;
 

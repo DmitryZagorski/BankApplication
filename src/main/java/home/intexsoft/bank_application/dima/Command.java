@@ -3,7 +3,7 @@ package home.intexsoft.bank_application.dima;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Command {
+public abstract class Command {
 
     private String name;
     private Map<String, String> attributes = new HashMap<>();
@@ -23,4 +23,7 @@ public class Command {
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
+
+    protected abstract void execute();
+
 }

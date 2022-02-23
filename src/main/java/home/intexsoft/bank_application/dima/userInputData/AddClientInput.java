@@ -1,11 +1,10 @@
 package home.intexsoft.bank_application.dima.userInputData;
 
 import home.intexsoft.bank_application.dima.Command;
-import home.intexsoft.bank_application.dima.commandRepresentation.CommandRepresentation;
 
 import java.util.Scanner;
 
-public class AddClientInput extends CommandRepresentation {
+public class AddClientInput extends Command {
 
     public void execute(Command command) {
         Scanner scanner = new Scanner(System.in);
@@ -24,5 +23,10 @@ public class AddClientInput extends CommandRepresentation {
         command.getAttributes().put("bankId", new InputInteger().enterInteger(scanner).toString());
         System.out.println("Enter amount of money");
         command.getAttributes().put("amountOfMoney", new InputDouble().enterDouble(scanner).toString());
+    }
+
+    @Override
+    protected void execute() {
+
     }
 }
