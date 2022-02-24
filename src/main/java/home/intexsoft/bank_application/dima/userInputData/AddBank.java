@@ -4,7 +4,7 @@ import home.intexsoft.bank_application.dima.Command;
 
 import java.util.Scanner;
 
-public class AddBankInput extends Command {
+public class AddBank extends Command {
 
     @Override
     protected void execute() {
@@ -16,4 +16,7 @@ public class AddBankInput extends Command {
         System.out.println("Enter the commission for entity");
         //command.getAttributes().put("commissionForEntity", new InputDouble().enterDouble(scanner).toString());
     }
+
+
+
 }

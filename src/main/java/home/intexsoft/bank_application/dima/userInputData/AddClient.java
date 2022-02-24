@@ -4,7 +4,7 @@ import home.intexsoft.bank_application.dima.Command;
 
 import java.util.Scanner;
 
-public class AddClientInput extends Command {
+public class AddClient extends Command {
 
     public void execute(Command command) {
         Scanner scanner = new Scanner(System.in);

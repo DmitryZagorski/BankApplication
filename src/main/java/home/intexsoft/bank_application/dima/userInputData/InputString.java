@@ -15,7 +15,7 @@ public class InputString {
         while (string.trim().isEmpty()) {
             string = scanner.nextLine();
         }
-        if ("222".equalsIgnoreCase(string)) {
+        if ("quit".equalsIgnoreCase(string)) {
             System.exit(0);
         }
         return string.trim();

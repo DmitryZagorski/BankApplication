@@ -1,4 +1,4 @@
-package home.intexsoft.bank_application.dima.commandRepresentation;
+package home.intexsoft.bank_application.dima.command;
 
 import home.intexsoft.bank_application.connection.ConnectionPoolProvider;
 import home.intexsoft.bank_application.dima.Command;
@@ -23,7 +23,8 @@ public class AddBank extends Command {
     @Override
     protected void execute() {
         Log.info("Adding new bank");
-        String insertBankSQL = "select * from ";
+       // String insertBankSQL = "insert into banks (bank_name, commission_for_individual, commission_for_entity) values ('".concat(getAttributes().get("bank name").concat("',").concat(getAttributes().get("commission for individual").concat(",".concat(getAttributes().get("commission for entity".concat(")"))))));
+        String insertBankSQL = "insert into banks (bank_name, commission_for_individual, commission_for_entity) values ('".concat(getAttributes().get("bank name").concat("',").concat(getAttributes().get("commission for individual").concat(",".concat(getAttributes().get("commission for entity").concat(")")))));
         PreparedStatement prStatement = null;
         Connection connection = null;
         try {
@@ -59,6 +60,5 @@ public class AddBank extends Command {
                 }
             }
         }
-        // Log.info("Bank " + attributes[0] + " was added");
     }
 }

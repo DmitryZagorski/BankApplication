@@ -1,15 +1,16 @@
 package home.intexsoft.bank_application.dima;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class MenuTest {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
-        MenuRunner menuRunner = new MenuRunner();
-        menuRunner.runMenu();
+        BankAppRunner bankAppRunner = new BankAppRunner();
+        bankAppRunner.runMenu();
 
     }
-
 
 
 

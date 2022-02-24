@@ -42,5 +42,4 @@ public class MenuItem {
         this.children = children;
     }
 
-
 }

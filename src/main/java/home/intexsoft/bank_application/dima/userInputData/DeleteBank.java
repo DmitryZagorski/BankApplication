@@ -4,7 +4,7 @@ import home.intexsoft.bank_application.dima.Command;
 
 import java.util.Scanner;
 
-public class DeleteBankInput extends CommandRepresentation {
+public class DeleteBank extends Command {
 
     public void execute(Command command) {
         Scanner scanner = new Scanner(System.in);
@@ -13,4 +13,8 @@ public class DeleteBankInput extends CommandRepresentation {
         command.getAttributes().put("removeBank", new InputInteger().enterInteger(scanner).toString());
     }
 
+    @Override
+    protected void execute() {
+
+    }
 }

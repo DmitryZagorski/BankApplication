@@ -1,4 +1,4 @@
-package home.intexsoft.bank_application.dima.commandRepresentation;
+package home.intexsoft.bank_application.dima.command;
 
 import home.intexsoft.bank_application.dima.Command;
 

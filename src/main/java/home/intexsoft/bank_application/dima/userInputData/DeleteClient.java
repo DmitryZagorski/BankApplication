@@ -4,12 +4,17 @@ import home.intexsoft.bank_application.dima.Command;
 
 import java.util.Scanner;
 
-public class DeleteClientInput extends CommandRepresentation {
+public class DeleteClient extends Command {
 
     public void execute(Command command) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the client id from list: ");
         new ViewClients().execute();
         command.getAttributes().put("removeClient", new InputInteger().enterInteger(scanner).toString());
+    }
+
+    @Override
+    protected void execute() {
+
     }
 }
