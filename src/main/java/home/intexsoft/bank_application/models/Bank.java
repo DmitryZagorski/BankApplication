@@ -9,6 +9,9 @@ public class Bank {
     private Double commissionForIndividual;
     private Double commissionForEntity;
 
+    public Bank() {
+    }
+
     public Integer getId() {
         return id;
     }
@@ -40,6 +43,7 @@ public class Bank {
     public void setCommissionForEntity(Double commissionForEntity) {
         this.commissionForEntity = commissionForEntity;
     }
+
 
     @Override
     public boolean equals(Object o) {
