@@ -5,7 +5,10 @@ import home.intexsoft.bank_application.models.Bank;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-public class BankDAO implements DAO<Bank, String>{
+import java.util.ArrayList;
+import java.util.List;
+
+public class BankDAO implements DAO<Bank, Integer>{
 
     /**
      * Connection factory to database.
@@ -36,17 +39,31 @@ public class BankDAO implements DAO<Bank, String>{
     /**
      * Get engine by model.
      *
-     * @param model for select.
+     * @param id for select.
      * @return engine with param model.
      */
     @Override
-    public Bank read(@NotNull final String model) {
+    public Bank read(@NotNull final Integer id) {
         try (final Session session = factory.openSession()) {
 
-            final Bank result = session.get(Bank.class, model);
+            final Bank result = session.get(Bank.class, id);
 
             return result != null ? result : new Bank();
         }
+    }
+
+    @Override
+    public Bank readAll(@NotNull final Bank bank) {
+//        List<Bank> banks = new ArrayList<>();
+//
+//        try (final Session session = factory.openSession()) {
+//
+//            final Bank result = session.get(Bank.class, id);
+//
+//            return result != null ? result : new Bank();
+//        }
+        return null;
+
     }
 
     /**

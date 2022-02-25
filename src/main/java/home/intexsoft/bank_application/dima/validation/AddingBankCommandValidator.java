@@ -5,12 +5,14 @@ import home.intexsoft.bank_application.dima.Command;
 
 public class AddingBankCommandValidator extends BankCommandValidator {
 
+
+
     @Override
     public boolean validate(Command command) {
         boolean isValidated = false;
         try {
             String bankName = command.getAttributes().get("bank name");
-            Double commissionForIndividual = Double.parseDouble(command.getAttributes().get("commission for individual"));
+            Double commissionForIndividual = Double.parseDouble(command.getAttributes().get("commission for individual")); // OBjECT!!!!!!
             Double commissionForEntity = Double.parseDouble(command.getAttributes().get("commission for entity"));
             if (!verifyIfNameOfBankExist(bankName) &
                     verifyIfIDoubleDigitAboveZero(commissionForIndividual) &

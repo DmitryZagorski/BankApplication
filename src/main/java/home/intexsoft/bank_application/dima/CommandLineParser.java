@@ -14,7 +14,7 @@ public class CommandLineParser {
     public void addCommandsArguments(Command command) {
         Scanner scanner = new Scanner(System.in);
         Map<String, String> attributes = command.getAttributes();
-        for (Map.Entry<String, String> stringStringEntry : attributes.entrySet()) {
+        for (Map.Entry<String, String> stringStringEntry : attributes.entrySet()) { // In commandCreator
             System.out.println("Enter " + stringStringEntry.getKey());
             stringStringEntry.setValue(enterString(scanner));
         }
