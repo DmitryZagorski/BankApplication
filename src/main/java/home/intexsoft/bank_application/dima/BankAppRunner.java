@@ -1,6 +1,7 @@
 package home.intexsoft.bank_application.dima;
 
-import home.intexsoft.bank_application.dima.validation.CommandValidator;
+import home.intexsoft.bank_application.dima.validation.CommandValidationFactory;
+import home.intexsoft.bank_application.dima.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +13,7 @@ public class BankAppRunner {
 
     private static Menu menu;
     private static CommandCreator commandCreator;
-    private static CommandValidator commandValidator;
+    private static Validator validator;
     private static CommandValidationFactory commandValidationFactory;
 
     static {
@@ -67,12 +68,11 @@ public class BankAppRunner {
     public void runMenu() {
         System.out.println("Choose operation number to proceed");
         System.out.println("Enter 'quit' to exit, enter 'back' to return to previous menu");
-        Scanner scanner = new Scanner(System.in);
         String command = "";
         while (!"quit".equalsIgnoreCase(command)) {
             menu.getActiveItem().getChildren().entrySet().forEach((child -> System.out.println(child.getKey() + " " + child.getValue().getName())));
             //command = scanner.nextLine();
-            command = menu.getCommandLineParser().enterString(scanner);
+            command = menu.getCommandLineParser().enterString();
             if ("back".equalsIgnoreCase(command)) {
                 menu.setActiveItem(menu.getActiveItem().getParent());
             } else {
@@ -89,7 +89,7 @@ public class BankAppRunner {
 
     public void createCommand(MenuItem menuItem) {
         Command command = commandCreator.createCommand(menuItem);
-        if (commandValidationFactory.createCommandValidator(command).validate(command)) {
+        if (commandValidationFactory.createCommandValidator(command, null).validate(command)) {
             command.execute();
         }
     }

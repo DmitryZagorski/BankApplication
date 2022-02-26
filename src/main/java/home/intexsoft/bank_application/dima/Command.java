@@ -6,7 +6,7 @@ import java.util.Map;
 public abstract class Command {
 
     private String name;
-    private Map<String, String> attributes = new HashMap<>();
+    private Map<CommandAttributeName, String> attributes = new HashMap<>();
 
     public String getName() {
         return name;
@@ -16,11 +16,11 @@ public abstract class Command {
         this.name = name;
     }
 
-    public Map<String, String> getAttributes() {
+    public Map<CommandAttributeName, String> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(Map<String, String> attributes) {
+    public void setAttributes(Map<CommandAttributeName, String> attributes) {
         this.attributes = attributes;
     }
 

@@ -1,6 +1,6 @@
 package home.intexsoft.bank_application.dima;
 
-import home.intexsoft.bank_application.dima.command.AddBank;
+import home.intexsoft.bank_application.dima.command.AddBankCommand;
 import home.intexsoft.bank_application.dima.command.AddClient;
 import home.intexsoft.bank_application.dima.command.DeleteBank;
 import home.intexsoft.bank_application.dima.command.DeleteClient;
@@ -21,7 +21,7 @@ public class CommandFactory {
     }
 
     {
-        factory.put(Commands.ADD_BANK, AddBank.class);
+        factory.put(Commands.ADD_BANK, AddBankCommand.class);
         factory.put(Commands.DELETE_BANK, DeleteBank.class);
         factory.put(Commands.ADD_CLIENT, AddClient.class);
         factory.put(Commands.DELETE_CLIENT, DeleteClient.class);
