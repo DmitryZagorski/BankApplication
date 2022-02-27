@@ -31,7 +31,7 @@ public class CommandFactory {
         System.out.println("Chosen command is " + activeItem.getName());
         Command command = null;
         for (Map.Entry<Commands, Class<? extends Command>> commandsClassEntry : getFactory().entrySet()) {
-            if (activeItem.getName().equalsIgnoreCase(commandsClassEntry.getKey().getCommandName())) {
+            if (activeItem.getName().equals(commandsClassEntry.getKey().getCommandName())) {
                 try {
                     command = commandsClassEntry.getValue().newInstance();
                     command.setName(activeItem.getName());

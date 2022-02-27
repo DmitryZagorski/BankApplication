@@ -1,22 +1,16 @@
 package home.intexsoft.bank_application.dima.command;
 
-import home.intexsoft.bank_application.connection.ConnectionPoolProvider;
 import home.intexsoft.bank_application.dima.Command;
-import home.intexsoft.bank_application.dima.CommandAttributeName;
-import home.intexsoft.bank_application.exceptions.EntitySavingException;
+import home.intexsoft.bank_application.dima.String;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 public class AddBankCommand extends Command {
 
     {
-        this.getAttributes().put(CommandAttributeName.BANK_NAME, null);
-        this.getAttributes().put(CommandAttributeName.COMMISSION_FOR_INDIVIDUAL, null);
-        this.getAttributes().put(CommandAttributeName.COMMISSION_FOR_ENTITY, null);
+        this.getAttributes().put(String.BANK_NAME, null);
+        this.getAttributes().put(String.COMMISSION_FOR_INDIVIDUAL, null);
+        this.getAttributes().put(String.COMMISSION_FOR_ENTITY, null);
     }
 
     private static final Logger Log = LoggerFactory.getLogger(AddBankCommand.class);

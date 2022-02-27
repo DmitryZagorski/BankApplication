@@ -3,7 +3,7 @@ package home.intexsoft.bank_application.dima.validation;
 import home.intexsoft.bank_application.commandRepresentation.BankRepresentation;
 import home.intexsoft.bank_application.dima.Command;
 import home.intexsoft.bank_application.dima.CommandAttribute;
-import home.intexsoft.bank_application.dima.CommandAttributeName;
+import home.intexsoft.bank_application.dima.String;
 import home.intexsoft.bank_application.dima.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.models.Bank;
 
@@ -15,20 +15,19 @@ import java.util.Map;
 public abstract class Validator {
 
     protected CommandValidationFactory commandValidationFactory = new CommandValidationFactory();
-    //protected Map<CommandAttributeName, AttributeDescriptor> validationRules = new HashMap<>();
-    protected Map<CommandAttributeName, List<String>> validationErrors = new HashMap<>();
+    protected Map<String, List<String>> validationErrors = new HashMap<>();
 
     {
-        validationErrors.put(CommandAttributeName.BANK_NAME, new ArrayList<>());
-        validationErrors.put(CommandAttributeName.COMMISSION_FOR_INDIVIDUAL, new ArrayList<>());
-        validationErrors.put(CommandAttributeName.COMMISSION_FOR_ENTITY, new ArrayList<>());
+        validationErrors.put(String.BANK_NAME, new ArrayList<>());
+        validationErrors.put(String.COMMISSION_FOR_INDIVIDUAL, new ArrayList<>());
+        validationErrors.put(String.COMMISSION_FOR_ENTITY, new ArrayList<>());
     }
 
-    public Map<CommandAttributeName, List<String>> getValidationErrors() {
+    public Map<String, List<String>> getValidationErrors() {
         return validationErrors;
     }
 
-    public void setValidationErrors(Map<CommandAttributeName, List<String>> validationErrors) {
+    public void setValidationErrors(Map<String, List<String>> validationErrors) {
         this.validationErrors = validationErrors;
     }
 
@@ -37,13 +36,13 @@ public abstract class Validator {
         return null;
     }
 
-
+    public abstract boolean validate(AttributeDescriptor attributeDescriptor, List<String> errors);
 
     public Boolean verifyIfNameOfBankExist(String bankName) {
         boolean isExist = false;
         List<Bank> banks = new BankRepresentation().findAllBanks();
         for (Bank bank : banks) {
-            if (bankName.equalsIgnoreCase(bank.getName())) {
+            if (bankName.equals(bank.getName())) {
                 isExist = true;
             }
         }
@@ -57,7 +56,4 @@ public abstract class Validator {
         }
         return isAboveZero;
     }
-
-    public abstract boolean validate(Command command, CommandAttribute commandAttribute, List<String> errors);
-
 }

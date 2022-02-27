@@ -1,5 +1,7 @@
 package home.intexsoft.bank_application.dima;
 
+import home.intexsoft.bank_application.dima.attributeDescriptor.AttributeDescriptor;
+import home.intexsoft.bank_application.dima.attributeDescriptor.AttributeType;
 import home.intexsoft.bank_application.dima.validation.CommandValidationFactory;
 import home.intexsoft.bank_application.dima.validation.Validator;
 
@@ -33,7 +35,7 @@ public class CommandCreator {
         System.out.println("Chosen command is " + activeItem.getName());
         Command command = null;
         for (Map.Entry<Commands, Class<? extends Command>> commandsClassEntry : commandFactory.getFactory().entrySet()) { // GET !!!!!!!!
-            if (activeItem.getName().equalsIgnoreCase(commandsClassEntry.getKey().getCommandName())) {
+            if (activeItem.getName().equals(commandsClassEntry.getKey().getCommandName())) {
                 try {
                     command = commandsClassEntry.getValue().newInstance();
                     command.setName(activeItem.getName());
@@ -61,15 +63,18 @@ public class CommandCreator {
 //    }
 
     public void addCommandsArguments(Command command) {
-        Map<CommandAttributeName, String> attributes = command.getAttributes();
+        CommandAttribute commandAttr = new CommandAttribute();
+        Map<String, String> attributes = command.getAttributes();
         boolean isValidated = false;
-        for (Map.Entry<CommandAttributeName, String> commandAttribute : attributes.entrySet()) {
+        for (Map.Entry<String, String> commandAttribute : attributes.entrySet()) {
             List<String> commandErrors = validator.getValidationErrors().get(commandAttribute.getKey());
             while (!validator.getValidationErrors().get(commandAttribute.getKey()).isEmpty()) {
                 System.out.println("Enter " + commandAttribute.getKey().getAttributedName());
                 String attributesParameter = commandLineParser.enterString();
                 commandAttribute.setValue(attributesParameter);
-                commandValidationFactory.createCommandValidator(command).validate(commandAttribute.getKey(), commandErrors);
+                AttributeDescriptor attributeDescriptor = commandAttr.getAttributeRules().get(command.getName());
+                AttributeType attrType = attributeDescriptor.getType();
+                commandValidationFactory.createCommandValidator(attrType).validate(attributeDescriptor, commandErrors);
 
             }
         }

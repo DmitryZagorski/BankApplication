@@ -1,6 +1,6 @@
 package home.intexsoft.bank_application.dima.attributeDescriptor;
 
-public abstract class AttributeDescriptor {
+public class AttributeDescriptor {
 
     private AttributeType type;
     private boolean notNull;

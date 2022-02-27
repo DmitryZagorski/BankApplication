@@ -5,8 +5,7 @@ import home.intexsoft.bank_application.dima.attributeDescriptor.AttributeDescrip
 
 import java.util.List;
 
-public class IntegerAttributeValidator extends Validator {
-
+public class DoubleAttributeValidator extends Validator {
 
     @Override
     public boolean validate(AttributeDescriptor attributeDescriptor, List<String> errors) {

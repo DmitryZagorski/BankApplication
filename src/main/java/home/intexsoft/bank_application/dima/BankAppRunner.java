@@ -89,7 +89,7 @@ public class BankAppRunner {
 
     public void createCommand(MenuItem menuItem) {
         Command command = commandCreator.createCommand(menuItem);
-        if (commandValidationFactory.createCommandValidator(command, null).validate(command)) {
+        if (commandValidationFactory.createCommandValidator(command).validate(command)) {
             command.execute();
         }
     }

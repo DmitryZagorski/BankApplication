@@ -10,20 +10,20 @@ import java.util.Map;
 
 public class CommandAttribute {
 
-    private Map<CommandAttributeName, AttributeDescriptor> attributeRules = new HashMap<>();
+    private Map<String, AttributeDescriptor> attributeRules = new HashMap<>();
 
-    public Map<CommandAttributeName, AttributeDescriptor> getAttributeRules() {
+    public Map<String, AttributeDescriptor> getAttributeRules() {
         return attributeRules;
     }
 
-    public void setAttributeRules(Map<CommandAttributeName, AttributeDescriptor> attributeRules) {
+    public void setAttributeRules(Map<String, AttributeDescriptor> attributeRules) {
         this.attributeRules = attributeRules;
     }
 
     {
-        attributeRules.put(CommandAttributeName.BANK_NAME, new StringDescriptor(AttributeType.STRING, true, true));
-        attributeRules.put(CommandAttributeName.COMMISSION_FOR_INDIVIDUAL, new DoubleAttributeDescriptor(AttributeType.DOUBLE, true, true));
-        attributeRules.put(CommandAttributeName.COMMISSION_FOR_ENTITY, new DoubleAttributeDescriptor(AttributeType.DOUBLE, true, true));
+        attributeRules.put(String.BANK_NAME, new StringDescriptor(AttributeType.STRING, true, true));
+        attributeRules.put(String.COMMISSION_FOR_INDIVIDUAL, new DoubleAttributeDescriptor(AttributeType.DOUBLE, true, true));
+        attributeRules.put(String.COMMISSION_FOR_ENTITY, new DoubleAttributeDescriptor(AttributeType.DOUBLE, true, true));
     }
 
 }
