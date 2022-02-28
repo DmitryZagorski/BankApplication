@@ -1,19 +1,39 @@
 package home.intexsoft.bank_application.dima.command;
 
-import home.intexsoft.bank_application.dima.Command;
-import home.intexsoft.bank_application.dima.String;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AddBankCommand extends Command {
+public class AddBank extends Command {
 
-    {
-        this.getAttributes().put(String.BANK_NAME, null);
-        this.getAttributes().put(String.COMMISSION_FOR_INDIVIDUAL, null);
-        this.getAttributes().put(String.COMMISSION_FOR_ENTITY, null);
+    private static final Logger Log = LoggerFactory.getLogger(AddBank.class);
+
+    public enum Attribute implements CommandAttribute {
+
+        BANK_NAME("bank name"),
+        COMMISSION_FOR_INDIVIDUAL("commission for entity"),
+        COMMISSION_FOR_ENTITY("commission for entity");
+
+        private String attributeName;
+
+        Attribute(String attributeName) {
+            this.attributeName = attributeName;
+        }
+
+        public String getAttributeName() {
+            return attributeName;
+        }
+
+        public void setAttributeName(String attributeName) {
+            this.attributeName = attributeName;
+        }
     }
 
-    private static final Logger Log = LoggerFactory.getLogger(AddBankCommand.class);
+    {
+        getAttributes().put(Attribute.BANK_NAME, null);
+        getAttributes().put(Attribute.COMMISSION_FOR_INDIVIDUAL, null);
+        getAttributes().put(Attribute.COMMISSION_FOR_ENTITY, null);
+    }
+
 
     @Override
     protected void execute() {

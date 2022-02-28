@@ -1,36 +1,31 @@
 package home.intexsoft.bank_application.dima;
 
-import home.intexsoft.bank_application.dima.command.AddBankCommand;
-import home.intexsoft.bank_application.dima.command.AddClient;
-import home.intexsoft.bank_application.dima.command.DeleteBank;
-import home.intexsoft.bank_application.dima.command.DeleteClient;
+import home.intexsoft.bank_application.dima.command.AddBank;
+import home.intexsoft.bank_application.dima.command.Command;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class CommandFactory {
 
-    private Map<Commands, Class<? extends Command>> factory = new HashMap<>();
+    private Map<Command.Commands, Class<? extends Command>> factory = new HashMap<>();
 
-    public Map<Commands, Class<? extends Command>> getFactory() {
+    public Map<Command.Commands, Class<? extends Command>> getFactory() {
         return factory;
     }
 
-    public void setFactory(Map<Commands, Class<? extends Command>> factory) {
+    public void setFactory(Map<Command.Commands, Class<? extends Command>> factory) {
         this.factory = factory;
     }
 
     {
-        factory.put(Commands.ADD_BANK, AddBankCommand.class);
-        factory.put(Commands.DELETE_BANK, DeleteBank.class);
-        factory.put(Commands.ADD_CLIENT, AddClient.class);
-        factory.put(Commands.DELETE_CLIENT, DeleteClient.class);
+        factory.put(Command.Commands.ADD_BANK, AddBank.class);
     }
 
     public Command createCommand(MenuItem activeItem) {
         System.out.println("Chosen command is " + activeItem.getName());
         Command command = null;
-        for (Map.Entry<Commands, Class<? extends Command>> commandsClassEntry : getFactory().entrySet()) {
+        for (Map.Entry<Command.Commands, Class<? extends Command>> commandsClassEntry : getFactory().entrySet()) {
             if (activeItem.getName().equals(commandsClassEntry.getKey().getCommandName())) {
                 try {
                     command = commandsClassEntry.getValue().newInstance();

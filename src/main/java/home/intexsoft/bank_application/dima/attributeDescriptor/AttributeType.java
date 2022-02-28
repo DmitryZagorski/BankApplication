@@ -19,4 +19,5 @@ public enum AttributeType {
     public void setAttributedName(String attributedName) {
         this.attributedName = attributedName;
     }
+
 }

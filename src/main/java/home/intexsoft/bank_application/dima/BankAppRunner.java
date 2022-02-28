@@ -1,11 +1,10 @@
 package home.intexsoft.bank_application.dima;
 
+import home.intexsoft.bank_application.dima.command.Command;
 import home.intexsoft.bank_application.dima.validation.CommandValidationFactory;
 import home.intexsoft.bank_application.dima.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Scanner;
 
 public class BankAppRunner {
 
@@ -26,31 +25,31 @@ public class BankAppRunner {
         mainMenuItem.setParent(mainMenuItem);
 
         MenuItem banksItem = new MenuItem();
-        banksItem.setName(Commands.BANKS.getCommandName());
+        banksItem.setName(Command.Commands.BANKS.getCommandName());
         banksItem.setParent(mainMenuItem);
 
         MenuItem addBankItem = new MenuItem();
         addBankItem.setCommand(Boolean.TRUE);
-        addBankItem.setName(Commands.ADD_BANK.getCommandName());
+        addBankItem.setName(Command.Commands.ADD_BANK.getCommandName());
         addBankItem.setParent(banksItem);
 
         MenuItem deleteBankItem = new MenuItem();
         deleteBankItem.setCommand(Boolean.TRUE);
-        deleteBankItem.setName(Commands.DELETE_BANK.getCommandName());
+        deleteBankItem.setName(Command.Commands.DELETE_BANK.getCommandName());
         deleteBankItem.setParent(banksItem);
 
         MenuItem clientsItem = new MenuItem();
-        clientsItem.setName(Commands.CLIENTS.getCommandName());
+        clientsItem.setName(Command.Commands.CLIENTS.getCommandName());
         clientsItem.setParent(mainMenuItem);
 
         MenuItem addClientItem = new MenuItem();
         addClientItem.setCommand(Boolean.TRUE);
-        addClientItem.setName(Commands.ADD_CLIENT.getCommandName());
+        addClientItem.setName(Command.Commands.ADD_CLIENT.getCommandName());
         addClientItem.setParent(clientsItem);
 
         MenuItem deleteClientItem = new MenuItem();
         deleteBankItem.setCommand(Boolean.TRUE);
-        deleteClientItem.setName(Commands.DELETE_CLIENT.getCommandName());
+        deleteClientItem.setName(Command.Commands.DELETE_CLIENT.getCommandName());
         deleteClientItem.setParent(clientsItem);
 
         mainMenuItem.getChildren().put("1", banksItem);
@@ -89,9 +88,7 @@ public class BankAppRunner {
 
     public void createCommand(MenuItem menuItem) {
         Command command = commandCreator.createCommand(menuItem);
-        if (commandValidationFactory.createCommandValidator(command).validate(command)) {
-            command.execute();
-        }
+
     }
 }
 

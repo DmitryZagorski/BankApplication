@@ -1,4 +1,4 @@
-package home.intexsoft.bank_application.dima.userInputData;
+package home.intexsoft.bank_application.dima.viewLists;
 
 import home.intexsoft.bank_application.commandRepresentation.ClientRepresentation;
 import home.intexsoft.bank_application.models.Currency;

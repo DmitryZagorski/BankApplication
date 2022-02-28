@@ -1,7 +1,7 @@
 package home.intexsoft.bank_application.dima;
 
-import home.intexsoft.bank_application.dima.attributeDescriptor.AttributeDescriptor;
-import home.intexsoft.bank_application.dima.attributeDescriptor.AttributeType;
+import home.intexsoft.bank_application.dima.command.Command;
+import home.intexsoft.bank_application.dima.command.CommandAttribute;
 import home.intexsoft.bank_application.dima.validation.CommandValidationFactory;
 import home.intexsoft.bank_application.dima.validation.Validator;
 
@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class CommandCreator {
 
-    private Validator validator;
+    private Validator validator = new Validator();
     private CommandValidationFactory commandValidationFactory = new CommandValidationFactory();
     private CommandFactory commandFactory = new CommandFactory();
     private CommandLineParser commandLineParser = new CommandLineParser();
@@ -34,7 +34,7 @@ public class CommandCreator {
     public Command createCommand(MenuItem activeItem) {
         System.out.println("Chosen command is " + activeItem.getName());
         Command command = null;
-        for (Map.Entry<Commands, Class<? extends Command>> commandsClassEntry : commandFactory.getFactory().entrySet()) { // GET !!!!!!!!
+        for (Map.Entry<Command.Commands, Class<? extends Command>> commandsClassEntry : commandFactory.getFactory().entrySet()) { // GET !!!!!!!!
             if (activeItem.getName().equals(commandsClassEntry.getKey().getCommandName())) {
                 try {
                     command = commandsClassEntry.getValue().newInstance();
@@ -63,23 +63,27 @@ public class CommandCreator {
 //    }
 
     public void addCommandsArguments(Command command) {
-        CommandAttribute commandAttr = new CommandAttribute();
-        Map<String, String> attributes = command.getAttributes();
-        boolean isValidated = false;
-        for (Map.Entry<String, String> commandAttribute : attributes.entrySet()) {
-            List<String> commandErrors = validator.getValidationErrors().get(commandAttribute.getKey());
-            while (!validator.getValidationErrors().get(commandAttribute.getKey()).isEmpty()) {
-                System.out.println("Enter " + commandAttribute.getKey().getAttributedName());
-                String attributesParameter = commandLineParser.enterString();
+        Validator commandValidator = commandValidationFactory.createValidationCommand(command);
+        for (Map.Entry<CommandAttribute, String> commandAttribute : command.getAttributes().entrySet()) {
+            List<String> commandErrors = commandValidator.getValidationErrors().get(commandAttribute.getKey());
+            commandErrors.add(" ");
+            while (!commandErrors.isEmpty()) {      // do-while
+                commandErrors.clear();
+                System.out.println("Enter " + commandAttribute.getKey());
+                String attributesParameter = commandLineParser.enterString();  //in parser
                 commandAttribute.setValue(attributesParameter);
-                AttributeDescriptor attributeDescriptor = commandAttr.getAttributeRules().get(command.getName());
-                AttributeType attrType = attributeDescriptor.getType();
-                commandValidationFactory.createCommandValidator(attrType).validate(attributeDescriptor, commandErrors);
+                commandValidator.validate(command);
+
 
             }
         }
-
     }
+    // in MAP no to add!!! Need to Change!! Or From change to add!!!
+
+    private String findCommandDescriptor(String constantName) {
+        String readableName = "";
 
 
+        return readableName;
+    }
 }
