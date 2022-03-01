@@ -1,20 +1,32 @@
 package home.intexsoft.bank_application.dima.attributeDescriptor;
 
-import java.util.HashMap;
-import java.util.Map;
+public class AttributeDescriptor {
 
-public abstract class AttributeDescriptor {
+    protected DescriptorParameter kind;
+    protected String value;
 
-    private DescriptorParameter kind;
-    private String value;
+    public AttributeDescriptor(DescriptorParameter kind, String value) {
+        this.kind = kind;
+        this.value = value;
+    }
 
     public DescriptorParameter getKind() {
         return kind;
     }
 
+    public void setKind(DescriptorParameter kind) {
+        this.kind = kind;
+    }
+
     public String getValue() {
         return value;
     }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+
 
     //    private Map<DescriptorParameter, String> description = new HashMap<>();
 //
@@ -22,7 +34,7 @@ public abstract class AttributeDescriptor {
 //        return description;
 //    }
 
-    enum DescriptorParameter {
+    public enum DescriptorParameter {
         MAX_VALUE,
         MIN_VALUE,
         STRING_MAX_LENGTH,
@@ -34,23 +46,3 @@ public abstract class AttributeDescriptor {
 
 
 
-//        MAX_VALUE ("max value"),
-//        MIN_VALUE ("min value"),
-//        PERCENTAGE ("percentage"),
-//        STRING_MAX_LENGTH ("string max length"),
-//        STRING_MIN_LENGTH ("string min length"),
-//        TYPE ("type");
-//
-//        private String descriptorParameterValue;
-//
-//        DescriptorParameter(String descriptorParameterValue) {
-//            this.descriptorParameterValue = descriptorParameterValue;
-//        }
-//
-//        public String getDescriptorParameterValue() {
-//            return descriptorParameterValue;
-//        }
-//
-//        public void setDescriptorParameterValue(String descriptorParameterValue) {
-//            this.descriptorParameterValue = descriptorParameterValue;
-//        }

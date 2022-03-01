@@ -1,5 +1,6 @@
 package home.intexsoft.bank_application.dima;
 
+import home.intexsoft.bank_application.dima.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.dima.command.Command;
 import home.intexsoft.bank_application.dima.command.CommandAttribute;
 import home.intexsoft.bank_application.dima.validation.CommandValidationFactory;
@@ -10,7 +11,6 @@ import java.util.Map;
 
 public class CommandCreator {
 
-    private Validator validator = new Validator();
     private CommandValidationFactory commandValidationFactory = new CommandValidationFactory();
     private CommandFactory commandFactory = new CommandFactory();
     private CommandLineParser commandLineParser = new CommandLineParser();
@@ -34,56 +34,40 @@ public class CommandCreator {
     public Command createCommand(MenuItem activeItem) {
         System.out.println("Chosen command is " + activeItem.getName());
         Command command = null;
-        for (Map.Entry<Command.Commands, Class<? extends Command>> commandsClassEntry : commandFactory.getFactory().entrySet()) { // GET !!!!!!!!
-            if (activeItem.getName().equals(commandsClassEntry.getKey().getCommandName())) {
-                try {
-                    command = commandsClassEntry.getValue().newInstance();
-                    command.setName(activeItem.getName());
-                    addCommandsArguments(command);
-                } catch (InstantiationException | IllegalAccessException e) {
-                    System.out.println("Can't create object of class " + e);
-                }
-            }
+        Class<? extends Command> activeCommandClass = findActiveCommandClass(activeItem.getName());
+        try {
+            command = activeCommandClass.newInstance();
+            command.setName(activeItem.getName());
+            addCommandsArguments(command);
+        } catch (InstantiationException | IllegalAccessException e) {
+            System.out.println("Can't create object of class " + e);
         }
         return command;
     }
 
-//    public Command createCommand(MenuItem activeItem) {
-//        System.out.println("Chosen command is " + activeItem.getName());
-//        Command command = null;
-//        Class<? extends Command> aClass = commandFactory.getFactory().get(activeItem.getName());
-//        try {
-//            command = aClass.newInstance();
-//            command.setName(activeItem.getName());
-//            addCommandsArguments(command);
-//        } catch (InstantiationException | IllegalAccessException e) {
-//            System.out.println("Can't create object of class " + e);
-//        }
-//        return command;
-//    }
-
     public void addCommandsArguments(Command command) {
         Validator commandValidator = commandValidationFactory.createValidationCommand(command);
         for (Map.Entry<CommandAttribute, String> commandAttribute : command.getAttributes().entrySet()) {
-            List<String> commandErrors = commandValidator.getValidationErrors().get(commandAttribute.getKey());
-            commandErrors.add(" ");
-            while (!commandErrors.isEmpty()) {      // do-while
-                commandErrors.clear();
-                System.out.println("Enter " + commandAttribute.getKey());
-                String attributesParameter = commandLineParser.enterString();  //in parser
-                commandAttribute.setValue(attributesParameter);
-                commandValidator.validate(command);
-
-
+            do {
+                commandValidator.getValidationErrors().get(commandAttribute.getKey());
+                String attributeValue = commandLineParser.enterStringByAttribute(commandAttribute.getKey().getAttributeName());
+                commandAttribute.setValue(attributeValue);
+                commandValidator.validate(command, commandAttribute.getKey());
             }
+            while (!commandValidator.getValidationErrors().get(commandAttribute.getKey()).isEmpty());
         }
     }
-    // in MAP no to add!!! Need to Change!! Or From change to add!!!
 
-    private String findCommandDescriptor(String constantName) {
-        String readableName = "";
+    // in MAP no to add!!! Need to rewrite!!
 
 
-        return readableName;
+    public Class<? extends Command> findActiveCommandClass(String name) {
+        Class<? extends Command> foundClass = null;
+        for (Map.Entry<Command.Commands, Class<? extends Command>> commandsClassEntry : commandFactory.getFactory().entrySet()) { // GET !!!!!!!!
+            if (name.equals(commandsClassEntry.getKey().getCommandName())) {
+                foundClass = commandsClassEntry.getValue();
+            }
+        }
+        return foundClass;
     }
 }

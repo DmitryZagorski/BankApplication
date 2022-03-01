@@ -2,11 +2,13 @@ package home.intexsoft.bank_application.dima.validation;
 
 import home.intexsoft.bank_application.dima.command.Command;
 import home.intexsoft.bank_application.dima.attributeDescriptor.AttributeDescriptor;
+import home.intexsoft.bank_application.dima.command.CommandAttribute;
 import home.intexsoft.bank_application.dima.validation.commandValidators.AddBankValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CommandValidationFactory {
@@ -42,18 +44,20 @@ public class CommandValidationFactory {
         return validator;
     }
 
-
-
-    public Validator createAttributeValidator(AttributeDescriptor.AttributeType attributeType) {
-        Validator validator = null;
-        switch (attributeType) {
-            case STRING:
-                validator = new StringAttributeValidator();
-            case INTEGER:
-                validator = new IntegerAttributeValidator();
-            case DOUBLE:
-                validator = new DoubleAttributeValidator();
+    public void chooseValidator(Command command, AttributeDescriptor attributeDescriptor, CommandAttribute commandAttribute) {
+        Validator validator = new Validator();
+        String checkingString = command.getAttributes().get(commandAttribute);
+        switch (attributeDescriptor.getKind()) {
+            case TYPE:
+                validator.validateType(attributeDescriptor.getValue(), commandAttribute, checkingString);
+            case MAX_VALUE:
+                validator.validateMaxValue(attributeDescriptor.getValue(), commandAttribute, checkingString);
+            case MIN_VALUE:
+                validator.validateMinValue(attributeDescriptor.getValue(), commandAttribute, checkingString);
+            case STRING_MAX_LENGTH:
+                validator.validateStringMaxLength(attributeDescriptor.getValue(), commandAttribute, checkingString);
+            case STRING_MIN_LENGTH:
+                validator.validateMinValue(attributeDescriptor.getValue(), commandAttribute, checkingString);
         }
-        return validator;
     }
 }

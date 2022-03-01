@@ -23,9 +23,6 @@ public class AddBank extends Command {
             return attributeName;
         }
 
-        public void setAttributeName(String attributeName) {
-            this.attributeName = attributeName;
-        }
     }
 
     {
@@ -33,7 +30,6 @@ public class AddBank extends Command {
         getAttributes().put(Attribute.COMMISSION_FOR_INDIVIDUAL, null);
         getAttributes().put(Attribute.COMMISSION_FOR_ENTITY, null);
     }
-
 
     @Override
     protected void execute() {
