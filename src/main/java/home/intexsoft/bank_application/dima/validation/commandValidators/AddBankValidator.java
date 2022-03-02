@@ -2,55 +2,54 @@ package home.intexsoft.bank_application.dima.validation.commandValidators;
 
 import home.intexsoft.bank_application.dima.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.dima.attributeDescriptor.AttributeType;
-import home.intexsoft.bank_application.dima.command.AddBank;
+import home.intexsoft.bank_application.dima.command.AddBankCommand;
 import home.intexsoft.bank_application.dima.command.Command;
 import home.intexsoft.bank_application.dima.command.CommandAttribute;
-import home.intexsoft.bank_application.dima.validation.CommandValidationFactory;
 import home.intexsoft.bank_application.dima.validation.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddBankValidator extends Validator {
 
-    {
-        validationErrors.put(AddBank.Attribute.BANK_NAME, new ArrayList<>());
-        validationErrors.put(AddBank.Attribute.COMMISSION_FOR_INDIVIDUAL, new ArrayList<>());
-        validationErrors.put(AddBank.Attribute.COMMISSION_FOR_ENTITY, new ArrayList<>());
+    private static final Logger log = LoggerFactory.getLogger(AddBankValidator.class);
 
-        attributeRules.put(AddBank.Attribute.BANK_NAME, List.of(
+    {
+        validationErrors.put(AddBankCommand.Attribute.BANK_NAME, new ArrayList<>());
+        validationErrors.put(AddBankCommand.Attribute.COMMISSION_FOR_INDIVIDUAL, new ArrayList<>());
+        validationErrors.put(AddBankCommand.Attribute.COMMISSION_FOR_ENTITY, new ArrayList<>());
+
+        attributeRules.put(AddBankCommand.Attribute.BANK_NAME, List.of(
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.TYPE, AttributeType.STRING.getAttributedName()),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.STRING_MAX_LENGTH, "20"),
-                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.STRING_MAX_LENGTH, "2")));
+                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.STRING_MIN_LENGTH, "2")));
 
-        attributeRules.put(AddBank.Attribute.COMMISSION_FOR_INDIVIDUAL, List.of(
+        attributeRules.put(AddBankCommand.Attribute.COMMISSION_FOR_INDIVIDUAL, List.of(
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.TYPE, AttributeType.DOUBLE.getAttributedName()),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MAX_VALUE, "10"),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MIN_VALUE, "1")));
 
-        attributeRules.put(AddBank.Attribute.COMMISSION_FOR_ENTITY, List.of(
+        attributeRules.put(AddBankCommand.Attribute.COMMISSION_FOR_ENTITY, List.of(
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.TYPE, AttributeType.DOUBLE.getAttributedName()),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MAX_VALUE, "20"),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MIN_VALUE, "2")));
     }
 
-
     @Override
-    public List<String> validate(Command command, CommandAttribute commandAttribute) {
-        CommandValidationFactory commandValidationFactory = new CommandValidationFactory();
+    public boolean validate(Command command, CommandAttribute commandAttribute) {
+        log.info("Validation of command '"+ command.getName() + "' started");
         for (AttributeDescriptor attributeDescriptor : getAttributeRules().get(commandAttribute)) {
-            commandValidationFactory.chooseValidator(command, attributeDescriptor, commandAttribute);
+            chooseDescriptorParameterValidation(command, attributeDescriptor, commandAttribute);
         }
-        //   Validator validationCommand = commandValidationFactory.createAttributeValidator();
-        //
-
-
-//                AttributeDescriptor.AttributeType attrType = attributeDescriptor.getType();
-//                Validator commandValidator = commandValidationFactory.createCommandValidator(attrType);
-//                commandValidator.validate(attributesParameter, attributeDescriptor, commandErrors);
-
-
-        return null;
+        return validationErrors.get(commandAttribute).isEmpty();
     }
-
 }
+// for (AttributeDescriptor attributeDescriptor : getAttributeRules().get(commandAttribute)) {
+//         chooseDescriptorParameterValidation(command, attributeDescriptor, commandAttribute);
+////            if (!validationErrors.get(commandAttribute).isEmpty()) {
+////                return false;
+////            }
+//         }
+////        return true;

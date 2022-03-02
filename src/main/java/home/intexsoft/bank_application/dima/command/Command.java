@@ -5,14 +5,15 @@ import java.util.Map;
 
 public abstract class Command {
 
-    private String name;
+    private CommandType name;
     private Map<CommandAttribute, String> attributes = new HashMap<>();
 
-    public String getName() {
+
+    public CommandType getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(CommandType name) {
         this.name = name;
     }
 
@@ -20,9 +21,9 @@ public abstract class Command {
         return attributes;
     }
 
-    protected abstract void execute();
+    public abstract void execute();
 
-    public enum Commands {
+    public enum CommandType {
 
         BANKS("banks"),
         CLIENTS("clients"),
@@ -33,7 +34,7 @@ public abstract class Command {
 
         private String commandName;
 
-        Commands(String commandName) {
+        CommandType(String commandName) {
             this.commandName = commandName;
         }
 
@@ -41,8 +42,5 @@ public abstract class Command {
             return commandName;
         }
 
-        public void setCommandName(String commandName) {
-            this.commandName = commandName;
-        }
     }
 }

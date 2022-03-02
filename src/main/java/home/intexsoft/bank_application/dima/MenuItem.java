@@ -1,11 +1,13 @@
 package home.intexsoft.bank_application.dima;
 
+import home.intexsoft.bank_application.dima.command.Command;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class MenuItem {
 
-    private String name;
+    private Command.CommandType name;
     private MenuItem parent;
     private Map<String, MenuItem> children = new HashMap<>();
     private boolean command;
@@ -18,28 +20,25 @@ public class MenuItem {
         this.command = command;
     }
 
-    public String getName() {
+
+    public Command.CommandType getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Command.CommandType name) {
         this.name = name;
     }
 
-    public MenuItem getParent() {
+    MenuItem getParent() {
         return parent;
     }
 
-    public void setParent(MenuItem parent) {
+    void setParent(MenuItem parent) {
         this.parent = parent;
     }
 
-    public Map<String, MenuItem> getChildren() {
+    Map<String, MenuItem> getChildren() {
         return children;
-    }
-
-    public void setChildren(Map<String, MenuItem> children) {
-        this.children = children;
     }
 
 }

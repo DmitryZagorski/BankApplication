@@ -11,9 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Validator {
+public abstract class Validator {
 
-    private static final Logger Log = LoggerFactory.getLogger(Validator.class);
+    private static final Logger log = LoggerFactory.getLogger(Validator.class);
+
+    private static final String VALIDATION_FAILURE_PATTERN = "Validation has failed on %s, processed value is %s";
+    private static final String VALIDATION_FAILURE_FULL_PATTERN = "Validation has failed on %s, processed value is %s, %s expected %s";
+    private static final String VALIDATION_EXCEPTION_PATTERN = "Exception: %s";
 
     protected Map<CommandAttribute, List<String>> validationErrors = new HashMap<>();
     protected Map<CommandAttribute, List<AttributeDescriptor>> attributeRules = new HashMap<>();
@@ -22,54 +26,60 @@ public class Validator {
         return validationErrors;
     }
 
-    public void setValidationErrors(Map<CommandAttribute, List<String>> validationErrors) {
-        this.validationErrors = validationErrors;
-    }
-
-    public Map<CommandAttribute, List<AttributeDescriptor>> getAttributeRules() {
+    protected Map<CommandAttribute, List<AttributeDescriptor>> getAttributeRules() {
         return attributeRules;
     }
 
-    public void setAttributeRules(Map<CommandAttribute, List<AttributeDescriptor>> attributeRules) {
-        this.attributeRules = attributeRules;
+    public abstract boolean validate(Command command, CommandAttribute commandAttribute);
+
+    protected void chooseDescriptorParameterValidation(Command command, AttributeDescriptor attributeDescriptor, CommandAttribute commandAttribute) {
+        log.info("Choosing validation descriptor of attribute '" + attributeDescriptor.getValue());
+        String checkingString = command.getAttributes().get(commandAttribute);
+        if (attributeDescriptor.getKind() == AttributeDescriptor.DescriptorParameter.TYPE){
+            validateType(attributeDescriptor.getValue(), commandAttribute, checkingString);
+        } else {
+        validateMaxAndMinValue(attributeDescriptor.getValue(), commandAttribute, attributeDescriptor.getKind(), checkingString);
+        }
     }
 
-    public List<String> validate(Command command, CommandAttribute commandAttribute) {
-
-        return null;
-    }
-
-    public void validateType(String value, CommandAttribute commandAttribute, String checkingString) {
+    private void validateType(String value, CommandAttribute commandAttribute, String checkingString) {
         if (value.equals(AttributeType.DOUBLE.getAttributedName())) {
-            validationErrors.get(commandAttribute).add(verifyIfValueIsDouble(checkingString));
+            if (verifyIfValueIsDouble(checkingString) != null) {
+                validationErrors.get(commandAttribute).add(verifyIfValueIsDouble(checkingString));
+            }
         }
         if (value.equals(AttributeType.INTEGER.getAttributedName())) {
-            validationErrors.get(commandAttribute).add(verifyIfValueIsInteger(checkingString));
+            if (verifyIfValueIsInteger(checkingString) != null) {
+                validationErrors.get(commandAttribute).add(verifyIfValueIsInteger(checkingString));
+            }
         }
     }
 
-    public void validateMaxValue(String value, CommandAttribute commandAttribute, String checkingString) {
-        String error = null;
-        if (Double.parseDouble(checkingString)>Double.parseDouble(value)){
-            error = "The number must be less " + value;
+    private void validateMaxAndMinValue(String value, CommandAttribute commandAttribute, AttributeDescriptor.DescriptorParameter descriptorParameter, String checkingString) {
+        log.info("Validation by value " + value + " started");
+        double parameterValue;
+        double checkingValue;
+        try {                        // delete input value. Get from setted attribute
+            parameterValue = Double.parseDouble(value);
+            checkingValue = Double.parseDouble(checkingString);
+            switch (descriptorParameter) {
+                case MIN_VALUE:
+                    if (checkingValue < parameterValue) {
+                        validationErrors.get(commandAttribute).add(String.format(VALIDATION_FAILURE_FULL_PATTERN, "min value matching", checkingString, descriptorParameter.name(), value));
+                    }
+                    break;
+                case MAX_VALUE:
+                    if (checkingValue > parameterValue) {
+                        validationErrors.get(commandAttribute).add(String.format(VALIDATION_FAILURE_FULL_PATTERN, "max value matching", checkingString, descriptorParameter.name(), value));
+                    }
+                    break;
+                default:
+                    throw new IllegalArgumentException("That type of descriptor doesn't exist " + descriptorParameter.name());
+            }
+        } catch (NumberFormatException e) {
+            validationErrors.get(commandAttribute).add(String.format(VALIDATION_EXCEPTION_PATTERN, e.getClass().getName()));
+            validationErrors.get(commandAttribute).add(String.format(VALIDATION_FAILURE_PATTERN, "checking type of entered data", checkingString));
         }
-        validationErrors.get(commandAttribute).add(error);
-    }
-
-    public void validateMinValue(String value, CommandAttribute commandAttribute, String checkingString) {
-        String error = null;
-        if (Double.parseDouble(checkingString)<Double.parseDouble(value)){
-            error = "The number must be less " + value;
-        }
-        validationErrors.get(commandAttribute).add(error);
-    }
-
-    public void validateStringMaxLength(String value, CommandAttribute commandAttribute, String checkingString) {
-
-    }
-
-    public void validateStringMinValue(String value, CommandAttribute commandAttribute, String checkingString) {
-
     }
 
     private String verifyIfValueIsDouble(String checkingString) {
@@ -77,7 +87,7 @@ public class Validator {
         try {
             Double.parseDouble(checkingString);
         } catch (NumberFormatException e) {
-            error = "Your data is not Double";
+            error = "Entered data is not Double";
         }
         return error;
     }
@@ -87,8 +97,20 @@ public class Validator {
         try {
             Integer.parseInt(checkingString);
         } catch (NumberFormatException e) {
-            error = "Your data is not Integer";
+            error = "Entered data is not Integer";
         }
         return error;
     }
+
+//    public boolean verifyIfBankExist(String bankName) {
+//        boolean isExist = false;
+//        List<Bank> allBanks = new BankRepresentation().findAllBanks();
+//        for (Bank bank : allBanks) {
+//            if (bank.getName().equals(bankName)) {
+//                isExist = true;
+//            }
+//        }
+//        return isExist;
+//    }
+
 }

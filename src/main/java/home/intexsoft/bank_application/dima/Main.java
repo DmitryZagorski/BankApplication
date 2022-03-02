@@ -8,7 +8,7 @@ import org.hibernate.cfg.Configuration;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InstantiationException, IllegalAccessException {
 
 //        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 //

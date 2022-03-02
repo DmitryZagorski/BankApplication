@@ -3,14 +3,14 @@ package home.intexsoft.bank_application.dima.command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AddBank extends Command {
+public class AddBankCommand extends Command {
 
-    private static final Logger Log = LoggerFactory.getLogger(AddBank.class);
+    private static final Logger log = LoggerFactory.getLogger(AddBankCommand.class);
 
     public enum Attribute implements CommandAttribute {
 
         BANK_NAME("bank name"),
-        COMMISSION_FOR_INDIVIDUAL("commission for entity"),
+        COMMISSION_FOR_INDIVIDUAL("commission for individual"),
         COMMISSION_FOR_ENTITY("commission for entity");
 
         private String attributeName;
@@ -22,17 +22,21 @@ public class AddBank extends Command {
         public String getAttributeName() {
             return attributeName;
         }
-
     }
 
     {
+        setName(CommandType.ADD_BANK);
+
         getAttributes().put(Attribute.BANK_NAME, null);
         getAttributes().put(Attribute.COMMISSION_FOR_INDIVIDUAL, null);
         getAttributes().put(Attribute.COMMISSION_FOR_ENTITY, null);
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
+    log.info("Executing started");
+
+
 //        Log.info("Adding new bank");
 //       // String insertBankSQL = "insert into banks (bank_name, commission_for_individual, commission_for_entity) values ('".concat(getAttributes().get("bank name").concat("',").concat(getAttributes().get("commission for individual").concat(",".concat(getAttributes().get("commission for entity".concat(")"))))));
 //        String insertBankSQL = "insert into banks (bank_name, commission_for_individual, commission_for_entity) values ('".concat(getAttributes().get("bank name").concat("',").concat(getAttributes().get("commission for individual").concat(",".concat(getAttributes().get("commission for entity").concat(")")))));

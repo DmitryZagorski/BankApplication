@@ -2,8 +2,8 @@ package home.intexsoft.bank_application.dima.attributeDescriptor;
 
 public class AttributeDescriptor {
 
-    protected DescriptorParameter kind;
-    protected String value;
+    private DescriptorParameter kind;
+    private String value;
 
     public AttributeDescriptor(DescriptorParameter kind, String value) {
         this.kind = kind;
@@ -14,25 +14,9 @@ public class AttributeDescriptor {
         return kind;
     }
 
-    public void setKind(DescriptorParameter kind) {
-        this.kind = kind;
-    }
-
     public String getValue() {
         return value;
     }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-
-
-    //    private Map<DescriptorParameter, String> description = new HashMap<>();
-//
-//    public Map<DescriptorParameter, String> getDescription() {
-//        return description;
-//    }
 
     public enum DescriptorParameter {
         MAX_VALUE,
@@ -40,6 +24,17 @@ public class AttributeDescriptor {
         STRING_MAX_LENGTH,
         STRING_MIN_LENGTH,
         TYPE;
+
+        public void setDescriptorParameterName(String descriptorParameterName) {
+        }
+    }
+
+    static {
+        DescriptorParameter.MAX_VALUE.setDescriptorParameterName("max value");
+        DescriptorParameter.MIN_VALUE.setDescriptorParameterName("min value");
+        DescriptorParameter.STRING_MAX_LENGTH.setDescriptorParameterName("max length of value");
+        DescriptorParameter.STRING_MIN_LENGTH.setDescriptorParameterName("min length of value");
+        DescriptorParameter.TYPE.setDescriptorParameterName("type");
     }
 }
 
