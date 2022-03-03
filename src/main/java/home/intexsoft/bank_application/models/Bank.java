@@ -9,7 +9,6 @@ public class Bank {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id")
     private int id;
     @Column(name = "bank_name")
     private String name;
