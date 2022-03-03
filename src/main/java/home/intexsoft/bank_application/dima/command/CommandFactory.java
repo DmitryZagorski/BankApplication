@@ -1,4 +1,4 @@
-package home.intexsoft.bank_application.dima;
+package home.intexsoft.bank_application.dima.command;
 
 import home.intexsoft.bank_application.dima.command.AddBankCommand;
 import home.intexsoft.bank_application.dima.command.Command;

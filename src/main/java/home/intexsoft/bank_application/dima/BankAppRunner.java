@@ -1,6 +1,7 @@
 package home.intexsoft.bank_application.dima;
 
 import home.intexsoft.bank_application.dima.command.Command;
+import home.intexsoft.bank_application.dima.command.CommandCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +61,7 @@ public class BankAppRunner {
         menu.setActiveItem(mainMenuItem);
     }
 
-    public void runMenu() throws IllegalAccessException, InstantiationException {
+    private void runMenu() throws IllegalAccessException, InstantiationException {
         Log.info("Starting of RunMenu");
         System.out.println("Choose operation number to proceed");
         System.out.println("Enter 'quit' to exit, enter 'back' to return to previous menu");
@@ -82,8 +83,14 @@ public class BankAppRunner {
         }
     }
 
-    public void createCommand(MenuItem menuItem) throws InstantiationException, IllegalAccessException {
+    private void createCommand(MenuItem menuItem) throws InstantiationException, IllegalAccessException {
         Command command = commandCreator.createCommand(menuItem);
-        command.execute();
+        command.execute(command);
     }
+
+    public static void main(String[] args) throws InstantiationException, IllegalAccessException {
+        BankAppRunner bankAppRunner = new BankAppRunner();
+        bankAppRunner.runMenu();
+    }
+
 }

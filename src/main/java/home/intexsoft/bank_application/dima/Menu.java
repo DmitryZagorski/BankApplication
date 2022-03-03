@@ -1,5 +1,7 @@
 package home.intexsoft.bank_application.dima;
 
+import home.intexsoft.bank_application.dima.command.CommandLineParser;
+
 public class Menu {
 
     private MenuItem activeItem;

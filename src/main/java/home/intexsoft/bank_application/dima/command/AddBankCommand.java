@@ -1,5 +1,6 @@
 package home.intexsoft.bank_application.dima.command;
 
+import home.intexsoft.bank_application.dima.service.BankService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +23,7 @@ public class AddBankCommand extends Command {
         public String getAttributeName() {
             return attributeName;
         }
+
     }
 
     {
@@ -33,8 +35,12 @@ public class AddBankCommand extends Command {
     }
 
     @Override
-    public void execute() {
-    log.info("Executing started");
+    public void execute(Command command) {
+        log.info("Executing started");
+        BankService bankService = new BankService();
+        bankService.addBank(command.getAttributes().get(Attribute.BANK_NAME),
+                command.getAttributes().get(Attribute.COMMISSION_FOR_INDIVIDUAL),
+                command.getAttributes().get(Attribute.COMMISSION_FOR_ENTITY));
 
 
 //        Log.info("Adding new bank");

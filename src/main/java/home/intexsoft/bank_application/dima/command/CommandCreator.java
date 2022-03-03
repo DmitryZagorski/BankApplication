@@ -1,7 +1,6 @@
-package home.intexsoft.bank_application.dima;
+package home.intexsoft.bank_application.dima.command;
 
-import home.intexsoft.bank_application.dima.command.Command;
-import home.intexsoft.bank_application.dima.command.CommandAttribute;
+import home.intexsoft.bank_application.dima.MenuItem;
 import home.intexsoft.bank_application.dima.validation.CommandValidatorFactory;
 import home.intexsoft.bank_application.dima.validation.Validator;
 import org.slf4j.Logger;
@@ -27,22 +26,22 @@ public class CommandCreator {
         return command;
     }
 
-    public void addCommandsArguments(Command command) throws InstantiationException, IllegalAccessException {
+    private void addCommandsArguments(Command command) throws InstantiationException, IllegalAccessException {
         log.info("Adding arguments to command " + command.getName());
         Validator commandValidator = commandValidatorFactory.createCommandValidator(command);
-        for (Map.Entry<CommandAttribute, String> commandAttribute : command.getAttributes().entrySet()) {  // !!!!!!!!! naming
-            List<String> errors = commandValidator.getValidationErrors().get(commandAttribute.getKey());
+        for (Map.Entry<CommandAttribute, String> commandAttributeWithErrorList : command.getAttributes().entrySet()) {
+            List<String> errors = commandValidator.getValidationErrors().get(commandAttributeWithErrorList.getKey());
             do {
                 errors.clear();
-                String attributeValue = commandLineParser.enterStringByAttribute(commandAttribute.getKey().getAttributeName());
-                commandAttribute.setValue(attributeValue);
-                commandValidator.validate(command, commandAttribute.getKey()); // --------command
+                String attributeValue = commandLineParser.enterStringByAttribute(commandAttributeWithErrorList.getKey().getAttributeName());
+                commandAttributeWithErrorList.setValue(attributeValue);
+                commandValidator.validate(command, commandAttributeWithErrorList.getKey());
                 filterListFromRecurringStrings(errors);
                 for (String s : errors) {
                     System.out.println(s);
                 }
             }
-            while (!commandValidator.getValidationErrors().get(commandAttribute.getKey()).isEmpty());
+            while (!commandValidator.getValidationErrors().get(commandAttributeWithErrorList.getKey()).isEmpty());
         }
     }
 

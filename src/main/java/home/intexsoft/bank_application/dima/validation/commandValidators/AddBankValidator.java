@@ -23,8 +23,8 @@ public class AddBankValidator extends Validator {
 
         attributeRules.put(AddBankCommand.Attribute.BANK_NAME, List.of(
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.TYPE, AttributeType.STRING.getAttributedName()),
-                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.STRING_MAX_LENGTH, "20"),
-                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.STRING_MIN_LENGTH, "2")));
+                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MAX_VALUE, "20"),
+                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MIN_VALUE, "2")));
 
         attributeRules.put(AddBankCommand.Attribute.COMMISSION_FOR_INDIVIDUAL, List.of(
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.TYPE, AttributeType.DOUBLE.getAttributedName()),
@@ -39,17 +39,10 @@ public class AddBankValidator extends Validator {
 
     @Override
     public boolean validate(Command command, CommandAttribute commandAttribute) {
-        log.info("Validation of command '"+ command.getName() + "' started");
+        log.info("Validation of commandAttribute '"+ commandAttribute.getAttributeName() + "' started");
         for (AttributeDescriptor attributeDescriptor : getAttributeRules().get(commandAttribute)) {
             chooseDescriptorParameterValidation(command, attributeDescriptor, commandAttribute);
         }
         return validationErrors.get(commandAttribute).isEmpty();
     }
 }
-// for (AttributeDescriptor attributeDescriptor : getAttributeRules().get(commandAttribute)) {
-//         chooseDescriptorParameterValidation(command, attributeDescriptor, commandAttribute);
-////            if (!validationErrors.get(commandAttribute).isEmpty()) {
-////                return false;
-////            }
-//         }
-////        return true;

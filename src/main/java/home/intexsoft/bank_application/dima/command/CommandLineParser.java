@@ -1,4 +1,4 @@
-package home.intexsoft.bank_application.dima;
+package home.intexsoft.bank_application.dima.command;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,7 @@ public class CommandLineParser {
 
     public String enterString() {
         log.info("Entering data starts");
-        String string = "";
+        String string;
         do {
             string = scanner.nextLine();
         } while (string == null ||string.trim().isEmpty());

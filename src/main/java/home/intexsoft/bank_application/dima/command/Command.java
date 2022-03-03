@@ -8,7 +8,6 @@ public abstract class Command {
     private CommandType name;
     private Map<CommandAttribute, String> attributes = new HashMap<>();
 
-
     public CommandType getName() {
         return name;
     }
@@ -21,7 +20,7 @@ public abstract class Command {
         return attributes;
     }
 
-    public abstract void execute();
+    public abstract void execute(Command command);
 
     public enum CommandType {
 

@@ -35,23 +35,19 @@ public abstract class Validator {
     protected void chooseDescriptorParameterValidation(Command command, AttributeDescriptor attributeDescriptor, CommandAttribute commandAttribute) {
         log.info("Choosing validation descriptor of attribute '" + attributeDescriptor.getValue());
         String checkingString = command.getAttributes().get(commandAttribute);
-        if (attributeDescriptor.getKind() == AttributeDescriptor.DescriptorParameter.TYPE){
+        if (attributeDescriptor.getKind() == AttributeDescriptor.DescriptorParameter.TYPE) {
             validateType(attributeDescriptor.getValue(), commandAttribute, checkingString);
         } else {
-        validateMaxAndMinValue(attributeDescriptor.getValue(), commandAttribute, attributeDescriptor.getKind(), checkingString);
+            validateMaxAndMinValue(attributeDescriptor.getValue(), commandAttribute, attributeDescriptor.getKind(), checkingString);
         }
     }
 
     private void validateType(String value, CommandAttribute commandAttribute, String checkingString) {
         if (value.equals(AttributeType.DOUBLE.getAttributedName())) {
-            if (verifyIfValueIsDouble(checkingString) != null) {
-                validationErrors.get(commandAttribute).add(verifyIfValueIsDouble(checkingString));
-            }
+            checkAndSetNewValueOfDouble(checkingString, commandAttribute);
         }
-        if (value.equals(AttributeType.INTEGER.getAttributedName())) {
-            if (verifyIfValueIsInteger(checkingString) != null) {
-                validationErrors.get(commandAttribute).add(verifyIfValueIsInteger(checkingString));
-            }
+        if (value.equals(AttributeType.DOUBLE.getAttributedName())) {
+            checkAndSetNewValueOfDouble(checkingString, commandAttribute);
         }
     }
 
@@ -59,9 +55,13 @@ public abstract class Validator {
         log.info("Validation by value " + value + " started");
         double parameterValue;
         double checkingValue;
-        try {                        // delete input value. Get from setted attribute
+        try {
+            if (attributeRules.get(commandAttribute).get(0).getValue().equals(AttributeType.STRING.getAttributedName())) {
+                checkingValue = checkingString.length();
+            } else {
+                checkingValue = Double.parseDouble(checkingString);
+            }
             parameterValue = Double.parseDouble(value);
-            checkingValue = Double.parseDouble(checkingString);
             switch (descriptorParameter) {
                 case MIN_VALUE:
                     if (checkingValue < parameterValue) {
@@ -77,40 +77,25 @@ public abstract class Validator {
                     throw new IllegalArgumentException("That type of descriptor doesn't exist " + descriptorParameter.name());
             }
         } catch (NumberFormatException e) {
-            validationErrors.get(commandAttribute).add(String.format(VALIDATION_EXCEPTION_PATTERN, e.getClass().getName()));
+            validationErrors.get(commandAttribute).add(
+                    String.format(VALIDATION_EXCEPTION_PATTERN, e.getClass().getName()) +
+                            String.format(VALIDATION_FAILURE_PATTERN, "checking type of entered data", checkingString));
+        }
+    }
+
+    private void checkAndSetNewValueOfDouble(String checkingString, CommandAttribute commandAttribute) {
+        try {
+            Double.parseDouble(checkingString);
+        } catch (NumberFormatException e) {
             validationErrors.get(commandAttribute).add(String.format(VALIDATION_FAILURE_PATTERN, "checking type of entered data", checkingString));
         }
     }
 
-    private String verifyIfValueIsDouble(String checkingString) {
-        String error = null;
-        try {
-            Double.parseDouble(checkingString);
-        } catch (NumberFormatException e) {
-            error = "Entered data is not Double";
-        }
-        return error;
-    }
-
-    private String verifyIfValueIsInteger(String checkingString) {
-        String error = null;
+    private void checkAndSetNewValueOfInteger(String checkingString, CommandAttribute commandAttribute) {
         try {
             Integer.parseInt(checkingString);
         } catch (NumberFormatException e) {
-            error = "Entered data is not Integer";
+            validationErrors.get(commandAttribute).add(String.format(VALIDATION_FAILURE_PATTERN, "checking type of entered data", checkingString));
         }
-        return error;
     }
-
-//    public boolean verifyIfBankExist(String bankName) {
-//        boolean isExist = false;
-//        List<Bank> allBanks = new BankRepresentation().findAllBanks();
-//        for (Bank bank : allBanks) {
-//            if (bank.getName().equals(bankName)) {
-//                isExist = true;
-//            }
-//        }
-//        return isExist;
-//    }
-
 }
