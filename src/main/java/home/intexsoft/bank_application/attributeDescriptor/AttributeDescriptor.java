@@ -33,7 +33,3 @@ public class AttributeDescriptor {
         DescriptorParameter.TYPE.setDescriptorParameterName("type");
     }
 }
-
-
-
-

@@ -1,7 +1,6 @@
 package home.intexsoft.bank_application;
 
 import home.intexsoft.bank_application.command.Command;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +36,7 @@ public class MenuItem {
         this.parent = parent;
     }
 
-    public Map<String, MenuItem> getChildren() {
+    Map<String, MenuItem> getChildren() {
         return children;
     }
 

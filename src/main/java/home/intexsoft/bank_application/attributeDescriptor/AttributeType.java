@@ -2,9 +2,9 @@ package home.intexsoft.bank_application.attributeDescriptor;
 
 public enum AttributeType {
 
-    STRING ("String"),
-    DOUBLE ("Double"),
-    INTEGER ("Integer");
+    STRING("String"),
+    DOUBLE("Double"),
+    INTEGER("Integer");
 
     private String attributedName;
 

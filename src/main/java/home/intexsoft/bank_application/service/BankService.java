@@ -15,23 +15,25 @@ public class BankService {
     private BankDAO bankDAO = new BankDAO(sessionFactory);
 
     public void addBank(String bankName, String commissionForIndividual, String commissionForEntity) {
-        log.info("Method AddBank started");
+        log.debug("Method AddBank started");
         Bank bank = createBankAndSetValuesOfAttributes(bankName, commissionForIndividual, commissionForEntity);
         if (!checkIfBankNameExist(bank.getName())) {
             bankDAO.create(bank);
         } else {
             System.out.println(String.format(BANK_EXIST, bankName));
         }
-        log.info("Method AddBank finished");
+        log.debug("Method AddBank finished");
     }
 
-    private Bank createBankAndSetValuesOfAttributes(String bankName, String commissionForIndividual, String commissionForEntity) {
-        log.info("Creating bank with setting its arguments started");
+    private Bank createBankAndSetValuesOfAttributes(String bankName,
+                                                    String commissionForIndividual,
+                                                    String commissionForEntity) {
+        log.debug("Creating bank with setting its arguments started");
         final Bank bank = new Bank();
         bank.setName(bankName);
         bank.setCommissionForIndividual(Double.valueOf(commissionForIndividual));
         bank.setCommissionForEntity(Double.valueOf(commissionForEntity));
-        log.info("Creating bank with setting its arguments finished");
+        log.debug("Creating bank with setting its arguments finished");
         return bank;
     }
 

@@ -1,11 +1,18 @@
 package home.intexsoft.bank_application.models;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "bank_clients")
 public class BankClient {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "bank_id")
     private Integer bankId;
+    @Column(name = "client_id")
     private Integer clientId;
     private String bankName;
     private String clientName;

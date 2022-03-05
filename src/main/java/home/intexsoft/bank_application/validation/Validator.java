@@ -1,6 +1,5 @@
 package home.intexsoft.bank_application.validation;
 
-import home.intexsoft.bank_application.MenuItem;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
 import home.intexsoft.bank_application.command.CommandAttribute;
@@ -16,9 +15,10 @@ public abstract class Validator {
 
     private static final Logger log = LoggerFactory.getLogger(Validator.class);
 
-    protected static final String VALIDATION_FAILURE_PATTERN = "Validation has failed on %s, processed value is %s";
-    private static final String VALIDATION_FAILURE_FULL_PATTERN = "Validation has failed on %s, processed value is %s, %s expected %s";
-    protected static final String VALIDATION_EXCEPTION_PATTERN = "Exception: %s";
+    private static final String VALIDATION_FAILURE_PATTERN =
+            "Validation has failed for field %s, processed value is '%s'\n";
+    private static final String VALIDATION_PROBLEM_PATTERN =
+            "Problem: %s\n";
 
     protected BankService bankService = new BankService();
     protected Map<CommandAttribute, List<String>> validationErrors = new HashMap<>();
@@ -28,14 +28,11 @@ public abstract class Validator {
         return validationErrors;
     }
 
-    protected Map<CommandAttribute, List<AttributeDescriptor>> getAttributeRules() {
-        return attributeRules;
-    }
+    public abstract void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair);
 
-    public abstract void validate(Map.Entry<CommandAttribute, String> commandAttributePair);
-
-    protected void validateByAttribute(AttributeDescriptor attributeDescriptor, Map.Entry<CommandAttribute, String> commandAttributePair) {
-        log.info("Choosing validation descriptor of attribute '" + attributeDescriptor.getValue() + " started");
+    protected void validateAttributeAccordingAttributeDescriptor(
+            AttributeDescriptor attributeDescriptor, Map.Entry<CommandAttribute, String> commandAttributePair) {
+        log.debug("Choosing validation descriptor of attribute '" + attributeDescriptor.getValue() + " started");
         String checkingString = commandAttributePair.getValue();
         switch (attributeDescriptor.getKind()) {
             case TYPE:
@@ -43,25 +40,31 @@ public abstract class Validator {
                 break;
             case MAX_VALUE:
             case MIN_VALUE:
-                validateMaxAndMinValue(attributeDescriptor.getValue(), commandAttributePair.getKey(), attributeDescriptor.getKind(), checkingString);
+                validateMaxAndMinValue(attributeDescriptor.getValue(),
+                        commandAttributePair.getKey(),
+                        attributeDescriptor.getKind(),
+                        checkingString);
                 break;
             default:
-                throw new IllegalArgumentException("Unsupported attribute description type " + attributeDescriptor.getKind().name());
+                throw new IllegalArgumentException(
+                        "Unsupported attribute description type " + attributeDescriptor.getKind().name());
         }
-        log.info("Choosing validation descriptor of attribute '" + attributeDescriptor.getValue() + " finished");
+        log.debug("Choosing validation descriptor of attribute '" + attributeDescriptor.getValue() + " finished");
     }
 
     private void validateType(String value, CommandAttribute commandAttribute, String checkingString) {
         if (value.equals(AttributeType.DOUBLE.getAttributedName())) {
-            checkAndSetNewValueOfDouble(checkingString, commandAttribute);
+            checkDoubleValue(checkingString, commandAttribute);
         }
-        if (value.equals(AttributeType.DOUBLE.getAttributedName())) {
-            checkAndSetNewValueOfDouble(checkingString, commandAttribute);
+        if (value.equals(AttributeType.INTEGER.getAttributedName())) {
+            checkIntegerValue(checkingString, commandAttribute);
         }
     }
 
-    private void validateMaxAndMinValue(String value, CommandAttribute commandAttribute, AttributeDescriptor.DescriptorParameter descriptorParameter, String checkingString) {
-        log.info("Validation by value " + value + " started");
+    private void validateMaxAndMinValue(String value, CommandAttribute commandAttribute,
+                                        AttributeDescriptor.DescriptorParameter descriptorParameter,
+                                        String checkingString) {
+        log.debug("Validation by value " + value + " started");
         double parameterValue;
         double checkingValue;
         try {
@@ -74,43 +77,57 @@ public abstract class Validator {
             switch (descriptorParameter) {
                 case MIN_VALUE:
                     if (checkingValue < parameterValue) {
-                        validationErrors.get(commandAttribute).add(String.format(VALIDATION_FAILURE_FULL_PATTERN, "min value matching", checkingString, descriptorParameter.name(), value));
+                        String problem = "Input value should be min " + parameterValue;
+                        addErrorToErrorList(commandAttribute, checkingString, problem);
                     }
                     break;
                 case MAX_VALUE:
                     if (checkingValue > parameterValue) {
-                        validationErrors.get(commandAttribute).add(String.format(VALIDATION_FAILURE_FULL_PATTERN, "max value matching", checkingString, descriptorParameter.name(), value));
+                        String problem = "Input value should be max " + parameterValue;
+                        addErrorToErrorList(commandAttribute, checkingString, problem);
                     }
                     break;
                 default:
                     throw new IllegalArgumentException("That type of descriptor doesn't exist " + descriptorParameter.name());
             }
         } catch (NumberFormatException e) {
-            validationErrors.get(commandAttribute).add(
-                    String.format(VALIDATION_EXCEPTION_PATTERN, e.getClass().getName()) +
-                            String.format(VALIDATION_FAILURE_PATTERN, "checking type of entered data", checkingString));
+            addErrorToErrorList(commandAttribute, checkingString, e.getClass().getName());
         }
-        log.info("Validation by value " + value + " finished");
+        log.debug("Validation by value " + value + " finished");
     }
 
-    private void checkAndSetNewValueOfDouble(String checkingString, CommandAttribute commandAttribute) {
+    protected void addErrorToErrorList(CommandAttribute commandAttribute, String checkingString, String problem) {
+        log.debug("Adding errors to error list started");
+        validationErrors.get(commandAttribute).add(String.format(VALIDATION_FAILURE_PATTERN,
+                commandAttribute.getAttributeName(),
+                checkingString) +
+                String.format(VALIDATION_PROBLEM_PATTERN, problem));
+        log.debug("Adding errors to error list finished");
+    }
+
+    private void checkDoubleValue(String checkingString, CommandAttribute commandAttribute) {
+        log.debug("Checking double value started");
         try {
             Double.parseDouble(checkingString);
         } catch (NumberFormatException e) {
-            validationErrors.get(commandAttribute).add(String.format(VALIDATION_FAILURE_PATTERN, "checking type of entered data", checkingString));
+            addErrorToErrorList(commandAttribute, checkingString, e.getClass().getName());
         }
+        log.debug("Checking double value finished");
     }
 
-    private void checkAndSetNewValueOfInteger(String checkingString, CommandAttribute commandAttribute) {
+    private void checkIntegerValue(String checkingString, CommandAttribute commandAttribute) {
+        log.debug("Checking integer value started");
         try {
             Integer.parseInt(checkingString);
         } catch (NumberFormatException e) {
-            validationErrors.get(commandAttribute).add(String.format(VALIDATION_FAILURE_PATTERN, "checking type of entered data", checkingString));
+            addErrorToErrorList(commandAttribute, checkingString, e.getClass().getName());
         }
+        log.debug("Checking integer value finished");
     }
 
     public void showValidationErrors(List<String> errors) {
+        log.debug("Showing error list with filtering started");
         errors.stream().distinct().forEach(System.out::println);
+        log.debug("Showing error list with filtering finished");
     }
-
 }

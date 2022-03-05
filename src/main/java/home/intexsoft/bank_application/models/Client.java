@@ -1,12 +1,22 @@
 package home.intexsoft.bank_application.models;
 
+import net.bytebuddy.dynamic.loading.InjectionClassLoader;
+
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name="clients")
 public class Client {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "surname")
     private String surname;
+    @Column(name = "status_id")
     private Integer statusId;
 
     public Integer getId() {

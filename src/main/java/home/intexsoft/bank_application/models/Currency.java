@@ -1,11 +1,18 @@
 package home.intexsoft.bank_application.models;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "currency")
 public class Currency {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "currency_name")
     private String name;
+    @Column(name = "rate")
     private Double rate;
 
     public Integer getId() {

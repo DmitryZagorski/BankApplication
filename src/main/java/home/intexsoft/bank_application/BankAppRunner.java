@@ -5,8 +5,6 @@ import home.intexsoft.bank_application.command.CommandCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class BankAppRunner {
 
     private static final Logger Log = LoggerFactory.getLogger(BankAppRunner.class);
@@ -63,20 +61,22 @@ public class BankAppRunner {
         menu.setActiveItem(mainMenuItem);
     }
 
-    private void runMenu() throws IllegalAccessException, InstantiationException, InvocationTargetException {
+    private void runMenu() {
         Log.info("Starting of RunMenu");
         System.out.println("Choose operation number to proceed");
         System.out.println("Enter 'quit' to exit, enter 'back' to return to previous menu");
-        String command = "";
-        while (!"quit".equalsIgnoreCase(command)) {
-            menu.getActiveItem().getChildren().entrySet().forEach((child -> System.out.println(child.getKey() + " " + child.getValue().getName())));
-            command = menu.getCommandLineParser().enterStringWithIntegerNumber(menu.getActiveItem().getChildren());
-            if ("back".equalsIgnoreCase(command)) {
+        String userInput = "";
+        while (!"quit".equalsIgnoreCase(userInput)) {
+            menu.getActiveItem().getChildren().entrySet().forEach((child -> System.out.println(
+                    child.getKey() + " " + child.getValue().getName())));
+            userInput = menu.getCommandLineParser().getInputString(menu.getActiveItem().getChildren());
+            if ("back".equalsIgnoreCase(userInput)) {
                 menu.setActiveItem(menu.getActiveItem().getParent());
             } else {
-                MenuItem activeItem = menu.getActiveItem().getChildren().get(command);
+                MenuItem activeItem = menu.getActiveItem().getChildren().get(userInput);
                 if (activeItem.isCommand()) {
-                    createCommand(activeItem);
+                    Command command = createCommand(activeItem);
+                    command.execute();
                     break;
                 } else {
                     menu.setActiveItem(activeItem);
@@ -86,14 +86,12 @@ public class BankAppRunner {
         Log.info("RunMenu finished");
     }
 
-    private void createCommand(MenuItem menuItem) throws InstantiationException, IllegalAccessException, InvocationTargetException {
-        Command command = commandCreator.createCommand(menuItem);
-        command.execute(command);
+    private Command createCommand(MenuItem menuItem) {
+        return commandCreator.createCommand(menuItem);
     }
 
-    public static void main(String[] args) throws InstantiationException, IllegalAccessException, InvocationTargetException {
+    public static void main(String[] args) {
         BankAppRunner bankAppRunner = new BankAppRunner();
         bankAppRunner.runMenu();
     }
-
 }

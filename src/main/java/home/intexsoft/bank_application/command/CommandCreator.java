@@ -5,8 +5,6 @@ import home.intexsoft.bank_application.validation.CommandValidatorFactory;
 import home.intexsoft.bank_application.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class CommandCreator {
@@ -16,28 +14,30 @@ public class CommandCreator {
     private CommandFactory commandFactory = new CommandFactory();
     private CommandLineParser commandLineParser = new CommandLineParser();
 
-    public Command createCommand(MenuItem activeItem) throws IllegalAccessException, InstantiationException, InvocationTargetException {
-        log.info("Creation executable command " + activeItem.getName().getCommandName());
+    public Command createCommand(MenuItem activeItem) {
+        log.debug("Creation of executable command " + activeItem.getName().getCommandName() + " started");
         System.out.println("Chosen command is " + activeItem.getName().getCommandName());
         Command command = commandFactory.createCommandByCommandName(activeItem.getName());
         addCommandsArguments(command);
+        log.debug("Creation of executable command " + activeItem.getName().getCommandName() + " finished");
         return command;
     }
 
-    private void addCommandsArguments(Command command) throws InstantiationException, IllegalAccessException, InvocationTargetException {
-        log.info("Adding arguments to command " + command.getName());
-        Validator commandValidator = commandValidatorFactory.createCommandValidator(command);
+    private void addCommandsArguments(Command command) {
+        log.debug("Adding arguments to command " + command.getName());
+        Validator commandValidator = commandValidatorFactory.createCommandValidator(command.getName());
         command.getAttributes().entrySet().forEach(commandAttributePair -> {
             List<String> errors = commandValidator.getValidationErrors().get(commandAttributePair.getKey());
             do {
                 errors.clear();
-                String attributeValue = commandLineParser.enterStringByAttribute(commandAttributePair.getKey().getAttributeName());
+                String attributeValue =
+                        commandLineParser.enterStringByAttribute(commandAttributePair.getKey().getAttributeName());
                 commandAttributePair.setValue(attributeValue);
-                commandValidator.validate(commandAttributePair);
+                commandValidator.validateAttribute(commandAttributePair);
                 commandValidator.showValidationErrors(errors);
             }
             while (!commandValidator.getValidationErrors().get(commandAttributePair.getKey()).isEmpty());
         });
-        log.info("Adding arguments to command " + command.getName() + " finished");
+        log.debug("Adding arguments to command " + command.getName() + " finished");
     }
 }

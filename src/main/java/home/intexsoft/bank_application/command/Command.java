@@ -16,11 +16,11 @@ public abstract class Command {
         this.name = name;
     }
 
-    public Map<CommandAttribute, String> getAttributes() {
+    Map<CommandAttribute, String> getAttributes() {
         return attributes;
     }
 
-    public abstract void execute(Command command);
+    public abstract void execute();
 
     public enum CommandType {
 
@@ -28,8 +28,16 @@ public abstract class Command {
         CLIENTS("clients"),
         ADD_BANK("add bank"),
         DELETE_BANK("delete bank"),
+        DELETE_ALL_BANKS("delete all banks"),
+        FIND_CLIENTS_OF_BANK("find clients of bank"),
+        VIEW_ALL_BANKS("view all banks"),
         ADD_CLIENT("add client"),
-        DELETE_CLIENT("delete client");
+        DELETE_CLIENT("delete client"),
+        DELETE_ALL_CLIENTS("delete all clients"),
+        FIND_BANK_ACCOUNTS_OF_CLIENT("find bank accounts of client"),
+        VIEW_ALL_CLIENTS("view all clients"),
+        ADD_NEW_TRANSACTION("add new transaction"),
+        FIND_TRANSACTIONS_OF_CLIENT("find transactions of client");
 
         private String commandName;
 

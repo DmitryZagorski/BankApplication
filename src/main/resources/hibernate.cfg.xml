@@ -3,6 +3,7 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
+
     <session-factory>
         <property name="hibernate.dialect">
             org.hibernate.dialect.MySQLDialect
@@ -25,6 +26,7 @@
         <property name="show_sql">
             true
         </property>
+
 
 <!--        <mapping resource="home/intexsoft/bank_application/models/Bank.hbm.xml"/>-->
         <mapping class="home.intexsoft.bank_application.models.Bank"/>

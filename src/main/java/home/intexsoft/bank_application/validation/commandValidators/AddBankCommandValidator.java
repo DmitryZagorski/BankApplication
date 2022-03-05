@@ -7,14 +7,13 @@ import home.intexsoft.bank_application.command.CommandAttribute;
 import home.intexsoft.bank_application.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class AddBankValidator extends Validator {
+public class AddBankCommandValidator extends Validator {
 
-    private static final Logger log = LoggerFactory.getLogger(AddBankValidator.class);
+    private static final Logger log = LoggerFactory.getLogger(AddBankCommandValidator.class);
 
     {
         validationErrors.put(AddBankCommand.Attribute.BANK_NAME, new ArrayList<>());
@@ -22,41 +21,44 @@ public class AddBankValidator extends Validator {
         validationErrors.put(AddBankCommand.Attribute.COMMISSION_FOR_ENTITY, new ArrayList<>());
 
         attributeRules.put(AddBankCommand.Attribute.BANK_NAME, List.of(
-                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.TYPE, AttributeType.STRING.getAttributedName()),
+                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.TYPE,
+                        AttributeType.STRING.getAttributedName()),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MAX_VALUE, "20"),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MIN_VALUE, "2")));
 
         attributeRules.put(AddBankCommand.Attribute.COMMISSION_FOR_INDIVIDUAL, List.of(
-                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.TYPE, AttributeType.DOUBLE.getAttributedName()),
+                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.TYPE,
+                        AttributeType.DOUBLE.getAttributedName()),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MAX_VALUE, "10"),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MIN_VALUE, "1")));
 
         attributeRules.put(AddBankCommand.Attribute.COMMISSION_FOR_ENTITY, List.of(
-                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.TYPE, AttributeType.DOUBLE.getAttributedName()),
+                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.TYPE,
+                        AttributeType.DOUBLE.getAttributedName()),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MAX_VALUE, "20"),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MIN_VALUE, "2")));
     }
 
     @Override
-    public void validate(Map.Entry<CommandAttribute, String> commandAttributePair) {
-        log.info("Validation of commandAttribute '" + commandAttributePair.getKey().getAttributeName() + "' started");
+    public void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair) {
+        log.debug("Validation of commandAttribute '" + commandAttributePair.getKey().getAttributeName() + "' started");
         this.attributeRules.get(commandAttributePair.getKey())
-                .forEach(attributeDescriptor -> validateByAttribute(attributeDescriptor, commandAttributePair));
+                .forEach(attributeDescriptor -> validateAttributeAccordingAttributeDescriptor
+                        (attributeDescriptor, commandAttributePair));
+        log.debug("Validation of commandAttribute '" + commandAttributePair.getKey().getAttributeName() + "' finished");
     }
 
     @Override
-    protected void validateByAttribute(AttributeDescriptor attributeDescriptor, Map.Entry<CommandAttribute,
-            String> commandAttributePair) {
-        log.info("Validating of command attribute started");
-        super.validateByAttribute(attributeDescriptor, commandAttributePair);
+    protected void validateAttributeAccordingAttributeDescriptor(
+            AttributeDescriptor attributeDescriptor,
+            Map.Entry<CommandAttribute, String> commandAttributePair) {
+        log.debug("Validating of command attribute started");
+        super.validateAttributeAccordingAttributeDescriptor(attributeDescriptor, commandAttributePair);
         if (AddBankCommand.Attribute.BANK_NAME.equals(commandAttributePair.getKey())) {
             if (bankService.checkIfBankNameExist(commandAttributePair.getValue()))
-                validationErrors
-                        .get(AddBankCommand.Attribute.BANK_NAME)
-                        .add(String.format(VALIDATION_FAILURE_PATTERN,
-                                commandAttributePair.getKey(), commandAttributePair.getValue()) + ". " +
-                                String.format(VALIDATION_EXCEPTION_PATTERN, "bank already exists"));
+                addErrorToErrorList(
+                        commandAttributePair.getKey(), commandAttributePair.getValue(), "bank already exists");
         }
-        log.info("Validating of command attribute finished");
+        log.debug("Validating of command attribute finished");
     }
 }

@@ -6,7 +6,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import home.intexsoft.bank_application.configurations.Configurations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -34,8 +33,5 @@ public class ConnectionPoolProvider {
             ds = new HikariDataSource(config);
         }
         return ds.getConnection();
-    }
-
-    private ConnectionPoolProvider() {
     }
 }

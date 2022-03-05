@@ -1,16 +1,29 @@
 package home.intexsoft.bank_application.models;
 
+import org.hibernate.annotations.CollectionId;
+
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
+@Entity
+@Table(name = "transactions")
 public class Transaction {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "client_id")
     private Integer clientId;
+    @Column(name = "sender_bank_account_id")
     private Integer senderBankAccountId;
+    @Column(name = "recipient_bank_account_id")
     private Integer recipientBankAccountId;
+    @Column(name = "currency_id")
     private Integer currencyId;
+    @Column(name = "amount_of_money")
     private Double amountOfMoney;
+    @Column(name = "creation_date")
     private Date creationDate;
     private String clientName;
     private String clientSurname;
