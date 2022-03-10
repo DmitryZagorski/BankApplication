@@ -1,18 +1,21 @@
 package home.intexsoft.bank_application.dao;
 
-import org.hibernate.query.Query;
+import java.util.List;
 
-public interface DAO<Entity> {
+abstract class DAO<Entity> {
 
-    void create(Entity entity);
+    void create(Entity entity){};
 
-    Entity read(Integer value);
+    Entity findById(Integer value){return null;};
 
-    Query<Entity> readAll(Entity entity);
+   List<Entity> findAll(){return null;};
 
-    void update(Entity entity);
+    void update(Entity entity){};
 
-    void delete(Entity entity);
+    void deleteByName(String entityName){};
 
-    Entity findByName(String value);
+    Entity findByName(String value){return null;};
+
+//    + createTime
+//    + updae
 }

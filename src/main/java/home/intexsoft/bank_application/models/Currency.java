@@ -1,7 +1,8 @@
 package home.intexsoft.bank_application.models;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "currency")
@@ -14,13 +15,36 @@ public class Currency {
     private String name;
     @Column(name = "rate")
     private Double rate;
+    @OneToMany(mappedBy = "currency")
+    private List<BankAccount> bankAccounts = new ArrayList<>();
+    @OneToMany(mappedBy = "currency")
+    private List<Transaction> transactions = new ArrayList<>();
 
-    public Integer getId() {
+    public Currency() {
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public List<BankAccount> getBankAccounts() {
+        return bankAccounts;
+    }
+
+    public void setBankAccounts(List<BankAccount> bankAccounts) {
+        this.bankAccounts = bankAccounts;
     }
 
     public String getName() {
@@ -39,27 +63,4 @@ public class Currency {
         this.rate = rate;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Currency currency = (Currency) o;
-        return Objects.equals(id, currency.id) &&
-                Objects.equals(name, currency.name) &&
-                Objects.equals(rate, currency.rate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, rate);
-    }
-
-    @Override
-    public String toString() {
-        return "Currency{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", rate=" + rate +
-                '}';
-    }
 }

@@ -1,28 +1,45 @@
 package home.intexsoft.bank_application.models;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "bank_accounts")
 public class BankAccount {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "currency_id")
     private Integer currencyId;
+    @ManyToOne
+    @JoinColumn(name = "currency_id", referencedColumnName = "id")
+    private Currency currency;
     @Column(name = "amount_of_money")
     private Double amountOfMoney;
-    @Column(name = "bank_id")
+    @ManyToOne
+    @JoinColumn(name = "bank_id", referencedColumnName = "id")
+    private Bank bank;
     private Integer bankId;
-    @Column(name = "client_id")
+    @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private Client client;
     private Integer clientId;
     private String currencyName;
     private String bankName;
     private String clientName;
     private String clientSurname;
+//    @OneToMany(mappedBy = "sender_bank_account_id")
+//    private List<Transaction> transactions = new ArrayList<>();
 
+    public BankAccount() {
+
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 
     public int getId() {
         return id;
@@ -31,6 +48,14 @@ public class BankAccount {
     public void setId(int id) {
         this.id = id;
     }
+
+//    public List<Transaction> getTransactions() {
+//        return transactions;
+//    }
+//
+//    public void setTransactions(List<Transaction> transactions) {
+//        this.transactions = transactions;
+//    }
 
     public Integer getCurrencyId() {
         return currencyId;
@@ -96,35 +121,19 @@ public class BankAccount {
         this.clientSurname = clientSurname;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BankAccount that = (BankAccount) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(currencyId, that.currencyId) &&
-                Objects.equals(amountOfMoney, that.amountOfMoney) &&
-                Objects.equals(bankId, that.bankId) &&
-                Objects.equals(clientId, that.clientId);
+    public Currency getCurrency() {
+        return currency;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, currencyId, amountOfMoney, bankId, clientId);
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
-    @Override
-    public String toString() {
-        return "BankAccount{" +
-                "id=" + id +
-                ", currencyId=" + currencyId +
-                ", amountOfMoney=" + amountOfMoney +
-                ", bankId=" + bankId +
-                ", clientId=" + clientId +
-                ", currencyName='" + currencyName + '\'' +
-                ", bankName='" + bankName + '\'' +
-                ", clientName='" + clientName + '\'' +
-                ", clientSurname='" + clientSurname + '\'' +
-                '}';
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
     }
 }

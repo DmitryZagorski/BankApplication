@@ -4,6 +4,9 @@ import home.intexsoft.bank_application.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
 import home.intexsoft.bank_application.command.CommandAttribute;
 import home.intexsoft.bank_application.service.BankService;
+import home.intexsoft.bank_application.service.ClientService;
+import home.intexsoft.bank_application.service.ClientStatusService;
+import home.intexsoft.bank_application.service.CurrencyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +23,10 @@ public abstract class Validator {
     private static final String VALIDATION_PROBLEM_PATTERN =
             "Problem: %s\n";
 
+    protected ClientService clientService = new ClientService();
     protected BankService bankService = new BankService();
+    protected CurrencyService currencyService = new CurrencyService();
+    protected ClientStatusService clientStatusService = new ClientStatusService();
     protected Map<CommandAttribute, List<String>> validationErrors = new HashMap<>();
     protected Map<CommandAttribute, List<AttributeDescriptor>> attributeRules = new HashMap<>();
 
@@ -28,7 +34,15 @@ public abstract class Validator {
         return validationErrors;
     }
 
-    public abstract void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair);
+   // public abstract void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair);
+
+    public void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair){
+        log.debug("Validation of commandAttribute '" + commandAttributePair.getKey().getAttributeName() + "' started");
+        this.attributeRules.get(commandAttributePair.getKey())
+                .forEach(attributeDescriptor -> this.validateAttributeAccordingAttributeDescriptor
+                        (attributeDescriptor, commandAttributePair));
+        log.debug("Validation of commandAttribute '" + commandAttributePair.getKey().getAttributeName() + "' finished");
+    };
 
     protected void validateAttributeAccordingAttributeDescriptor(
             AttributeDescriptor attributeDescriptor, Map.Entry<CommandAttribute, String> commandAttributePair) {

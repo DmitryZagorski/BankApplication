@@ -7,6 +7,7 @@ import home.intexsoft.bank_application.command.CommandAttribute;
 import home.intexsoft.bank_application.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,12 +42,17 @@ public class AddBankCommandValidator extends Validator {
 
     @Override
     public void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair) {
-        log.debug("Validation of commandAttribute '" + commandAttributePair.getKey().getAttributeName() + "' started");
-        this.attributeRules.get(commandAttributePair.getKey())
-                .forEach(attributeDescriptor -> validateAttributeAccordingAttributeDescriptor
-                        (attributeDescriptor, commandAttributePair));
-        log.debug("Validation of commandAttribute '" + commandAttributePair.getKey().getAttributeName() + "' finished");
+        super.validateAttribute(commandAttributePair);
     }
+
+    //    @Override
+//    public void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair) {
+//        log.debug("Validation of commandAttribute '" + commandAttributePair.getKey().getAttributeName() + "' started");
+//        this.attributeRules.get(commandAttributePair.getKey())
+//                .forEach(attributeDescriptor -> validateAttributeAccordingAttributeDescriptor
+//                        (attributeDescriptor, commandAttributePair));
+//        log.debug("Validation of commandAttribute '" + commandAttributePair.getKey().getAttributeName() + "' finished");
+//    }
 
     @Override
     protected void validateAttributeAccordingAttributeDescriptor(

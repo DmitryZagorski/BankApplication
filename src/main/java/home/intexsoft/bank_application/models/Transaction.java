@@ -1,10 +1,7 @@
 package home.intexsoft.bank_application.models;
 
-import org.hibernate.annotations.CollectionId;
-
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "transactions")
@@ -13,13 +10,19 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "client_id")
+    @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private Client client;
     private Integer clientId;
-    @Column(name = "sender_bank_account_id")
+    //    @ManyToOne
+//    @JoinColumn(name = "sender_bank_account_id", referencedColumnName = "id")
     private Integer senderBankAccountId;
-    @Column(name = "recipient_bank_account_id")
+    //    @ManyToOne
+//    @JoinColumn(name = "recipient_bank_account_id", referencedColumnName = "id")
     private Integer recipientBankAccountId;
-    @Column(name = "currency_id")
+    @ManyToOne
+    @JoinColumn(name = "currency_id", referencedColumnName = "id")
+    private Currency currency;
     private Integer currencyId;
     @Column(name = "amount_of_money")
     private Double amountOfMoney;
@@ -28,6 +31,9 @@ public class Transaction {
     private String clientName;
     private String clientSurname;
     private String currencyName;
+
+    public Transaction() {
+    }
 
     public int getId() {
         return id;
@@ -109,41 +115,19 @@ public class Transaction {
         this.currencyName = currencyName;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Transaction that = (Transaction) o;
-        return id == that.id &&
-                Objects.equals(clientId, that.clientId) &&
-                Objects.equals(senderBankAccountId, that.senderBankAccountId) &&
-                Objects.equals(recipientBankAccountId, that.recipientBankAccountId) &&
-                Objects.equals(currencyId, that.currencyId) &&
-                Objects.equals(amountOfMoney, that.amountOfMoney) &&
-                Objects.equals(creationDate, that.creationDate) &&
-                Objects.equals(clientName, that.clientName) &&
-                Objects.equals(clientSurname, that.clientSurname) &&
-                Objects.equals(currencyName, that.currencyName);
+    public Currency getCurrency() {
+        return currency;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, clientId, senderBankAccountId, recipientBankAccountId, currencyId, amountOfMoney, creationDate, clientName, clientSurname, currencyName);
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "id=" + id +
-                ", clientId=" + clientId +
-                ", senderBankAccountId=" + senderBankAccountId +
-                ", recipientBankAccountId=" + recipientBankAccountId +
-                ", currencyId=" + currencyId +
-                ", amountOfMoney=" + amountOfMoney +
-                ", creationDate=" + creationDate +
-                ", clientName='" + clientName + '\'' +
-                ", clientSurname='" + clientSurname + '\'' +
-                ", currencyName='" + currencyName + '\'' +
-                '}';
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

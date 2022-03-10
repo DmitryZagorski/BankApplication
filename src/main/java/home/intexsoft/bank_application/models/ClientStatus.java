@@ -1,7 +1,8 @@
 package home.intexsoft.bank_application.models;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "client_status")
@@ -12,13 +13,26 @@ public class ClientStatus {
     private int id;
     @Column(name = "status_name")
     private String name;
+    @OneToMany(mappedBy = "clientStatus")
+    private List<Client> clients = new ArrayList<>();
 
-    public Integer getId() {
+    public ClientStatus() {
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
     }
 
     public String getName() {
@@ -29,25 +43,4 @@ public class ClientStatus {
         this.name = name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ClientStatus that = (ClientStatus) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
-    @Override
-    public String toString() {
-        return "ClientStatus{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

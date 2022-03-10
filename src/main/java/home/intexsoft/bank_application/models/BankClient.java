@@ -1,11 +1,10 @@
 package home.intexsoft.bank_application.models;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "bank_clients")
-public class BankClient {
+public class BankClient{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +16,9 @@ public class BankClient {
     private String bankName;
     private String clientName;
     private String clientSurname;
+
+    public BankClient() {
+    }
 
     public int getId() {
         return id;
@@ -64,32 +66,5 @@ public class BankClient {
 
     public void setClientSurname(String clientSurname) {
         this.clientSurname = clientSurname;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BankClient that = (BankClient) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(bankId, that.bankId) &&
-                Objects.equals(clientId, that.clientId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, bankId, clientId);
-    }
-
-    @Override
-    public String toString() {
-        return "BankClient{" +
-                "id=" + id +
-                ", bankId=" + bankId +
-                ", clientId=" + clientId +
-                ", bankName='" + bankName + '\'' +
-                ", clientName='" + clientName + '\'' +
-                ", clientSurname='" + clientSurname + '\'' +
-                '}';
     }
 }

@@ -1,11 +1,13 @@
 package home.intexsoft.bank_application.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "banks")
-public class Bank {
+public class Bank{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,17 +18,41 @@ public class Bank {
     private Double commissionForIndividual;
     @Column(name = "commission_for_entity")
     private Double commissionForEntity;
+    @ManyToMany
+    @JoinTable(name = "bank_clients",
+            joinColumns = @JoinColumn(name = "bank_id"),
+            inverseJoinColumns = @JoinColumn(name = "client_id"))
+    private List<Client> clients = new ArrayList<>();
+    @OneToMany(mappedBy = "bank")
+    private List<BankAccount> bankAccounts = new ArrayList<>();
 
     public Bank() {
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
+
+    public List<BankAccount> getBankAccounts() {
+        return bankAccounts;
+    }
+
+    public void setBankAccounts(List<BankAccount> bankAccounts) {
+        this.bankAccounts = bankAccounts;
+    }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
+    }
+
 
     public String getName() {
         return name;
@@ -52,13 +78,12 @@ public class Bank {
         this.commissionForEntity = commissionForEntity;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bank bank = (Bank) o;
-        return Objects.equals(id, bank.id) &&
+        return id == bank.id &&
                 Objects.equals(name, bank.name) &&
                 Objects.equals(commissionForIndividual, bank.commissionForIndividual) &&
                 Objects.equals(commissionForEntity, bank.commissionForEntity);

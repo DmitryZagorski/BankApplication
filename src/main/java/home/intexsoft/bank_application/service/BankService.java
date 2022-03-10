@@ -2,27 +2,42 @@ package home.intexsoft.bank_application.service;
 
 import home.intexsoft.bank_application.dao.BankDAO;
 import home.intexsoft.bank_application.models.Bank;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BankService {
+import java.util.List;
+
+public class BankService extends ModelService {
 
     private static final Logger log = LoggerFactory.getLogger(BankService.class);
-    private static final String BANK_EXIST = "Bank with name %s already exist";
-    private SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-    private BankDAO bankDAO = new BankDAO(sessionFactory);
+    private BankDAO bankDAO = new BankDAO();
 
     public void addBank(String bankName, String commissionForIndividual, String commissionForEntity) {
         log.debug("Method AddBank started");
         Bank bank = createBankAndSetValuesOfAttributes(bankName, commissionForIndividual, commissionForEntity);
-        if (!checkIfBankNameExist(bank.getName())) {
-            bankDAO.create(bank);
-        } else {
-            System.out.println(String.format(BANK_EXIST, bankName));
-        }
+        bankDAO.create(bank);
         log.debug("Method AddBank finished");
+    }
+
+    public void deleteBankByName(String bankName) {
+        log.debug("Method DeleteBank started");
+        bankDAO.deleteByName(bankName);
+        log.debug("Method DeleteBank finished");
+    }
+
+    public void deleteAllBanks() {
+        log.debug("Method DeleteAllBanks started");
+        bankDAO.deleteAllBanks();
+//        List<Bank> allBanks = bankDAO.findAll();
+//        allBanks.forEach(bank -> bankDAO.delete(bank));
+        log.debug("Method DeleteAllBanks finished");
+    }
+
+    public void viewAllBanks() {
+        log.debug("Method ViewAllBanks started");
+        List<Bank> bankList = bankDAO.findAll();
+        bankList.forEach(System.out::println);
+        log.debug("Method ViewAllBanks finished");
     }
 
     private Bank createBankAndSetValuesOfAttributes(String bankName,
@@ -40,5 +55,10 @@ public class BankService {
     public boolean checkIfBankNameExist(String bankName) {
         return bankDAO.findByName(bankName) != null;
     }
+
+    public boolean checkIfBankIdExist(Integer bankId) {
+        return bankDAO.findById(bankId) != null;
+    }
+
 
 }

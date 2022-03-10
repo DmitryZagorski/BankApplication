@@ -26,17 +26,18 @@ public abstract class Command {
 
         BANKS("banks"),
         CLIENTS("clients"),
-        ADD_BANK("add bank"),
-        DELETE_BANK("delete bank"),
-        DELETE_ALL_BANKS("delete all banks"),
-        FIND_CLIENTS_OF_BANK("find clients of bank"),
-        VIEW_ALL_BANKS("view all banks"),
+        TRANSACTIONS("transactions"),
+        ADD_BANK("add bank"),                                 // READY
+        DELETE_BANK("delete bank"),                           // READY
+        DELETE_ALL_BANKS("delete all banks"),                 // READY
+        FIND_CLIENTS_OF_BANK("find clients of bank"),         //
+        VIEW_ALL_BANKS("view all banks"),                     // READY
         ADD_CLIENT("add client"),
         DELETE_CLIENT("delete client"),
         DELETE_ALL_CLIENTS("delete all clients"),
         FIND_BANK_ACCOUNTS_OF_CLIENT("find bank accounts of client"),
         VIEW_ALL_CLIENTS("view all clients"),
-        ADD_NEW_TRANSACTION("add new transaction"),
+        ADD_TRANSACTION("add transaction"),
         FIND_TRANSACTIONS_OF_CLIENT("find transactions of client");
 
         private String commandName;

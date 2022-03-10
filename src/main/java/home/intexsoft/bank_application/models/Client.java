@@ -1,30 +1,70 @@
 package home.intexsoft.bank_application.models;
 
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
-
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name="clients")
+@Table(name = "clients")
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name = "name")
     private String name;
     @Column(name = "surname")
     private String surname;
-    @Column(name = "status_id")
+    @Column
     private Integer statusId;
+    @ManyToOne
+    @JoinColumn(name = "status_id", referencedColumnName = "id")
+    private ClientStatus clientStatus;
+    @ManyToMany
+    @JoinTable(name = "bank_clients",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "bank_id"))
+    private List<Bank> banks = new ArrayList<>();
+    @OneToMany(mappedBy = "client")
+    private List<BankAccount> bankAccounts = new ArrayList<>();
+    @OneToMany(mappedBy = "client")
+    private List<Transaction> transactions = new ArrayList<>();
 
-    public Integer getId() {
+    public Client() {
+
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public List<BankAccount> getBankAccounts() {
+        return bankAccounts;
+    }
+
+    public void setBankAccounts(List<BankAccount> bankAccounts) {
+        this.bankAccounts = bankAccounts;
+    }
+
+
+    public List<Bank> getBanks() {
+        return banks;
+    }
+
+    public void setBanks(List<Bank> banks) {
+        this.banks = banks;
     }
 
     public String getName() {
@@ -51,29 +91,11 @@ public class Client {
         this.statusId = statusId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Client client = (Client) o;
-        return Objects.equals(id, client.id) &&
-                Objects.equals(name, client.name) &&
-                Objects.equals(surname, client.surname) &&
-                Objects.equals(statusId, client.statusId);
+    public ClientStatus getClientStatus() {
+        return clientStatus;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, surname, statusId);
-    }
-
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", statusId=" + statusId +
-                '}';
+    public void setClientStatus(ClientStatus clientStatus) {
+        this.clientStatus = clientStatus;
     }
 }
