@@ -83,4 +83,6 @@ public class ClientService extends ModelService {
                 clientStatus.equals(Command.ClientStatusType.INDIVIDUAL.getClientStatusName());
     }
 
+
+
 }

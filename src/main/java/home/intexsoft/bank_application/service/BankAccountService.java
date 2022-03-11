@@ -1,7 +1,6 @@
 package home.intexsoft.bank_application.service;
 
 import home.intexsoft.bank_application.dao.BankAccountDAO;
-import home.intexsoft.bank_application.models.Bank;
 import home.intexsoft.bank_application.models.BankAccount;
 import home.intexsoft.bank_application.models.Client;
 import home.intexsoft.bank_application.models.Currency;
@@ -54,6 +53,18 @@ public class BankAccountService extends ModelService {
         List<BankAccount> bankAccountList = bankAccountDAO.findBankAccountsOfClient(clientId);
         bankAccountList.forEach(System.out::println);
         log.debug("Method findBankAccountsOfClient finished");
+    }
+
+    public boolean checkIfBankAccountExist(String bankAccount){
+        int account = Integer.parseInt(bankAccount);
+        return bankAccountDAO.findById(account) != null;
+    }
+
+    public BankAccount findBankAccountById(Integer bankAccountId) {
+        log.debug("Method findBankAccountById started");
+        BankAccount bankAccount = bankAccountDAO.findById(bankAccountId);
+        log.debug("Method findBankAccountById finished");
+        return bankAccount;
     }
 
 }

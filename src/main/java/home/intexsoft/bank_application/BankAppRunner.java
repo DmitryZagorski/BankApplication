@@ -78,10 +78,10 @@ public class BankAppRunner {
         transactionsItem.setName(Command.CommandType.TRANSACTIONS);
         transactionsItem.setParent(mainMenuItem);
 
-        MenuItem addTransactionItem = new MenuItem();
-        addTransactionItem.setCommand(Boolean.TRUE);
-        addTransactionItem.setName(Command.CommandType.ADD_OPERATION);
-        addTransactionItem.setParent(banksItem);
+        MenuItem addMoneyTransferItem = new MenuItem();
+        addMoneyTransferItem.setCommand(Boolean.TRUE);
+        addMoneyTransferItem.setName(Command.CommandType.ADD_MONEY_TRANSFER);
+        addMoneyTransferItem.setParent(banksItem);
 
         MenuItem addCurrencyItem = new MenuItem();
         addCurrencyItem.setCommand(Boolean.TRUE);
@@ -115,7 +115,7 @@ public class BankAppRunner {
         clientsItem.getChildren().put("4", findBankAccountOfClientItem);
         clientsItem.getChildren().put("5", addBankAccountItem);
 
-        transactionsItem.getChildren().put("1", addTransactionItem);
+        transactionsItem.getChildren().put("1", addMoneyTransferItem);
         transactionsItem.getChildren().put("2", findTransactionsOfClientItem);
 
         menu.setActiveItem(mainMenuItem);

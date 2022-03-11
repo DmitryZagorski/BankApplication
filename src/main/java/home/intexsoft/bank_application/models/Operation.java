@@ -4,7 +4,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 @Entity
 @Table(name = "operations")
@@ -13,11 +15,10 @@ public class Operation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bank_account_id", referencedColumnName = "id")
-    private BankAccount bankAccount;
-    @Column(name = "amount_of_money")
-    private Double amountOfMoney;
+    @Column(name = "status")
+    private String status;
+    @OneToMany(mappedBy = "operation", fetch = FetchType.EAGER)
+    private List<Action> actions = new ArrayList<>();
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
@@ -26,31 +27,15 @@ public class Operation {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "update_time")
     private Calendar updateTime;
-    ///////////////
-
-    private Integer senderBankAccountId;
-    private Integer recipientBankAccountId;
-
-    public Integer getSenderBankAccountId() {
-        return senderBankAccountId;
-    }
-
-    public void setSenderBankAccountId(Integer senderBankAccountId) {
-        this.senderBankAccountId = senderBankAccountId;
-    }
-
-    public Integer getRecipientBankAccountId() {
-        return recipientBankAccountId;
-    }
-
-    public void setRecipientBankAccountId(Integer recipientBankAccountId) {
-        this.recipientBankAccountId = recipientBankAccountId;
-    }
-
-    ///////////////////
 
     public Operation() {
     }
+
+//    public void process(){
+//        this.getActions().forEach(Action::apply);
+//
+//
+//    }
 
     public Integer getId() {
         return id;
@@ -60,20 +45,20 @@ public class Operation {
         this.id = id;
     }
 
-    public BankAccount getBankAccount() {
-        return bankAccount;
+    public String getStatus() {
+        return status;
     }
 
-    public void setBankAccount(BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public Double getAmountOfMoney() {
-        return amountOfMoney;
+    public List<Action> getActions() {
+        return actions;
     }
 
-    public void setAmountOfMoney(Double amountOfMoney) {
-        this.amountOfMoney = amountOfMoney;
+    public void setActions(List<Action> actions) {
+        this.actions = actions;
     }
 
     public Calendar getCreateTime() {
@@ -90,5 +75,13 @@ public class Operation {
 
     public void setUpdateTime(Calendar updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id=" + id +
+                ", actions=" + actions +
+                '}';
     }
 }

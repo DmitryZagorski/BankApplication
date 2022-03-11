@@ -24,6 +24,8 @@ public class BankDAO extends DAO<Bank> {
             session.beginTransaction();
             session.save(bank);
             session.getTransaction().commit();
+        } catch (Exception e) {
+            
         }
         log.debug("DAO method of creation new bank finished");
     }

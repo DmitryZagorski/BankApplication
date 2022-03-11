@@ -10,8 +10,7 @@ public class AddOperationCommand extends Command {
 
     public enum Attribute implements CommandAttribute {
 
-        BANK_ACCOUNT_ID("bank account id"),
-        AMOUNT_OF_MONEY("amount of money");
+        STATUS("status");
 
         private String attributeName;
 
@@ -24,39 +23,17 @@ public class AddOperationCommand extends Command {
         }
     }
 
-    public enum OperationType{
-
-        ADDITION("addition"),
-        SUBTRACTION("subtraction");
-
-        private String operationTypeName;
-
-        OperationType(String operationTypeName) {
-            this.operationTypeName = operationTypeName;
-        }
-
-        public String getOperationTypeName() {
-            return operationTypeName;
-        }
-
-        public void setOperationTypeName(String operationTypeName) {
-            this.operationTypeName = operationTypeName;
-        }
-    }
-
     {
         setName(CommandType.ADD_OPERATION);
-        getAttributes().put(AddOperationCommand.Attribute.BANK_ACCOUNT_ID, null);
-        getAttributes().put(AddOperationCommand.Attribute.AMOUNT_OF_MONEY, null);
     }
 
     @Override
     public void execute() {
-        log.debug("Executing of adding transaction started");
+        log.debug("Executing of adding operation started");
         OperationService operationService = new OperationService();
-        operationService.addOperation(this.getAttributes().get(Attribute.BANK_ACCOUNT_ID),
-                this.getAttributes().get(AddOperationCommand.Attribute.AMOUNT_OF_MONEY));
-        log.debug("Executing of adding transaction finished");
+        operationService.addDefaultOperation();
+        log.debug("Executing of adding operation finished");
     }
+
 
 }

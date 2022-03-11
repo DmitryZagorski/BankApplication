@@ -4,27 +4,25 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 @Entity
-@Table(name = "bank_accounts")
-public class BankAccount {
+@Table(name = "actions")
+public class Action {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "currency_id", referencedColumnName = "id")
-    private Currency currency;
+    @JoinColumn(name = "bank_account_id", referencedColumnName = "id")
+    private BankAccount bankAccount;
     @Column(name = "amount_of_money")
     private Double amountOfMoney;
+    @Column(name = "action_type")
+    private String actionType;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
-    private Client client;
-    @OneToMany(mappedBy = "bankAccount", fetch = FetchType.EAGER)
-    private List<Action> actions = new ArrayList<>();
+    @JoinColumn(name = "operation_id", referencedColumnName = "id")
+    private Operation operation;
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
@@ -34,8 +32,12 @@ public class BankAccount {
     @Column(name = "update_time")
     private Calendar updateTime;
 
-    public BankAccount() {
+    public Action() {
     }
+
+//    public void apply(){
+//
+//    }
 
     public Integer getId() {
         return id;
@@ -45,12 +47,12 @@ public class BankAccount {
         this.id = id;
     }
 
-    public Currency getCurrency() {
-        return currency;
+    public BankAccount getBankAccount() {
+        return bankAccount;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
     public Double getAmountOfMoney() {
@@ -61,20 +63,20 @@ public class BankAccount {
         this.amountOfMoney = amountOfMoney;
     }
 
-    public Client getClient() {
-        return client;
+    public String getActionType() {
+        return actionType;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setActionType(String actionType) {
+        this.actionType = actionType;
     }
 
-    public List<Action> getActions() {
-        return actions;
+    public Operation getOperation() {
+        return operation;
     }
 
-    public void setActions(List<Action> actions) {
-        this.actions = actions;
+    public void setOperation(Operation operation) {
+        this.operation = operation;
     }
 
     public Calendar getCreateTime() {
@@ -91,15 +93,5 @@ public class BankAccount {
 
     public void setUpdateTime(Calendar updateTime) {
         this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "BankAccount{" +
-                "id=" + id +
-                ", currency=" + currency +
-                ", amountOfMoney=" + amountOfMoney +
-                ", client=" + client +
-                '}';
     }
 }

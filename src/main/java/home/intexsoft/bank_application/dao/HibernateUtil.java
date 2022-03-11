@@ -36,6 +36,7 @@ class HibernateUtil {
                 configuration.addAnnotatedClass(BankAccount.class);
                 configuration.addAnnotatedClass(Client.class);
                 configuration.addAnnotatedClass(Currency.class);
+                configuration.addAnnotatedClass(Action.class);
                 configuration.addAnnotatedClass(Operation.class);
 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

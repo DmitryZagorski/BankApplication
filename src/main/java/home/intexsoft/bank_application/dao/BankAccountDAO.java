@@ -28,8 +28,12 @@ public class BankAccountDAO extends DAO<BankAccount> {
     }
 
     @Override
-    BankAccount findById(Integer value) {
-        return super.findById(value);
+    public BankAccount findById(@NotNull final Integer id) {
+        log.debug("DAO method of finding bankAccount by ID started");
+        try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
+            final BankAccount result = session.get(BankAccount.class, id);
+            return result != null ? result : new BankAccount();
+        }
     }
 
     public List<BankAccount> findBankAccountsOfClient(Integer clientId) {

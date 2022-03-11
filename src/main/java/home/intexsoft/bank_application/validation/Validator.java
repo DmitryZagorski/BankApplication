@@ -3,9 +3,8 @@ package home.intexsoft.bank_application.validation;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
 import home.intexsoft.bank_application.command.CommandAttribute;
-import home.intexsoft.bank_application.service.BankService;
-import home.intexsoft.bank_application.service.ClientService;
-import home.intexsoft.bank_application.service.CurrencyService;
+import home.intexsoft.bank_application.models.BankAccount;
+import home.intexsoft.bank_application.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +24,9 @@ public abstract class Validator {
     protected ClientService clientService = new ClientService();
     protected BankService bankService = new BankService();
     protected CurrencyService currencyService = new CurrencyService();
+    protected BankAccountService bankAccountService = new BankAccountService();
+    protected ActionService actionService = new ActionService();
+    protected OperationService operationService = new OperationService();
     protected Map<CommandAttribute, List<String>> validationErrors = new HashMap<>();
     protected Map<CommandAttribute, List<AttributeDescriptor>> attributeRules = new HashMap<>();
 

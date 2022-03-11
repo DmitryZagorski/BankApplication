@@ -37,9 +37,11 @@ public abstract class Command {
         DELETE_ALL_CLIENTS_OF_BANK("delete all clients of bank"),      // READY
         FIND_BANK_ACCOUNTS_OF_CLIENT("find bank accounts of client"),  // READY
         ADD_BANK_ACCOUNT("add bank account"),                  // READY
-        ADD_OPERATION("add operation"),
+        ADD_ACTION("add action"),
         FIND_OPERATIONS_OF_CLIENT_BY_DATE("find operations of client by date"),
-        ADD_CURRENCY("add currency");                         // READY
+        ADD_CURRENCY("add currency"),                         // READY
+        ADD_MONEY_TRANSFER("add money transfer"),
+        ADD_OPERATION("add operation");
 
         private String commandName;
 
@@ -50,10 +52,9 @@ public abstract class Command {
         public String getCommandName() {
             return commandName;
         }
-
     }
 
-    public enum ClientStatusType{
+    public enum ClientStatusType {
 
         INDIVIDUAL("individual"),
         ENTITY("entity");
@@ -70,6 +71,28 @@ public abstract class Command {
 
         public void setClientStatusName(String clientStatusName) {
             this.clientStatusName = clientStatusName;
+        }
+    }
+
+    public enum OperationStatus {
+
+        CREATED("created"),
+        IN_PROCESS("in process"),
+        SUCCESS("success"),
+        FAILED("failed");
+
+        private String operationStatusName;
+
+        OperationStatus(String operationStatusName) {
+            this.operationStatusName = operationStatusName;
+        }
+
+        public String getOperationStatusName() {
+            return operationStatusName;
+        }
+
+        public void setOperationStatusName(String operationStatusName) {
+            this.operationStatusName = operationStatusName;
         }
     }
 }
