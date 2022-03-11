@@ -2,9 +2,8 @@ package home.intexsoft.bank_application.validation.commandValidators;
 
 import home.intexsoft.bank_application.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
-import home.intexsoft.bank_application.command.AddBankCommand;
+import home.intexsoft.bank_application.command.AddCurrencyCommand;
 import home.intexsoft.bank_application.command.CommandAttribute;
-import home.intexsoft.bank_application.command.FindClientsOfBankCommand;
 import home.intexsoft.bank_application.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,18 +12,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class FindClientsOfBankCommandValidator extends Validator {
+public class AddCurrencyValidator extends Validator {
 
-    private static final Logger log = LoggerFactory.getLogger(FindClientsOfBankCommandValidator.class);
+    private static final Logger log = LoggerFactory.getLogger(AddClientCommandValidator.class);
 
     {
-        validationErrors.put(FindClientsOfBankCommand.Attribute.BANK_NAME, new ArrayList<>());
+        validationErrors.put(AddCurrencyCommand.Attribute.CURRENCY_NAME, new ArrayList<>());
+        validationErrors.put(AddCurrencyCommand.Attribute.RATE, new ArrayList<>());
 
-        attributeRules.put(FindClientsOfBankCommand.Attribute.BANK_NAME, List.of(
+        attributeRules.put(AddCurrencyCommand.Attribute.CURRENCY_NAME, List.of(
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.TYPE,
                         AttributeType.STRING.getAttributedName()),
-                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MAX_VALUE, "20"),
+                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MAX_VALUE, "5"),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MIN_VALUE, "2")));
+
+        attributeRules.put(AddCurrencyCommand.Attribute.RATE, List.of(
+                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.TYPE,
+                        AttributeType.DOUBLE.getAttributedName()),
+                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MAX_VALUE, "40"),
+                new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MIN_VALUE, "1")));
+
     }
 
     @Override
@@ -38,11 +45,13 @@ public class FindClientsOfBankCommandValidator extends Validator {
             Map.Entry<CommandAttribute, String> commandAttributePair) {
         log.debug("Validating of command attribute started");
         super.validateAttributeAccordingAttributeDescriptor(attributeDescriptor, commandAttributePair);
-        if (FindClientsOfBankCommand.Attribute.BANK_NAME.equals(commandAttributePair.getKey())) {
-            if (!bankService.checkIfBankNameExist(commandAttributePair.getValue()))
+        if (AddCurrencyCommand.Attribute.CURRENCY_NAME.equals(commandAttributePair.getKey())) {
+            if (currencyService.checkIfCurrencyNameExist(commandAttributePair.getValue())) {
                 addErrorToErrorList(
-                        commandAttributePair.getKey(), commandAttributePair.getValue(), "bank doesn't exists");
+                        commandAttributePair.getKey(), commandAttributePair.getValue(), "currency already exists");
+            }
         }
         log.debug("Validating of command attribute finished");
     }
+
 }

@@ -29,16 +29,17 @@ public abstract class Command {
         TRANSACTIONS("transactions"),
         ADD_BANK("add bank"),                                 // READY
         DELETE_BANK("delete bank"),                           // READY
-        DELETE_ALL_BANKS("delete all banks"),                 // READY
-        FIND_CLIENTS_OF_BANK("find clients of bank"),         //
+        DELETE_ALL_BANKS("delete all banks"),                 // NOT CHECKED (NOT USE)
+        FIND_CLIENTS_OF_BANK("find clients of bank"),         // READY
         VIEW_ALL_BANKS("view all banks"),                     // READY
-        ADD_CLIENT("add client"),
-        DELETE_CLIENT("delete client"),
-        DELETE_ALL_CLIENTS("delete all clients"),
-        FIND_BANK_ACCOUNTS_OF_CLIENT("find bank accounts of client"),
-        VIEW_ALL_CLIENTS("view all clients"),
-        ADD_TRANSACTION("add transaction"),
-        FIND_TRANSACTIONS_OF_CLIENT("find transactions of client");
+        ADD_CLIENT("add client"),                             // READY
+        DELETE_CLIENT("delete client"),                       // READY
+        DELETE_ALL_CLIENTS_OF_BANK("delete all clients of bank"),      // READY
+        FIND_BANK_ACCOUNTS_OF_CLIENT("find bank accounts of client"),  // READY
+        ADD_BANK_ACCOUNT("add bank account"),                  // READY
+        ADD_OPERATION("add operation"),
+        FIND_OPERATIONS_OF_CLIENT_BY_DATE("find operations of client by date"),
+        ADD_CURRENCY("add currency");                         // READY
 
         private String commandName;
 
@@ -50,5 +51,25 @@ public abstract class Command {
             return commandName;
         }
 
+    }
+
+    public enum ClientStatusType{
+
+        INDIVIDUAL("individual"),
+        ENTITY("entity");
+
+        private String clientStatusName;
+
+        ClientStatusType(String clientStatusName) {
+            this.clientStatusName = clientStatusName;
+        }
+
+        public String getClientStatusName() {
+            return clientStatusName;
+        }
+
+        public void setClientStatusName(String clientStatusName) {
+            this.clientStatusName = clientStatusName;
+        }
     }
 }

@@ -1,58 +1,47 @@
 package home.intexsoft.bank_application.models;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "banks")
-public class Bank{
+public class Bank {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name = "bank_name")
     private String name;
     @Column(name = "commission_for_individual")
     private Double commissionForIndividual;
     @Column(name = "commission_for_entity")
     private Double commissionForEntity;
-    @ManyToMany
-    @JoinTable(name = "bank_clients",
-            joinColumns = @JoinColumn(name = "bank_id"),
-            inverseJoinColumns = @JoinColumn(name = "client_id"))
+    @OneToMany(mappedBy = "bank", fetch = FetchType.EAGER)
     private List<Client> clients = new ArrayList<>();
-    @OneToMany(mappedBy = "bank")
-    private List<BankAccount> bankAccounts = new ArrayList<>();
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_time")
+    private Calendar createTime;
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update_time")
+    private Calendar updateTime;
 
     public Bank() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-
-    public List<BankAccount> getBankAccounts() {
-        return bankAccounts;
-    }
-
-    public void setBankAccounts(List<BankAccount> bankAccounts) {
-        this.bankAccounts = bankAccounts;
-    }
-
-    public List<Client> getClients() {
-        return clients;
-    }
-
-    public void setClients(List<Client> clients) {
-        this.clients = clients;
-    }
-
 
     public String getName() {
         return name;
@@ -78,21 +67,31 @@ public class Bank{
         this.commissionForEntity = commissionForEntity;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Bank bank = (Bank) o;
-        return id == bank.id &&
-                Objects.equals(name, bank.name) &&
-                Objects.equals(commissionForIndividual, bank.commissionForIndividual) &&
-                Objects.equals(commissionForEntity, bank.commissionForEntity);
+    public List<Client> getClients() {
+        return clients;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, commissionForIndividual, commissionForEntity);
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
     }
+
+    public Calendar getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Calendar createTime) {
+        this.createTime = createTime;
+    }
+
+    public Calendar getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Calendar updateTime) {
+        this.updateTime = updateTime;
+    }
+
+
 
     @Override
     public String toString() {

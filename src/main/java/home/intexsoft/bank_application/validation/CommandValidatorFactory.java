@@ -1,10 +1,8 @@
 package home.intexsoft.bank_application.validation;
 
+import home.intexsoft.bank_application.command.AddBankAccountCommand;
 import home.intexsoft.bank_application.command.Command;
-import home.intexsoft.bank_application.command.FindClientsOfBankCommand;
-import home.intexsoft.bank_application.validation.commandValidators.AddBankCommandValidator;
-import home.intexsoft.bank_application.validation.commandValidators.DeleteBankCommandValidator;
-import home.intexsoft.bank_application.validation.commandValidators.FindClientsOfBankCommandValidator;
+import home.intexsoft.bank_application.validation.commandValidators.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,12 +19,14 @@ public class CommandValidatorFactory {
         commandValidators.put(Command.CommandType.ADD_BANK, AddBankCommandValidator.class);
         commandValidators.put(Command.CommandType.DELETE_BANK, DeleteBankCommandValidator.class);
         commandValidators.put(Command.CommandType.FIND_CLIENTS_OF_BANK, FindClientsOfBankCommandValidator.class);
-        commandValidators.put(Command.CommandType.ADD_CLIENT, DeleteBankCommandValidator.class);
-        commandValidators.put(Command.CommandType.DELETE_CLIENT, DeleteBankCommandValidator.class);
-        commandValidators.put(Command.CommandType.FIND_BANK_ACCOUNTS_OF_CLIENT, DeleteBankCommandValidator.class);
-        commandValidators.put(Command.CommandType.ADD_TRANSACTION, DeleteBankCommandValidator.class);
-        commandValidators.put(Command.CommandType.FIND_TRANSACTIONS_OF_CLIENT, DeleteBankCommandValidator.class);
-
+        commandValidators.put(Command.CommandType.ADD_CLIENT, AddClientCommandValidator.class);
+        commandValidators.put(Command.CommandType.DELETE_CLIENT, DeleteClientCommandValidator.class);
+        commandValidators.put(Command.CommandType.FIND_BANK_ACCOUNTS_OF_CLIENT, FindBankAccountsOfClientCommandValidator.class);
+        commandValidators.put(Command.CommandType.ADD_OPERATION, DeleteBankCommandValidator.class);
+        commandValidators.put(Command.CommandType.FIND_OPERATIONS_OF_CLIENT_BY_DATE, DeleteBankCommandValidator.class);
+        commandValidators.put(Command.CommandType.ADD_CURRENCY, AddCurrencyValidator.class);
+        commandValidators.put(Command.CommandType.ADD_BANK_ACCOUNT, AddBankAccountCommandValidator.class);
+        commandValidators.put(Command.CommandType.DELETE_ALL_CLIENTS_OF_BANK, DeleteAllClientsOfBankCommandValidator.class);
     }
 
     public Validator createCommandValidator(Command.CommandType commandName) {

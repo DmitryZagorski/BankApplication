@@ -4,18 +4,24 @@ import java.util.List;
 
 abstract class DAO<Entity> {
 
-    void create(Entity entity){};
+    void create(Entity entity) {
+    }
 
-    Entity findById(Integer value){return null;};
+    Entity findById(Integer value) {
+        return null;
+    }
 
-   List<Entity> findAll(){return null;};
+    List<Entity> findAll() {
+        return null;
+    }
 
-    void update(Entity entity){};
+    void update(Entity entity) {
+    }
 
-    void deleteByName(String entityName){};
+    void deleteByName(String entityName) {
+    }
 
-    Entity findByName(String value){return null;};
-
-//    + createTime
-//    + updae
+    Entity findByName(String value) {
+        return null;
+    }
 }

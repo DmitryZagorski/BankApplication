@@ -45,15 +45,6 @@ public class AddBankCommandValidator extends Validator {
         super.validateAttribute(commandAttributePair);
     }
 
-    //    @Override
-//    public void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair) {
-//        log.debug("Validation of commandAttribute '" + commandAttributePair.getKey().getAttributeName() + "' started");
-//        this.attributeRules.get(commandAttributePair.getKey())
-//                .forEach(attributeDescriptor -> validateAttributeAccordingAttributeDescriptor
-//                        (attributeDescriptor, commandAttributePair));
-//        log.debug("Validation of commandAttribute '" + commandAttributePair.getKey().getAttributeName() + "' finished");
-//    }
-
     @Override
     protected void validateAttributeAccordingAttributeDescriptor(
             AttributeDescriptor attributeDescriptor,

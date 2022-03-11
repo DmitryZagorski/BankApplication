@@ -1,7 +1,11 @@
 package home.intexsoft.bank_application.models;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Entity
@@ -15,56 +19,27 @@ public class Client {
     private String name;
     @Column(name = "surname")
     private String surname;
-    @Column
-    private Integer statusId;
-    @ManyToOne
-    @JoinColumn(name = "status_id", referencedColumnName = "id")
-    private ClientStatus clientStatus;
-    @ManyToMany
-    @JoinTable(name = "bank_clients",
-            joinColumns = @JoinColumn(name = "client_id"),
-            inverseJoinColumns = @JoinColumn(name = "bank_id"))
-    private List<Bank> banks = new ArrayList<>();
-    @OneToMany(mappedBy = "client")
+    @Column(name = "status_name")
+    private String status;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bank_id", referencedColumnName = "id")
+    private Bank bank;
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private List<BankAccount> bankAccounts = new ArrayList<>();
-    @OneToMany(mappedBy = "client")
-    private List<Transaction> transactions = new ArrayList<>();
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_time")
+    private Calendar createTime;
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update_time")
+    private Calendar updateTime;
 
     public Client() {
-
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public List<Transaction> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
-    }
-
-    public List<BankAccount> getBankAccounts() {
-        return bankAccounts;
-    }
-
-    public void setBankAccounts(List<BankAccount> bankAccounts) {
-        this.bankAccounts = bankAccounts;
-    }
-
-
-    public List<Bank> getBanks() {
-        return banks;
-    }
-
-    public void setBanks(List<Bank> banks) {
-        this.banks = banks;
     }
 
     public String getName() {
@@ -83,19 +58,59 @@ public class Client {
         this.surname = surname;
     }
 
-    public Integer getStatusId() {
-        return statusId;
+    public String getStatus() {
+        return status;
     }
 
-    public void setStatusId(Integer statusId) {
-        this.statusId = statusId;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public ClientStatus getClientStatus() {
-        return clientStatus;
+
+
+    public Bank getBank() {
+        return bank;
     }
 
-    public void setClientStatus(ClientStatus clientStatus) {
-        this.clientStatus = clientStatus;
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+    public List<BankAccount> getBankAccounts() {
+        return bankAccounts;
+    }
+
+    public void setBankAccounts(List<BankAccount> bankAccounts) {
+        this.bankAccounts = bankAccounts;
+    }
+
+    public Calendar getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Calendar createTime) {
+        this.createTime = createTime;
+    }
+
+    public Calendar getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Calendar updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
 }

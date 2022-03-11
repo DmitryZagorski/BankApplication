@@ -1,7 +1,9 @@
 package home.intexsoft.bank_application.service;
 
 import home.intexsoft.bank_application.dao.BankDAO;
+import home.intexsoft.bank_application.dao.CurrencyDAO;
 import home.intexsoft.bank_application.models.Bank;
+import home.intexsoft.bank_application.models.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +52,10 @@ public class BankService extends ModelService {
         bank.setCommissionForEntity(Double.valueOf(commissionForEntity));
         log.debug("Creating bank with setting its arguments finished");
         return bank;
+    }
+
+    public Bank findBankByName(String bankName){
+        return bankDAO.findByName(bankName);
     }
 
     public boolean checkIfBankNameExist(String bankName) {

@@ -1,124 +1,48 @@
 package home.intexsoft.bank_application.models;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 @Entity
 @Table(name = "bank_accounts")
 public class BankAccount {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private Integer currencyId;
-    @ManyToOne
+    private Integer id;
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "currency_id", referencedColumnName = "id")
     private Currency currency;
     @Column(name = "amount_of_money")
     private Double amountOfMoney;
-    @ManyToOne
-    @JoinColumn(name = "bank_id", referencedColumnName = "id")
-    private Bank bank;
-    private Integer bankId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
-    private Integer clientId;
-    private String currencyName;
-    private String bankName;
-    private String clientName;
-    private String clientSurname;
-//    @OneToMany(mappedBy = "sender_bank_account_id")
-//    private List<Transaction> transactions = new ArrayList<>();
+    @OneToMany(mappedBy = "bankAccount", fetch = FetchType.EAGER)
+    private List<Operation> operations = new ArrayList<>();
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_time")
+    private Calendar createTime;
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update_time")
+    private Calendar updateTime;
 
     public BankAccount() {
-
     }
 
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
-    }
-
-//    public List<Transaction> getTransactions() {
-//        return transactions;
-//    }
-//
-//    public void setTransactions(List<Transaction> transactions) {
-//        this.transactions = transactions;
-//    }
-
-    public Integer getCurrencyId() {
-        return currencyId;
-    }
-
-    public void setCurrencyId(Integer currencyId) {
-        this.currencyId = currencyId;
-    }
-
-    public Double getAmountOfMoney() {
-        return amountOfMoney;
-    }
-
-    public void setAmountOfMoney(Double amountOfMoney) {
-        this.amountOfMoney = amountOfMoney;
-    }
-
-    public Integer getBankId() {
-        return bankId;
-    }
-
-    public void setBankId(Integer bankId) {
-        this.bankId = bankId;
-    }
-
-    public Integer getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
-    }
-
-    public String getCurrencyName() {
-        return currencyName;
-    }
-
-    public void setCurrencyName(String currencyName) {
-        this.currencyName = currencyName;
-    }
-
-    public String getBankName() {
-        return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
-
-    public String getClientName() {
-        return clientName;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
-    public String getClientSurname() {
-        return clientSurname;
-    }
-
-    public void setClientSurname(String clientSurname) {
-        this.clientSurname = clientSurname;
     }
 
     public Currency getCurrency() {
@@ -129,11 +53,53 @@ public class BankAccount {
         this.currency = currency;
     }
 
-    public Bank getBank() {
-        return bank;
+    public Double getAmountOfMoney() {
+        return amountOfMoney;
     }
 
-    public void setBank(Bank bank) {
-        this.bank = bank;
+    public void setAmountOfMoney(Double amountOfMoney) {
+        this.amountOfMoney = amountOfMoney;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public List<Operation> getOperations() {
+        return operations;
+    }
+
+    public void setOperations(List<Operation> operations) {
+        this.operations = operations;
+    }
+
+    public Calendar getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Calendar createTime) {
+        this.createTime = createTime;
+    }
+
+    public Calendar getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Calendar updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "BankAccount{" +
+                "id=" + id +
+                ", currency=" + currency +
+                ", amountOfMoney=" + amountOfMoney +
+                ", client=" + client +
+                '}';
     }
 }

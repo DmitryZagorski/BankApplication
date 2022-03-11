@@ -1,5 +1,6 @@
 package home.intexsoft.bank_application.command;
 
+import home.intexsoft.bank_application.service.BankAccountService;
 import home.intexsoft.bank_application.service.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +33,8 @@ public class FindBankAccountsOfClientCommand extends Command {
     @Override
     public void execute() {
         log.debug("Executing of finding of bank account started");
-        ClientService clientService = new ClientService();
-        clientService.findBankAccountsOfClient(this.getAttributes().get(FindBankAccountsOfClientCommand.Attribute.CLIENT_NAME));
+        BankAccountService bankAccountService = new BankAccountService();
+        bankAccountService.findBankAccountsOfClient(this.getAttributes().get(FindBankAccountsOfClientCommand.Attribute.CLIENT_NAME));
         log.debug("Executing of finding of bank account finished");
     }
 

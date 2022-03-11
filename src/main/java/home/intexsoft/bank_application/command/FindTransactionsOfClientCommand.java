@@ -1,7 +1,6 @@
 package home.intexsoft.bank_application.command;
 
 import home.intexsoft.bank_application.service.ClientService;
-import home.intexsoft.bank_application.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +25,7 @@ public class FindTransactionsOfClientCommand extends Command {
     }
 
     {
-        setName(CommandType.FIND_TRANSACTIONS_OF_CLIENT);
+        setName(CommandType.FIND_OPERATIONS_OF_CLIENT_BY_DATE);
 
         getAttributes().put(FindTransactionsOfClientCommand.Attribute.CLIENT_NAME, null);
     }

@@ -20,11 +20,13 @@ class CommandFactory {
         commands.put(Command.CommandType.VIEW_ALL_BANKS, ViewAllBanksCommand.class);
         commands.put(Command.CommandType.ADD_CLIENT, AddClientCommand.class);
         commands.put(Command.CommandType.DELETE_CLIENT, DeleteClientCommand.class);
-        commands.put(Command.CommandType.DELETE_ALL_CLIENTS, DeleteAllClientsCommand.class);
+        commands.put(Command.CommandType.DELETE_ALL_CLIENTS_OF_BANK, DeleteAllClientsOfBankCommand.class);
         commands.put(Command.CommandType.FIND_BANK_ACCOUNTS_OF_CLIENT, FindBankAccountsOfClientCommand.class);
-        commands.put(Command.CommandType.VIEW_ALL_CLIENTS, ViewAllClientsCommand.class);
-        commands.put(Command.CommandType.ADD_TRANSACTION, AddTransactionCommand.class);
-        commands.put(Command.CommandType.FIND_TRANSACTIONS_OF_CLIENT, FindTransactionsOfClientCommand.class);
+        commands.put(Command.CommandType.ADD_OPERATION, AddOperationCommand.class);
+        commands.put(Command.CommandType.FIND_OPERATIONS_OF_CLIENT_BY_DATE, FindTransactionsOfClientCommand.class);
+        commands.put(Command.CommandType.ADD_CURRENCY, AddCurrencyCommand.class);
+        commands.put(Command.CommandType.ADD_BANK_ACCOUNT, AddBankAccountCommand.class);
+
     }
 
     Command createCommandByCommandName(Command.CommandType commandName) {

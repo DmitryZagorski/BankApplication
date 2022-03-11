@@ -12,10 +12,8 @@ public class AddClientCommand extends Command {
 
         CLIENT_NAME("client name"),
         CLIENT_SURNAME("client surname"),
-        CLIENT_STATUS_ID("client status id"),
-        CURRENCY_ID("currency id"),
-        BANK_ID("bank id"),
-        AMOUNT_OF_MONEY("amount of money");
+        CLIENT_STATUS("client status"),
+        BANK_NAME("bank name");
 
         private String attributeName;
 
@@ -33,10 +31,8 @@ public class AddClientCommand extends Command {
 
         getAttributes().put(AddClientCommand.Attribute.CLIENT_NAME, null);
         getAttributes().put(AddClientCommand.Attribute.CLIENT_SURNAME, null);
-        getAttributes().put(AddClientCommand.Attribute.CLIENT_STATUS_ID, null);
-        getAttributes().put(AddClientCommand.Attribute.CURRENCY_ID, null);
-        getAttributes().put(AddClientCommand.Attribute.BANK_ID, null);
-        getAttributes().put(AddClientCommand.Attribute.AMOUNT_OF_MONEY, null);
+        getAttributes().put(AddClientCommand.Attribute.CLIENT_STATUS, null);
+        getAttributes().put(Attribute.BANK_NAME, null);
     }
 
     @Override
@@ -45,10 +41,8 @@ public class AddClientCommand extends Command {
         ClientService clientService = new ClientService();
         clientService.addClient(this.getAttributes().get(AddClientCommand.Attribute.CLIENT_NAME),
                 this.getAttributes().get(AddClientCommand.Attribute.CLIENT_SURNAME),
-                this.getAttributes().get(AddClientCommand.Attribute.CLIENT_STATUS_ID),
-                this.getAttributes().get(AddClientCommand.Attribute.CURRENCY_ID),
-                this.getAttributes().get(AddClientCommand.Attribute.BANK_ID),
-                this.getAttributes().get(AddClientCommand.Attribute.AMOUNT_OF_MONEY));
+                this.getAttributes().get(AddClientCommand.Attribute.CLIENT_STATUS),
+                this.getAttributes().get(Attribute.BANK_NAME));
         log.debug("Executing of adding client finished");
     }
 

@@ -5,7 +5,6 @@ import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
 import home.intexsoft.bank_application.command.CommandAttribute;
 import home.intexsoft.bank_application.service.BankService;
 import home.intexsoft.bank_application.service.ClientService;
-import home.intexsoft.bank_application.service.ClientStatusService;
 import home.intexsoft.bank_application.service.CurrencyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,15 +25,12 @@ public abstract class Validator {
     protected ClientService clientService = new ClientService();
     protected BankService bankService = new BankService();
     protected CurrencyService currencyService = new CurrencyService();
-    protected ClientStatusService clientStatusService = new ClientStatusService();
     protected Map<CommandAttribute, List<String>> validationErrors = new HashMap<>();
     protected Map<CommandAttribute, List<AttributeDescriptor>> attributeRules = new HashMap<>();
 
     public Map<CommandAttribute, List<String>> getValidationErrors() {
         return validationErrors;
     }
-
-   // public abstract void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair);
 
     public void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair){
         log.debug("Validation of commandAttribute '" + commandAttributePair.getKey().getAttributeName() + "' started");

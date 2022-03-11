@@ -2,9 +2,8 @@ package home.intexsoft.bank_application.validation.commandValidators;
 
 import home.intexsoft.bank_application.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
-import home.intexsoft.bank_application.command.AddBankCommand;
 import home.intexsoft.bank_application.command.CommandAttribute;
-import home.intexsoft.bank_application.command.FindClientsOfBankCommand;
+import home.intexsoft.bank_application.command.DeleteAllClientsOfBankCommand;
 import home.intexsoft.bank_application.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,14 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class FindClientsOfBankCommandValidator extends Validator {
+public class DeleteAllClientsOfBankCommandValidator extends Validator {
 
-    private static final Logger log = LoggerFactory.getLogger(FindClientsOfBankCommandValidator.class);
+    private static final Logger log = LoggerFactory.getLogger(DeleteAllClientsOfBankCommandValidator.class);
 
     {
-        validationErrors.put(FindClientsOfBankCommand.Attribute.BANK_NAME, new ArrayList<>());
+        validationErrors.put(DeleteAllClientsOfBankCommand.Attribute.BANK_NAME, new ArrayList<>());
 
-        attributeRules.put(FindClientsOfBankCommand.Attribute.BANK_NAME, List.of(
+        attributeRules.put(DeleteAllClientsOfBankCommand.Attribute.BANK_NAME, List.of(
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.TYPE,
                         AttributeType.STRING.getAttributedName()),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MAX_VALUE, "20"),
@@ -38,7 +37,7 @@ public class FindClientsOfBankCommandValidator extends Validator {
             Map.Entry<CommandAttribute, String> commandAttributePair) {
         log.debug("Validating of command attribute started");
         super.validateAttributeAccordingAttributeDescriptor(attributeDescriptor, commandAttributePair);
-        if (FindClientsOfBankCommand.Attribute.BANK_NAME.equals(commandAttributePair.getKey())) {
+        if (DeleteAllClientsOfBankCommand.Attribute.BANK_NAME.equals(commandAttributePair.getKey())) {
             if (!bankService.checkIfBankNameExist(commandAttributePair.getValue()))
                 addErrorToErrorList(
                         commandAttributePair.getKey(), commandAttributePair.getValue(), "bank doesn't exists");

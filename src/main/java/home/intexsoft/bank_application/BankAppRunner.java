@@ -66,7 +66,7 @@ public class BankAppRunner {
 
         MenuItem deleteAllClientsItem = new MenuItem();
         deleteAllClientsItem.setCommand(Boolean.TRUE);
-        deleteAllClientsItem.setName(Command.CommandType.DELETE_ALL_CLIENTS);
+        deleteAllClientsItem.setName(Command.CommandType.DELETE_ALL_CLIENTS_OF_BANK);
         deleteAllClientsItem.setParent(clientsItem);
 
         MenuItem findBankAccountOfClientItem = new MenuItem();
@@ -74,24 +74,29 @@ public class BankAppRunner {
         findBankAccountOfClientItem.setName(Command.CommandType.FIND_BANK_ACCOUNTS_OF_CLIENT);
         findBankAccountOfClientItem.setParent(clientsItem);
 
-        MenuItem viewAllClientsItem = new MenuItem();
-        viewAllClientsItem.setCommand(Boolean.TRUE);
-        viewAllClientsItem.setName(Command.CommandType.VIEW_ALL_CLIENTS);
-        viewAllClientsItem.setParent(banksItem);
-
         MenuItem transactionsItem = new MenuItem();
         transactionsItem.setName(Command.CommandType.TRANSACTIONS);
         transactionsItem.setParent(mainMenuItem);
 
         MenuItem addTransactionItem = new MenuItem();
         addTransactionItem.setCommand(Boolean.TRUE);
-        addTransactionItem.setName(Command.CommandType.ADD_TRANSACTION);
+        addTransactionItem.setName(Command.CommandType.ADD_OPERATION);
         addTransactionItem.setParent(banksItem);
+
+        MenuItem addCurrencyItem = new MenuItem();
+        addCurrencyItem.setCommand(Boolean.TRUE);
+        addCurrencyItem.setName(Command.CommandType.ADD_CURRENCY);
+        addCurrencyItem.setParent(banksItem);
 
         MenuItem findTransactionsOfClientItem = new MenuItem();
         findTransactionsOfClientItem.setCommand(Boolean.TRUE);
-        findTransactionsOfClientItem.setName(Command.CommandType.FIND_TRANSACTIONS_OF_CLIENT);
+        findTransactionsOfClientItem.setName(Command.CommandType.FIND_OPERATIONS_OF_CLIENT_BY_DATE);
         findTransactionsOfClientItem.setParent(banksItem);
+
+        MenuItem addBankAccountItem = new MenuItem();
+        addBankAccountItem.setCommand(Boolean.TRUE);
+        addBankAccountItem.setName(Command.CommandType.ADD_BANK_ACCOUNT);
+        addBankAccountItem.setParent(clientsItem);
 
         mainMenuItem.getChildren().put("1", banksItem);
         mainMenuItem.getChildren().put("2", clientsItem);
@@ -102,12 +107,13 @@ public class BankAppRunner {
         banksItem.getChildren().put("3", deleteAllBanksItem);
         banksItem.getChildren().put("4", findClientsOfBankItem);
         banksItem.getChildren().put("5", viewAllBanksItem);
+        banksItem.getChildren().put("6", addCurrencyItem);
 
         clientsItem.getChildren().put("1", addClientItem);
         clientsItem.getChildren().put("2", deleteClientItem);
         clientsItem.getChildren().put("3", deleteAllClientsItem);
         clientsItem.getChildren().put("4", findBankAccountOfClientItem);
-        clientsItem.getChildren().put("5", viewAllClientsItem);
+        clientsItem.getChildren().put("5", addBankAccountItem);
 
         transactionsItem.getChildren().put("1", addTransactionItem);
         transactionsItem.getChildren().put("2", findTransactionsOfClientItem);

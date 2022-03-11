@@ -3,17 +3,18 @@ package home.intexsoft.bank_application.dao;
 import com.sun.istack.NotNull;
 import home.intexsoft.bank_application.models.BankAccount;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 public class BankAccountDAO extends DAO<BankAccount> {
 
     private static final Logger log = LoggerFactory.getLogger(BankAccountDAO.class);
-//    private final SessionFactory sessionFactory;
-//
-//    public BankAccountDAO(@NotNull final SessionFactory sessionFactory) {
-//        this.sessionFactory = sessionFactory;
-//    }
 
     @Override
     public void create(@NotNull final BankAccount bankAccount) {
@@ -29,5 +30,22 @@ public class BankAccountDAO extends DAO<BankAccount> {
     @Override
     BankAccount findById(Integer value) {
         return super.findById(value);
+    }
+
+    public List<BankAccount> findBankAccountsOfClient(Integer clientId) {
+        log.debug("DAO method of finding bankAccounts of client started");
+        List<BankAccount> bankAccounts;
+        try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<BankAccount> query = criteriaBuilder.createQuery(BankAccount.class);
+            Root<BankAccount> root = query.from(BankAccount.class);
+            query.where(criteriaBuilder.equal(root.get("client"), clientId));
+            Query<BankAccount> newQuery = session.createQuery(query);
+            bankAccounts = newQuery.getResultList();
+            session.getTransaction().commit();
+        }
+        log.debug("DAO method of finding bankAccounts of client finished");
+        return bankAccounts;
     }
 }

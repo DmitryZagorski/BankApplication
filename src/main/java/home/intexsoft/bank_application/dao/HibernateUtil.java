@@ -19,7 +19,7 @@ class HibernateUtil {
                 // Hibernate settings equivalent to hibernate.cfg.xml's properties
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "com.mysql.jdbc.Driver");
-                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/bankapp");
+                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/bank_application");
                 settings.put(Environment.USER, "root");
                 settings.put(Environment.PASS, "root");
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
@@ -34,11 +34,9 @@ class HibernateUtil {
 
                 configuration.addAnnotatedClass(Bank.class);
                 configuration.addAnnotatedClass(BankAccount.class);
-                configuration.addAnnotatedClass(BankClient.class);
                 configuration.addAnnotatedClass(Client.class);
-                configuration.addAnnotatedClass(ClientStatus.class);
                 configuration.addAnnotatedClass(Currency.class);
-                configuration.addAnnotatedClass(Transaction.class);
+                configuration.addAnnotatedClass(Operation.class);
 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties()).build();

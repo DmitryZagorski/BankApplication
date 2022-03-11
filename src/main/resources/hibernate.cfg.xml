@@ -34,7 +34,7 @@
 <!--&lt;!&ndash;        <mapping class="home.intexsoft.bank_application.models.Client"/>&ndash;&gt;-->
 <!--&lt;!&ndash;        <mapping class="home.intexsoft.bank_application.models.ClientStatus"/>&ndash;&gt;-->
 <!--&lt;!&ndash;        <mapping class="home.intexsoft.bank_application.models.Currency"/>&ndash;&gt;-->
-<!--&lt;!&ndash;        <mapping class="home.intexsoft.bank_application.models.Transaction"/>&ndash;&gt;-->
+<!--&lt;!&ndash;        <mapping class="home.intexsoft.bank_application.models.Operation"/>&ndash;&gt;-->
 
 
 <!--    </session-factory>-->
