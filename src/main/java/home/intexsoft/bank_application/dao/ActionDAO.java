@@ -17,13 +17,10 @@ public class ActionDAO extends DAO<Action> {
             session.beginTransaction();
             session.save(action);
             session.getTransaction().commit();
+            session.close();
         } catch (Exception e) {
-            try {
-                log.error("Error during saving action");
-                session.getTransaction().rollback();
-            } catch (Exception ex) {
-                log.error("Error during rollback");
-            }
+            log.error("Error during saving action");
+            session.getTransaction().rollback();
         }
         log.debug("DAO method of creation new action finished");
     }

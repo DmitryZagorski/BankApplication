@@ -1,10 +1,11 @@
 package home.intexsoft.bank_application.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 abstract class DAO<Entity> {
 
-    void create(Entity entity) {
+    void create(Entity entity) throws SQLException {
     }
 
     Entity findById(Integer value) {

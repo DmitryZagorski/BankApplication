@@ -3,11 +3,11 @@ package home.intexsoft.bank_application.service;
 import home.intexsoft.bank_application.command.AddMoneyTransferCommand;
 import home.intexsoft.bank_application.command.Command;
 import home.intexsoft.bank_application.dao.OperationDAO;
-import home.intexsoft.bank_application.models.BankAccount;
 import home.intexsoft.bank_application.models.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 
 public class OperationService {
@@ -16,25 +16,26 @@ public class OperationService {
     private OperationDAO operationDAO = new OperationDAO();
     private BankAccountService bankAccountService = new BankAccountService();
 
-    public void createDefaultOperation(Operation operation, String commandName) {
+    public void createDefaultOperation(Operation operation) throws SQLException {
         log.debug("Method addOperation started");
-
-        operation.setStatus(Command.OperationStatus.CREATED.getOperationStatusName());
-        operation.setName(commandName);
         operationDAO.create(operation);
-
-
-        operation.getActions().forEach(action -> bankAccountService.updateBankAccountWithMoney(action));
-
-//        BankAccount senderBankAccount = bankAccountService.findBankAccountById(operation.getActions().get(0).getId());
-//        BankAccount recipientBankAccount = bankAccountService.findBankAccountById(operation.getActions().get(1).getId());
-
-//        bankAccountService.updateBankAccountWithMoney(senderBankAccount);
-
+        try {
+            operation.setStatus(Command.OperationStatus.IN_PROCESS.getOperationStatusName());
+            operationDAO.update(operation);
+            operation.getActions().forEach(action -> {
+                try {
+                    bankAccountService.updateBankAccountWithMoney(action);
+                } catch (SQLException e) {
+                    log.error("Error during updating bank account");
+                }
+            });
+        } catch (Exception e) {
+            throw new SQLException("Error during creating operation, updating bank account for operation actions");
+        }
         log.debug("Method addOperation finished");
     }
 
-    void updateOperation(Operation operation) {
+    public void updateOperation(Operation operation) {
         log.debug("Method updateOperation started");
         operationDAO.update(operation);
         log.debug("Method updateOperation finished");
@@ -54,4 +55,6 @@ public class OperationService {
         });
         return isExist[0];
     }
+
+
 }

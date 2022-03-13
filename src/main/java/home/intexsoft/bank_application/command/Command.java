@@ -39,7 +39,8 @@ public abstract class Command {
         ADD_BANK_ACCOUNT("add bank account"),                  // READY
         FIND_OPERATIONS_OF_CLIENT_BY_DATE("find operations of client by date"),
         ADD_CURRENCY("add currency"),                         // READY
-        ADD_MONEY_TRANSFER("add money transfer");
+        ADD_MONEY_TRANSFER("add money transfer");            // READY
+
 
         private String commandName;
 

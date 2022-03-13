@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class OperationDAO extends DAO<Operation> {
@@ -13,20 +14,18 @@ public class OperationDAO extends DAO<Operation> {
     private static final Logger log = LoggerFactory.getLogger(OperationDAO.class);
 
     @Override // ready
-    public void create(@NotNull final Operation operation) {
+    public void create(@NotNull final Operation operation) throws SQLException {
         log.debug("DAO method of creation new operation started");
         final Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             session.beginTransaction();
             session.save(operation);
             session.getTransaction().commit();
+            session.close();
         } catch (Exception e) {
-            try {
-                log.error("Error during saving transaction");
-                session.getTransaction().rollback();
-            } catch (Exception ex) {
-                log.error("Error during rollback");
-            }
+            log.error("Error during saving operation");
+            session.getTransaction().rollback();
+            throw new SQLException("Error during saving operation");
         }
         log.debug("DAO method of creation new operation finished");
     }
@@ -49,13 +48,10 @@ public class OperationDAO extends DAO<Operation> {
             session.beginTransaction();
             session.update(operation);
             session.getTransaction().commit();
+            session.close();
         } catch (Exception e) {
-            try {
-                log.error("Error during saving transaction");
-                session.getTransaction().rollback();
-            } catch (Exception ex) {
-                log.error("Error during rollback");
-            }
+            log.error("Error during saving transaction");
+            session.getTransaction().rollback();
         }
         log.debug("DAO method of updating operation finished");
     }

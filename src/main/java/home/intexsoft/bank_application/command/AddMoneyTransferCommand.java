@@ -7,6 +7,8 @@ import home.intexsoft.bank_application.service.OperationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
+
 public class AddMoneyTransferCommand extends Command{
 
     private static final Logger log = LoggerFactory.getLogger(AddMoneyTransferCommand.class);
@@ -60,18 +62,27 @@ public class AddMoneyTransferCommand extends Command{
         log.debug("Executing of money transfer started");
         OperationService operationService = new OperationService();
         Operation operation = new Operation();
+        operation.setName(this.getName().getCommandName());
+        operation.setStatus(Command.OperationStatus.CREATED.getOperationStatusName());
         ActionService actionService = new ActionService();
-        Action senderAction = actionService.createActionMoneyTransfer(
-                this.getAttributes().get(Attribute.SENDER_BANK_ACCOUNT_ID),
-                this.getAttributes().get(Attribute.AMOUNT_OF_MONEY),
-                ActionType.WITHDRAW.getOperationTypeName(), operation);
-        Action recipientAction = actionService.createActionMoneyTransfer(
-                this.getAttributes().get(Attribute.RECIPIENT_BANK_ACCOUNT_ID),
-                this.getAttributes().get(Attribute.AMOUNT_OF_MONEY),
-                ActionType.ADDITION.getOperationTypeName(), operation);
-        operation.getActions().add(senderAction);
-        operation.getActions().add(recipientAction);
-        operationService.createDefaultOperation(operation, this.getName().getCommandName());
+        try {
+            Action senderAction = actionService.createActionMoneyTransfer(
+                    this.getAttributes().get(Attribute.SENDER_BANK_ACCOUNT_ID),
+                    this.getAttributes().get(Attribute.AMOUNT_OF_MONEY),
+                    ActionType.WITHDRAW.getOperationTypeName(), operation);
+            Action recipientAction = actionService.createActionMoneyTransfer(
+                    this.getAttributes().get(Attribute.RECIPIENT_BANK_ACCOUNT_ID),
+                    this.getAttributes().get(Attribute.AMOUNT_OF_MONEY),
+                    ActionType.ADDITION.getOperationTypeName(), operation);
+            operation.getActions().add(senderAction);
+            operation.getActions().add(recipientAction);
+            operationService.createDefaultOperation(operation);
+            operation.setStatus(OperationStatus.SUCCESS.getOperationStatusName());
+            operationService.updateOperation(operation);
+        } catch (SQLException e) {
+            operation.setStatus(OperationStatus.FAILED.getOperationStatusName());
+            operationService.updateOperation(operation);
+        }
         log.debug("Executing of adding money transfer finished");
     }
 }

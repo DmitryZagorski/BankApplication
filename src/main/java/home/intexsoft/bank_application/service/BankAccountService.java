@@ -2,10 +2,12 @@ package home.intexsoft.bank_application.service;
 
 import home.intexsoft.bank_application.command.Command;
 import home.intexsoft.bank_application.dao.BankAccountDAO;
+import home.intexsoft.bank_application.dao.OperationDAO;
 import home.intexsoft.bank_application.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class BankAccountService {
@@ -14,7 +16,7 @@ public class BankAccountService {
     private BankAccountDAO bankAccountDAO = new BankAccountDAO();
     private ClientService clientService = new ClientService();
     private CurrencyService currencyService = new CurrencyService();
-    private OperationService operationService = new OperationService();
+    private OperationDAO operationDAO = new OperationDAO();
 
     public void addBankAccount(String bankName, String clientName, String clientSurname,
                                String clientStatus, String currencyName, String amountOfMoney) {
@@ -25,29 +27,40 @@ public class BankAccountService {
         log.debug("Method addBankAccount finished");
     }
 
-    public void updateBankAccountWithMoney(Action action) {
+    void updateBankAccountWithMoney(Action action) throws SQLException {
         log.debug("Updating of bankAccount started");
-        Operation operation = action.getOperation();
-        operation.setStatus(Command.OperationStatus.IN_PROCESS.getOperationStatusName());
-        operationService.updateOperation(operation);
-        BankAccount bankAccount = bankAccountDAO.findById(action.getBankAccount().getId());
-        Double amountOfMoney = bankAccount.getAmountOfMoney();
-        switch (action.getActionType()) {
-            case "withdraw":
-                Double amountOfMoneyToWithdraw = action.getAmountOfMoney();
-                if (amountOfMoneyToWithdraw < amountOfMoney) {
-                    bankAccount.setAmountOfMoney(amountOfMoney - amountOfMoneyToWithdraw);
-                    bankAccountDAO.update(bankAccount);
-                }
-                break;
-            case "addition":
-                Double amountOfMoneyToAdd = action.getAmountOfMoney();
-                bankAccount.setAmountOfMoney(amountOfMoney + amountOfMoneyToAdd);
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported action type");
+        try {
+            Operation operation = action.getOperation();
+
+            switch (action.getActionType()) {
+                case "withdraw":
+                    withdrawMoneyFromBankAccount(action);
+                    break;
+                case "addition":
+                    addMoneyToBankAccount(action);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unsupported action type");
+            }
+        } finally {
+            log.debug("Method of bankAccount updating finished");
         }
-        log.debug("Updating of bankAccount finished");
+    }
+
+    private void addMoneyToBankAccount(Action action) throws SQLException {
+        BankAccount bankAccount = bankAccountDAO.findById(action.getBankAccount().getId());
+        Double amountOfMoneyToAdd = action.getAmountOfMoney();
+        bankAccount.setAmountOfMoney(bankAccount.getAmountOfMoney() + amountOfMoneyToAdd);
+        bankAccountDAO.updateBankAccount(bankAccount);
+    }
+
+    private void withdrawMoneyFromBankAccount(Action action) throws SQLException {
+        BankAccount bankAccount = bankAccountDAO.findById(action.getBankAccount().getId());
+        Double amountOfMoneyToWithdraw = action.getAmountOfMoney();
+        if (amountOfMoneyToWithdraw < bankAccount.getAmountOfMoney()) {
+            bankAccount.setAmountOfMoney(bankAccount.getAmountOfMoney() - amountOfMoneyToWithdraw);
+            bankAccountDAO.updateBankAccount(bankAccount);
+        }
     }
 
     private BankAccount createBankAccountAndSetValuesOfAttributes(
