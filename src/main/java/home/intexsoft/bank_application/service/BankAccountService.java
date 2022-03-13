@@ -1,9 +1,11 @@
 package home.intexsoft.bank_application.service;
 
-import home.intexsoft.bank_application.command.Command;
 import home.intexsoft.bank_application.dao.BankAccountDAO;
-import home.intexsoft.bank_application.dao.OperationDAO;
-import home.intexsoft.bank_application.models.*;
+import home.intexsoft.bank_application.models.Action;
+import home.intexsoft.bank_application.models.BankAccount;
+import home.intexsoft.bank_application.models.Client;
+import home.intexsoft.bank_application.models.Currency;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +18,6 @@ public class BankAccountService {
     private BankAccountDAO bankAccountDAO = new BankAccountDAO();
     private ClientService clientService = new ClientService();
     private CurrencyService currencyService = new CurrencyService();
-    private OperationDAO operationDAO = new OperationDAO();
 
     public void addBankAccount(String bankName, String clientName, String clientSurname,
                                String clientStatus, String currencyName, String amountOfMoney) {
@@ -27,17 +28,15 @@ public class BankAccountService {
         log.debug("Method addBankAccount finished");
     }
 
-    void updateBankAccountWithMoney(Action action) throws SQLException {
+    void updateBankAccountWithMoney(Action action, Session session) throws SQLException {
         log.debug("Updating of bankAccount started");
         try {
-            Operation operation = action.getOperation();
-
             switch (action.getActionType()) {
                 case "withdraw":
-                    withdrawMoneyFromBankAccount(action);
+                    withdrawMoneyFromBankAccount(action, session);
                     break;
                 case "addition":
-                    addMoneyToBankAccount(action);
+                    addMoneyToBankAccount(action, session);
                     break;
                 default:
                     throw new IllegalArgumentException("Unsupported action type");
@@ -47,19 +46,19 @@ public class BankAccountService {
         }
     }
 
-    private void addMoneyToBankAccount(Action action) throws SQLException {
+    private void addMoneyToBankAccount(Action action, Session session) throws SQLException {
         BankAccount bankAccount = bankAccountDAO.findById(action.getBankAccount().getId());
         Double amountOfMoneyToAdd = action.getAmountOfMoney();
         bankAccount.setAmountOfMoney(bankAccount.getAmountOfMoney() + amountOfMoneyToAdd);
-        bankAccountDAO.updateBankAccount(bankAccount);
+        bankAccountDAO.updateBankAccount(bankAccount, session);
     }
 
-    private void withdrawMoneyFromBankAccount(Action action) throws SQLException {
+    private void withdrawMoneyFromBankAccount(Action action, Session session) throws SQLException {
         BankAccount bankAccount = bankAccountDAO.findById(action.getBankAccount().getId());
         Double amountOfMoneyToWithdraw = action.getAmountOfMoney();
         if (amountOfMoneyToWithdraw < bankAccount.getAmountOfMoney()) {
             bankAccount.setAmountOfMoney(bankAccount.getAmountOfMoney() - amountOfMoneyToWithdraw);
-            bankAccountDAO.updateBankAccount(bankAccount);
+            bankAccountDAO.updateBankAccount(bankAccount, session);
         }
     }
 

@@ -13,18 +13,12 @@ public class OperationDAO extends DAO<Operation> {
 
     private static final Logger log = LoggerFactory.getLogger(OperationDAO.class);
 
-    @Override // ready
-    public void create(@NotNull final Operation operation) throws SQLException {
+
+    public void create(@NotNull final Operation operation, Session session) throws SQLException {
         log.debug("DAO method of creation new operation started");
-        final Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            session.beginTransaction();
             session.save(operation);
-            session.getTransaction().commit();
-            session.close();
         } catch (Exception e) {
-            log.error("Error during saving operation");
-            session.getTransaction().rollback();
             throw new SQLException("Error during saving operation");
         }
         log.debug("DAO method of creation new operation finished");
@@ -40,15 +34,10 @@ public class OperationDAO extends DAO<Operation> {
         return null;
     }
 
-    @Override
-    public void update(Operation operation) {
+    public void update(Operation operation, Session session) {
         log.debug("DAO method of updating operation started");
-        final Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            session.beginTransaction();
             session.update(operation);
-            session.getTransaction().commit();
-            session.close();
         } catch (Exception e) {
             log.error("Error during saving transaction");
             session.getTransaction().rollback();

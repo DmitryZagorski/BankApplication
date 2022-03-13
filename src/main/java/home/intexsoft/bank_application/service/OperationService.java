@@ -2,8 +2,10 @@ package home.intexsoft.bank_application.service;
 
 import home.intexsoft.bank_application.command.AddMoneyTransferCommand;
 import home.intexsoft.bank_application.command.Command;
+import home.intexsoft.bank_application.dao.HibernateUtil;
 import home.intexsoft.bank_application.dao.OperationDAO;
 import home.intexsoft.bank_application.models.Operation;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,29 +18,32 @@ public class OperationService {
     private OperationDAO operationDAO = new OperationDAO();
     private BankAccountService bankAccountService = new BankAccountService();
 
-    public void createDefaultOperation(Operation operation) throws SQLException {
-        log.debug("Method addOperation started");
-        operationDAO.create(operation);
+    public void createOperation(Operation operation) {
+        log.debug("Method createOperation started");
+        final Session session = HibernateUtil.getSessionFactory().openSession();
         try {
+            session.beginTransaction();
+            operationDAO.create(operation, session);
             operation.setStatus(Command.OperationStatus.IN_PROCESS.getOperationStatusName());
-            operationDAO.update(operation);
+            operationDAO.update(operation, session);
             operation.getActions().forEach(action -> {
                 try {
-                    bankAccountService.updateBankAccountWithMoney(action);
+                    bankAccountService.updateBankAccountWithMoney(action, session);
                 } catch (SQLException e) {
                     log.error("Error during updating bank account");
                 }
             });
-        } catch (Exception e) {
-            throw new SQLException("Error during creating operation, updating bank account for operation actions");
+            operation.setStatus(Command.OperationStatus.SUCCESS.getOperationStatusName());
+            operationDAO.update(operation, session);
+            session.getTransaction().commit();
+            session.close();
+        } catch (SQLException e) {
+            session.getTransaction().rollback();
+            operation.setStatus(Command.OperationStatus.FAILED.getOperationStatusName());
+            operationDAO.update(operation, session);
+            session.close();
         }
-        log.debug("Method addOperation finished");
-    }
-
-    public void updateOperation(Operation operation) {
-        log.debug("Method updateOperation started");
-        operationDAO.update(operation);
-        log.debug("Method updateOperation finished");
+        log.debug("Method createOperation finished");
     }
 
     public boolean checkIfOperationTypeExist(String operationTypeName) {
@@ -55,6 +60,4 @@ public class OperationService {
         });
         return isExist[0];
     }
-
-
 }

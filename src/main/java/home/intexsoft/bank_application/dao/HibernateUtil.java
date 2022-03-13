@@ -9,9 +9,9 @@ import org.hibernate.service.ServiceRegistry;
 
 import java.util.Properties;
 
-class HibernateUtil {
+public class HibernateUtil {
     private static SessionFactory sessionFactory;
-    static SessionFactory getSessionFactory() {
+    public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();

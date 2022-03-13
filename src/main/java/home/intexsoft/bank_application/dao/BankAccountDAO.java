@@ -28,26 +28,13 @@ public class BankAccountDAO extends DAO<BankAccount> {
         log.debug("DAO method of creation new bankAccount finished");
     }
 
-
-    public void updateBankAccount(BankAccount bankAccount) throws SQLException {
+    public void updateBankAccount(BankAccount bankAccount, Session session) throws SQLException {
         log.debug("DAO method of bank account updating started");
-        final Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            session.beginTransaction();
             session.update(bankAccount);
-            session.getTransaction().commit();
-            session.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new SQLException("Error during updating bank account");
         }
-//        catch (Exception e) {
-//            try {
-//                log.error("Error during updating bank account");
-//                session.getTransaction().rollback();
-//            } catch (Exception ex) {
-//                log.error("Error during rollback");
-//            }
-//        }
         log.debug("DAO method of bank account updating finished");
     }
 
