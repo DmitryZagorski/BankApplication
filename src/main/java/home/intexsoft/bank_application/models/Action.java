@@ -20,7 +20,7 @@ public class Action {
     private Double amountOfMoney;
     @Column(name = "action_type")
     private String actionType;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name = "operation_id", referencedColumnName = "id")
     private Operation operation;
     @CreationTimestamp

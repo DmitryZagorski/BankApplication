@@ -1,15 +1,13 @@
 package home.intexsoft.bank_application.service;
 
 import home.intexsoft.bank_application.dao.BankDAO;
-import home.intexsoft.bank_application.dao.CurrencyDAO;
 import home.intexsoft.bank_application.models.Bank;
-import home.intexsoft.bank_application.models.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public class BankService extends ModelService {
+public class BankService {
 
     private static final Logger log = LoggerFactory.getLogger(BankService.class);
     private BankDAO bankDAO = new BankDAO();

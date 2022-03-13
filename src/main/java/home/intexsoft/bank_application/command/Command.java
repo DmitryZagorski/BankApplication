@@ -26,7 +26,7 @@ public abstract class Command {
 
         BANKS("banks"),
         CLIENTS("clients"),
-        TRANSACTIONS("transactions"),
+        OPERATIONS("operations"),
         ADD_BANK("add bank"),                                 // READY
         DELETE_BANK("delete bank"),                           // READY
         DELETE_ALL_BANKS("delete all banks"),                 // NOT CHECKED (NOT USE)
@@ -37,11 +37,9 @@ public abstract class Command {
         DELETE_ALL_CLIENTS_OF_BANK("delete all clients of bank"),      // READY
         FIND_BANK_ACCOUNTS_OF_CLIENT("find bank accounts of client"),  // READY
         ADD_BANK_ACCOUNT("add bank account"),                  // READY
-        ADD_ACTION("add action"),
         FIND_OPERATIONS_OF_CLIENT_BY_DATE("find operations of client by date"),
         ADD_CURRENCY("add currency"),                         // READY
-        ADD_MONEY_TRANSFER("add money transfer"),
-        ADD_OPERATION("add operation");
+        ADD_MONEY_TRANSFER("add money transfer");
 
         private String commandName;
 

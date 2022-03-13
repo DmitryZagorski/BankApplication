@@ -2,12 +2,10 @@ package home.intexsoft.bank_application.service;
 
 import home.intexsoft.bank_application.dao.CurrencyDAO;
 import home.intexsoft.bank_application.models.Currency;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CurrencyService extends ModelService {
+public class CurrencyService {
 
     private static final Logger log = LoggerFactory.getLogger(CurrencyService.class);
     private CurrencyDAO currencyDAO = new CurrencyDAO();

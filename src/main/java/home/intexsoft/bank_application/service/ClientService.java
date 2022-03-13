@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public class ClientService extends ModelService {
+public class ClientService {
 
     private static final Logger log = LoggerFactory.getLogger(ClientService.class);
     private ClientDAO clientDAO = new ClientDAO();

@@ -3,7 +3,6 @@ package home.intexsoft.bank_application.validation;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
 import home.intexsoft.bank_application.command.CommandAttribute;
-import home.intexsoft.bank_application.models.BankAccount;
 import home.intexsoft.bank_application.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +24,6 @@ public abstract class Validator {
     protected BankService bankService = new BankService();
     protected CurrencyService currencyService = new CurrencyService();
     protected BankAccountService bankAccountService = new BankAccountService();
-    protected ActionService actionService = new ActionService();
-    protected OperationService operationService = new OperationService();
     protected Map<CommandAttribute, List<String>> validationErrors = new HashMap<>();
     protected Map<CommandAttribute, List<AttributeDescriptor>> attributeRules = new HashMap<>();
 
@@ -34,13 +31,13 @@ public abstract class Validator {
         return validationErrors;
     }
 
-    public void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair){
+    public void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair) {
         log.debug("Validation of commandAttribute '" + commandAttributePair.getKey().getAttributeName() + "' started");
         this.attributeRules.get(commandAttributePair.getKey())
                 .forEach(attributeDescriptor -> this.validateAttributeAccordingAttributeDescriptor
                         (attributeDescriptor, commandAttributePair));
         log.debug("Validation of commandAttribute '" + commandAttributePair.getKey().getAttributeName() + "' finished");
-    };
+    }
 
     protected void validateAttributeAccordingAttributeDescriptor(
             AttributeDescriptor attributeDescriptor, Map.Entry<CommandAttribute, String> commandAttributePair) {

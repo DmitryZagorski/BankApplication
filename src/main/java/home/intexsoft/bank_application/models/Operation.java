@@ -2,7 +2,6 @@ package home.intexsoft.bank_application.models;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,7 +16,9 @@ public class Operation {
     private Integer id;
     @Column(name = "status")
     private String status;
-    @OneToMany(mappedBy = "operation", fetch = FetchType.EAGER)
+    @Column(name = "name")
+    private String name;
+    @OneToMany(mappedBy = "operation", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private List<Action> actions = new ArrayList<>();
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -30,12 +31,6 @@ public class Operation {
 
     public Operation() {
     }
-
-//    public void process(){
-//        this.getActions().forEach(Action::apply);
-//
-//
-//    }
 
     public Integer getId() {
         return id;
@@ -61,6 +56,14 @@ public class Operation {
         this.actions = actions;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Calendar getCreateTime() {
         return createTime;
     }
@@ -79,9 +82,10 @@ public class Operation {
 
     @Override
     public String toString() {
-        return "Transaction{" +
+        return "Operation{" +
                 "id=" + id +
-                ", actions=" + actions +
+                ", status='" + status + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

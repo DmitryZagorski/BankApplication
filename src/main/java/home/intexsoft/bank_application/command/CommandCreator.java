@@ -27,7 +27,8 @@ public class CommandCreator {
         log.debug("Adding arguments to command " + command.getName());
         Validator commandValidator = commandValidatorFactory.createCommandValidator(command.getName());
         command.getAttributes().entrySet().forEach(commandAttributePair -> {
-            List<String> errors = commandValidator.getValidationErrors().get(commandAttributePair.getKey());
+            List<String> errors = commandValidator.getValidationErrors()
+                    .get(commandAttributePair.getKey());
             do {
                 errors.clear();
                 String attributeValue =

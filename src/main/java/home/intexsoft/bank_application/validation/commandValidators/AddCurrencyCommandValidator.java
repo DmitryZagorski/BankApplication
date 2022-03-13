@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class AddCurrencyValidator extends Validator {
+public class AddCurrencyCommandValidator extends Validator {
 
     private static final Logger log = LoggerFactory.getLogger(AddClientCommandValidator.class);
 
@@ -31,7 +31,6 @@ public class AddCurrencyValidator extends Validator {
                         AttributeType.DOUBLE.getAttributedName()),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MAX_VALUE, "40"),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MIN_VALUE, "1")));
-
     }
 
     @Override

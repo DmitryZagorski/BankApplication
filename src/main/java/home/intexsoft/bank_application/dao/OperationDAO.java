@@ -1,5 +1,6 @@
 package home.intexsoft.bank_application.dao;
 
+import com.sun.istack.NotNull;
 import home.intexsoft.bank_application.models.Operation;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -11,15 +12,23 @@ public class OperationDAO extends DAO<Operation> {
 
     private static final Logger log = LoggerFactory.getLogger(OperationDAO.class);
 
-    public Operation createOperation(Operation operation) {
+    @Override // ready
+    public void create(@NotNull final Operation operation) {
         log.debug("DAO method of creation new operation started");
-        try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
+        final Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
             session.beginTransaction();
             session.save(operation);
             session.getTransaction().commit();
+        } catch (Exception e) {
+            try {
+                log.error("Error during saving transaction");
+                session.getTransaction().rollback();
+            } catch (Exception ex) {
+                log.error("Error during rollback");
+            }
         }
         log.debug("DAO method of creation new operation finished");
-        return operation;
     }
 
     @Override
@@ -35,10 +44,18 @@ public class OperationDAO extends DAO<Operation> {
     @Override
     public void update(Operation operation) {
         log.debug("DAO method of updating operation started");
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        final Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
             session.beginTransaction();
             session.update(operation);
             session.getTransaction().commit();
+        } catch (Exception e) {
+            try {
+                log.error("Error during saving transaction");
+                session.getTransaction().rollback();
+            } catch (Exception ex) {
+                log.error("Error during rollback");
+            }
         }
         log.debug("DAO method of updating operation finished");
     }

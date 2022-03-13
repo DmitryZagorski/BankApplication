@@ -10,14 +10,21 @@ public class ActionDAO extends DAO<Action> {
 
     private static final Logger log = LoggerFactory.getLogger(ActionDAO.class);
 
-    public Action createAction(@NotNull final Action action) {
+    public void createAction(@NotNull final Action action) {
         log.debug("DAO method of creation new action started");
-        try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
+        final Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
             session.beginTransaction();
             session.save(action);
             session.getTransaction().commit();
+        } catch (Exception e) {
+            try {
+                log.error("Error during saving action");
+                session.getTransaction().rollback();
+            } catch (Exception ex) {
+                log.error("Error during rollback");
+            }
         }
         log.debug("DAO method of creation new action finished");
-        return action;
     }
 }

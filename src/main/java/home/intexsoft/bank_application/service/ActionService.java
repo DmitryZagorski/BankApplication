@@ -8,7 +8,7 @@ import home.intexsoft.bank_application.models.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ActionService extends ModelService {
+public class ActionService {
 
     private static final Logger log = LoggerFactory.getLogger(ActionService.class);
     private ActionDAO actionDAO = new ActionDAO();
@@ -22,6 +22,7 @@ public class ActionService extends ModelService {
         action.setBankAccount(bankAccountById);
         action.setAmountOfMoney(Double.valueOf(amountOfMoney));
         action.setActionType(actionType);
+        action.setOperation(operation);
         actionDAO.createAction(action);
         log.debug("Method addAction finished");
         return action;

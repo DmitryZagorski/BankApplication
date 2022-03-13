@@ -28,6 +28,25 @@ public class BankAccountDAO extends DAO<BankAccount> {
     }
 
     @Override
+    public void update(BankAccount bankAccount) {
+        log.debug("DAO method of bank account updating started");
+        final Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            session.beginTransaction();
+            session.update(bankAccount);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            try {
+                log.error("Error during updating bank account");
+                session.getTransaction().rollback();
+            } catch (Exception ex) {
+                log.error("Error during rollback");
+            }
+        }
+        log.debug("DAO method of bank account updating finished");
+    }
+
+    @Override
     public BankAccount findById(@NotNull final Integer id) {
         log.debug("DAO method of finding bankAccount by ID started");
         try (final Session session = HibernateUtil.getSessionFactory().openSession()) {

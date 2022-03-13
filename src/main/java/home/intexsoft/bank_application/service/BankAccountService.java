@@ -1,21 +1,20 @@
 package home.intexsoft.bank_application.service;
 
+import home.intexsoft.bank_application.command.Command;
 import home.intexsoft.bank_application.dao.BankAccountDAO;
-import home.intexsoft.bank_application.models.BankAccount;
-import home.intexsoft.bank_application.models.Client;
-import home.intexsoft.bank_application.models.Currency;
+import home.intexsoft.bank_application.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public class BankAccountService extends ModelService {
+public class BankAccountService {
 
     private static final Logger log = LoggerFactory.getLogger(BankAccountService.class);
     private BankAccountDAO bankAccountDAO = new BankAccountDAO();
     private ClientService clientService = new ClientService();
     private CurrencyService currencyService = new CurrencyService();
-    private BankService bankService = new BankService();
+    private OperationService operationService = new OperationService();
 
     public void addBankAccount(String bankName, String clientName, String clientSurname,
                                String clientStatus, String currencyName, String amountOfMoney) {
@@ -26,13 +25,38 @@ public class BankAccountService extends ModelService {
         log.debug("Method addBankAccount finished");
     }
 
+    public void updateBankAccountWithMoney(Action action) {
+        log.debug("Updating of bankAccount started");
+        Operation operation = action.getOperation();
+        operation.setStatus(Command.OperationStatus.IN_PROCESS.getOperationStatusName());
+        operationService.updateOperation(operation);
+        BankAccount bankAccount = bankAccountDAO.findById(action.getBankAccount().getId());
+        Double amountOfMoney = bankAccount.getAmountOfMoney();
+        switch (action.getActionType()) {
+            case "withdraw":
+                Double amountOfMoneyToWithdraw = action.getAmountOfMoney();
+                if (amountOfMoneyToWithdraw < amountOfMoney) {
+                    bankAccount.setAmountOfMoney(amountOfMoney - amountOfMoneyToWithdraw);
+                    bankAccountDAO.update(bankAccount);
+                }
+                break;
+            case "addition":
+                Double amountOfMoneyToAdd = action.getAmountOfMoney();
+                bankAccount.setAmountOfMoney(amountOfMoney + amountOfMoneyToAdd);
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported action type");
+        }
+        log.debug("Updating of bankAccount finished");
+    }
+
     private BankAccount createBankAccountAndSetValuesOfAttributes(
             String bankName, String clientName, String clientSurname,
             String clientStatus, String currencyName, String amountOfMoney) {
         log.debug("Creating bankAccount with setting its arguments started");
         final BankAccount bankAccount = new BankAccount();
         Client clientByName = clientService.findByName(clientName);
-        if (clientByName!=null){
+        if (clientByName != null) {
             bankAccount.setClient(clientByName);
         } else {
             clientService.addClient(clientName, clientSurname, clientStatus, bankName);
@@ -55,7 +79,7 @@ public class BankAccountService extends ModelService {
         log.debug("Method findBankAccountsOfClient finished");
     }
 
-    public boolean checkIfBankAccountExist(String bankAccount){
+    public boolean checkIfBankAccountExist(String bankAccount) {
         int account = Integer.parseInt(bankAccount);
         return bankAccountDAO.findById(account) != null;
     }

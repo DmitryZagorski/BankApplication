@@ -20,12 +20,18 @@ public class BankDAO extends DAO<Bank> {
     @Override // ready
     public void create(@NotNull final Bank bank) {
         log.debug("DAO method of creation new bank started");
-        try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
+        final Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
             session.beginTransaction();
             session.save(bank);
             session.getTransaction().commit();
         } catch (Exception e) {
-            
+            try {
+                log.error("Error during saving transaction");
+                session.getTransaction().rollback();
+            } catch (Exception ex) {
+                log.error("Error during rollback");
+            }
         }
         log.debug("DAO method of creation new bank finished");
     }
