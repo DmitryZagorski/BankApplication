@@ -1,12 +1,19 @@
 package home.intexsoft.bank_application.dao;
 
 import com.sun.istack.NotNull;
+import home.intexsoft.bank_application.models.Action;
+import home.intexsoft.bank_application.models.BankAccount;
 import home.intexsoft.bank_application.models.Operation;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OperationDAO extends DAO<Operation> {
@@ -43,6 +50,23 @@ public class OperationDAO extends DAO<Operation> {
             session.getTransaction().rollback();
         }
         log.debug("DAO method of updating operation finished");
+    }
+
+    public List<Operation> findOperationsOfClient(Action action){
+        log.debug("DAO method of finding operations of client started");
+        List<Operation> operations;
+        try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Operation> query = criteriaBuilder.createQuery(Operation.class);
+            Root<Operation> root = query.from(Operation.class);
+            query.where(criteriaBuilder.equal(root.get("action"), action));
+            Query<Operation> newQuery = session.createQuery(query);
+            operations = newQuery.getResultList();
+            session.getTransaction().commit();
+        }
+        log.debug("DAO method of finding operations of client finished");
+        return operations;
     }
 
     @Override

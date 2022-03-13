@@ -95,7 +95,7 @@ public class BankAppRunner {
 
         MenuItem findTransactionsOfClientItem = new MenuItem();
         findTransactionsOfClientItem.setCommand(Boolean.TRUE);
-        findTransactionsOfClientItem.setName(Command.CommandType.FIND_OPERATIONS_OF_CLIENT_BY_DATE);
+        findTransactionsOfClientItem.setName(Command.CommandType.FIND_OPERATIONS_OF_CLIENT);
         findTransactionsOfClientItem.setParent(banksItem);
 
         MenuItem addBankAccountItem = new MenuItem();

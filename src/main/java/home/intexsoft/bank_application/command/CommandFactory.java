@@ -26,8 +26,7 @@ class CommandFactory {
         commands.put(Command.CommandType.ADD_CURRENCY, AddCurrencyCommand.class);
         commands.put(Command.CommandType.ADD_MONEY_TRANSFER, AddMoneyTransferCommand.class);
         commands.put(Command.CommandType.ADD_SALARY_PAYMENT, AddSalaryPaymentCommand.class);
-
-        commands.put(Command.CommandType.FIND_OPERATIONS_OF_CLIENT_BY_DATE, FindTransactionsOfClientCommand.class);
+        commands.put(Command.CommandType.FIND_OPERATIONS_OF_CLIENT, FindOperationsOfClientCommand.class);
 
     }
 

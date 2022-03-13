@@ -82,13 +82,14 @@ public class BankAccountService {
         return bankAccount;
     }
 
-    public void findBankAccountsOfClient(String clientName) {
+    public List<BankAccount> findBankAccountsOfClient(String clientName) {
         log.debug("Method findBankAccountsOfClient started");
         Client clientByName = clientService.findByName(clientName);
         Integer clientId = clientByName.getId();
         List<BankAccount> bankAccountList = bankAccountDAO.findBankAccountsOfClient(clientId);
         bankAccountList.forEach(System.out::println);
         log.debug("Method findBankAccountsOfClient finished");
+        return bankAccountList;
     }
 
     public boolean checkIfBankAccountExist(String bankAccount) {

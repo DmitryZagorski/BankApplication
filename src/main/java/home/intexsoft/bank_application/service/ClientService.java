@@ -46,7 +46,6 @@ public class ClientService {
     }
 
 
-
     public void deleteClientByName(String clientName) {
         log.debug("Method deleteClientByName started");
         clientDAO.deleteByName(clientName);
@@ -62,7 +61,7 @@ public class ClientService {
         log.debug("Method findClientsOfBank finished");
     }
 
-    public void findTransactionsOfClient(String clientName) {
+    public void findOperationsOfClient(String clientName) {
 
     }
 
@@ -70,7 +69,7 @@ public class ClientService {
 
     }
 
-    public Client findByName(String clientName){
+    public Client findByName(String clientName) {
         return clientDAO.findByName(clientName);
     }
 
@@ -82,7 +81,6 @@ public class ClientService {
         return clientStatus.equals(Command.ClientStatusType.ENTITY.getClientStatusName()) ||
                 clientStatus.equals(Command.ClientStatusType.INDIVIDUAL.getClientStatusName());
     }
-
 
 
 }
