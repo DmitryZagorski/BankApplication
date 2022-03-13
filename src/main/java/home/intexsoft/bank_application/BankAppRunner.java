@@ -83,6 +83,11 @@ public class BankAppRunner {
         addMoneyTransferItem.setName(Command.CommandType.ADD_MONEY_TRANSFER);
         addMoneyTransferItem.setParent(operationsItem);
 
+        MenuItem addSalaryPaymentItem = new MenuItem();
+        addSalaryPaymentItem.setCommand(Boolean.TRUE);
+        addSalaryPaymentItem.setName(Command.CommandType.ADD_SALARY_PAYMENT);
+        addSalaryPaymentItem.setParent(operationsItem);
+
         MenuItem addCurrencyItem = new MenuItem();
         addCurrencyItem.setCommand(Boolean.TRUE);
         addCurrencyItem.setName(Command.CommandType.ADD_CURRENCY);
@@ -117,6 +122,7 @@ public class BankAppRunner {
 
         operationsItem.getChildren().put("1", addMoneyTransferItem);
         operationsItem.getChildren().put("2", findTransactionsOfClientItem);
+        operationsItem.getChildren().put("3", addSalaryPaymentItem);
 
         menu.setActiveItem(mainMenuItem);
     }

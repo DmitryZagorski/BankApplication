@@ -39,8 +39,8 @@ public abstract class Command {
         ADD_BANK_ACCOUNT("add bank account"),                  // READY
         FIND_OPERATIONS_OF_CLIENT_BY_DATE("find operations of client by date"),
         ADD_CURRENCY("add currency"),                         // READY
-        ADD_MONEY_TRANSFER("add money transfer");            // READY
-
+        ADD_MONEY_TRANSFER("add money transfer"),           // READY
+        ADD_SALARY_PAYMENT("add salary payment");
 
         private String commandName;
 
@@ -93,5 +93,22 @@ public abstract class Command {
         public void setOperationStatusName(String operationStatusName) {
             this.operationStatusName = operationStatusName;
         }
+    }
+
+    public enum ActionType {
+
+        WITHDRAW("withdraw"),
+        ADDITION("addition");
+
+        private String operationTypeName;
+
+        ActionType(String operationTypeName) {
+            this.operationTypeName = operationTypeName;
+        }
+
+        public String getOperationTypeName() {
+            return operationTypeName;
+        }
+
     }
 }

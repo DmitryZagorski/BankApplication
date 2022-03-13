@@ -29,23 +29,6 @@ public class AddMoneyTransferCommand extends Command {
         }
     }
 
-    public enum ActionType {
-
-        WITHDRAW("withdraw"),
-        ADDITION("addition");
-
-        private String operationTypeName;
-
-        ActionType(String operationTypeName) {
-            this.operationTypeName = operationTypeName;
-        }
-
-        public String getOperationTypeName() {
-            return operationTypeName;
-        }
-
-    }
-
     {
         setName(Command.CommandType.ADD_MONEY_TRANSFER);
         getAttributes().put(AddMoneyTransferCommand.Attribute.SENDER_BANK_ACCOUNT_ID, null);
