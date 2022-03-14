@@ -15,7 +15,7 @@ public class CommandInputValidator {
         log.debug("Checking if entered value exist");
         boolean isExist = false;
         MenuItem menuItem = menuItems.get(string);
-        if (menuItem != null) {
+        if (menuItem != null || "quit".equals(string) || "back".equals(string)) {
             isExist = true;
         } else {
             System.out.println(String.format(INPUT_NUMBER_ERROR, string));

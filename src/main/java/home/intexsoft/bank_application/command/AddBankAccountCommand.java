@@ -17,7 +17,6 @@ public class AddBankAccountCommand extends Command {
         CURRENCY_NAME("currency name"),
         AMOUNT_OF_MONEY("amount of money");
 
-
         private String attributeName;
 
         Attribute(String attributeName) {

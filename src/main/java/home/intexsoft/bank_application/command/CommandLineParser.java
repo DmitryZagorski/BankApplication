@@ -27,12 +27,12 @@ public class CommandLineParser {
 
     String enterStringByAttribute(String commandAttribute) {
         log.debug("Entering data starts");
-        String string;
+        String input;
         do {
             System.out.println("Enter " + commandAttribute);
-            string = scanner.nextLine();
-        } while (string == null || string.trim().isEmpty());
+            input = scanner.nextLine();
+        } while (input == null || input.trim().isEmpty());
         log.debug("Entering data finished");
-        return string;
+        return input;
     }
 }
