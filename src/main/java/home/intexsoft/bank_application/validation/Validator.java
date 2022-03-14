@@ -2,8 +2,12 @@ package home.intexsoft.bank_application.validation;
 
 import home.intexsoft.bank_application.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
+import home.intexsoft.bank_application.command.AddBankAccountCommand;
 import home.intexsoft.bank_application.command.CommandAttribute;
-import home.intexsoft.bank_application.service.*;
+import home.intexsoft.bank_application.service.BankAccountService;
+import home.intexsoft.bank_application.service.BankService;
+import home.intexsoft.bank_application.service.ClientService;
+import home.intexsoft.bank_application.service.CurrencyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,10 +66,10 @@ public abstract class Validator {
     }
 
     private void validateType(String value, CommandAttribute commandAttribute, String checkingString) {
-        if (value.equals(AttributeType.DOUBLE.getAttributedName())) {
+        if (AttributeType.DOUBLE.getAttributedName().equals(value)) {
             checkDoubleValue(checkingString, commandAttribute);
         }
-        if (value.equals(AttributeType.INTEGER.getAttributedName())) {
+        if (AttributeType.INTEGER.getAttributedName().equals(value)) {
             checkIntegerValue(checkingString, commandAttribute);
         }
     }
@@ -106,32 +110,31 @@ public abstract class Validator {
     }
 
     protected void addErrorToErrorList(CommandAttribute commandAttribute, String checkingString, String problem) {
-        log.debug("Adding errors to error list started");
+        log.debug("Adding errors of '" + commandAttribute.getAttributeName() + "'to error list started");
         validationErrors.get(commandAttribute).add(String.format(VALIDATION_FAILURE_PATTERN,
                 commandAttribute.getAttributeName(),
-                checkingString) +
-                String.format(VALIDATION_PROBLEM_PATTERN, problem));
-        log.debug("Adding errors to error list finished");
+                checkingString) + String.format(VALIDATION_PROBLEM_PATTERN, problem));
+        log.debug("Adding errors of '" + commandAttribute.getAttributeName() + "'to error list finished");
     }
 
     private void checkDoubleValue(String checkingString, CommandAttribute commandAttribute) {
-        log.debug("Checking double value started");
+        log.debug("Checking double value of '" + checkingString + "'started");
         try {
             Double.parseDouble(checkingString);
         } catch (NumberFormatException e) {
             addErrorToErrorList(commandAttribute, checkingString, e.getClass().getName());
         }
-        log.debug("Checking double value finished");
+        log.debug("Checking double value of '" + checkingString + "'finished");
     }
 
     private void checkIntegerValue(String checkingString, CommandAttribute commandAttribute) {
-        log.debug("Checking integer value started");
+        log.debug("Checking integer value of '" + checkingString + "'started");
         try {
             Integer.parseInt(checkingString);
         } catch (NumberFormatException e) {
             addErrorToErrorList(commandAttribute, checkingString, e.getClass().getName());
         }
-        log.debug("Checking integer value finished");
+        log.debug("Checking integer value of '" + checkingString + "'finished");
     }
 
     public void showValidationErrors(List<String> errors) {

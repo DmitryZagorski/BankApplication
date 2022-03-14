@@ -3,6 +3,7 @@ package home.intexsoft.bank_application.validation.commandValidators;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
 import home.intexsoft.bank_application.command.AddBankCommand;
+import home.intexsoft.bank_application.command.Command;
 import home.intexsoft.bank_application.command.CommandAttribute;
 import home.intexsoft.bank_application.validation.Validator;
 import org.slf4j.Logger;
@@ -49,13 +50,13 @@ public class AddBankCommandValidator extends Validator {
     protected void validateAttributeAccordingAttributeDescriptor(
             AttributeDescriptor attributeDescriptor,
             Map.Entry<CommandAttribute, String> commandAttributePair) {
-        log.debug("Validating of command attribute started");
+        log.debug("Validating of '" + Command.CommandType.ADD_BANK.getCommandName() + "' attribute started");
         super.validateAttributeAccordingAttributeDescriptor(attributeDescriptor, commandAttributePair);
         if (AddBankCommand.Attribute.BANK_NAME.equals(commandAttributePair.getKey())) {
             if (bankService.checkIfBankNameExist(commandAttributePair.getValue()))
                 addErrorToErrorList(
                         commandAttributePair.getKey(), commandAttributePair.getValue(), "bank already exists");
         }
-        log.debug("Validating of command attribute finished");
+        log.debug("Validating of '" + Command.CommandType.ADD_BANK.getCommandName() + "' attribute finished");
     }
 }

@@ -27,20 +27,20 @@ public abstract class Command {
         BANKS("banks"),
         CLIENTS("clients"),
         OPERATIONS("operations"),
-        ADD_BANK("add bank"),                                 // READY
-        DELETE_BANK("delete bank"),                           // READY
-        DELETE_ALL_BANKS("delete all banks"),                 // NOT CHECKED (NOT USE)
-        FIND_CLIENTS_OF_BANK("find clients of bank"),         // READY
-        VIEW_ALL_BANKS("view all banks"),                     // READY
-        ADD_CLIENT("add client"),                             // READY
-        DELETE_CLIENT("delete client"),                       // READY
-        DELETE_ALL_CLIENTS_OF_BANK("delete all clients of bank"),      // READY
-        FIND_BANK_ACCOUNTS_OF_CLIENT("find bank accounts of client"),  // READY
-        ADD_BANK_ACCOUNT("add bank account"),                  // READY
+        ADD_BANK("add bank"),
+        DELETE_BANK("delete bank"),
+        DELETE_ALL_BANKS("delete all banks"),
+        FIND_CLIENTS_OF_BANK("find clients of bank"),
+        VIEW_ALL_BANKS("view all banks"),
+        ADD_CLIENT("add client"),
+        DELETE_CLIENT("delete client"),
+        DELETE_ALL_CLIENTS_OF_BANK("delete all clients of bank"),
+        FIND_BANK_ACCOUNTS_OF_CLIENT("find bank accounts of client"),
+        ADD_BANK_ACCOUNT("add bank account"),
         FIND_OPERATIONS_OF_CLIENT("find operations of client"),
-        ADD_CURRENCY("add currency"),                         // READY
-        ADD_MONEY_TRANSFER("add money transfer"),           // READY
-        ADD_SALARY_PAYMENT("add salary payment");         // READY
+        ADD_CURRENCY("add currency"),
+        ADD_MONEY_TRANSFER("add money transfer"),
+        ADD_SALARY_PAYMENT("add salary payment");
 
         private String commandName;
 

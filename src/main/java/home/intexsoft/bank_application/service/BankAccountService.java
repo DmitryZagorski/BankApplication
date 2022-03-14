@@ -28,6 +28,10 @@ public class BankAccountService {
         log.debug("Method addBankAccount finished");
     }
 
+    public void executeActionList(List<Action> actions){
+        actions.forEach(action -> updateBankAccountWithMoney());
+    }
+
     void updateBankAccountWithMoney(Action action, Session session) throws SQLException {
         log.debug("Updating of bankAccount started");
         try {
@@ -46,20 +50,21 @@ public class BankAccountService {
         }
     }
 
-    private void addMoneyToBankAccount(Action action, Session session) throws SQLException {
+    private void addMoneyToBankAccount(Action action, Session session) throws Exception {
         BankAccount bankAccount = bankAccountDAO.findById(action.getBankAccount().getId());
         Double amountOfMoneyToAdd = action.getAmountOfMoney();
         bankAccount.setAmountOfMoney(bankAccount.getAmountOfMoney() + amountOfMoneyToAdd);
         bankAccountDAO.updateBankAccount(bankAccount, session);
     }
 
-    private void withdrawMoneyFromBankAccount(Action action, Session session) throws SQLException {
+    private void withdrawMoneyFromBankAccount(Action action, Session session) throws Exception {
         BankAccount bankAccount = bankAccountDAO.findById(action.getBankAccount().getId());
         Double amountOfMoneyToWithdraw = action.getAmountOfMoney();
         if (amountOfMoneyToWithdraw < bankAccount.getAmountOfMoney()) {
             bankAccount.setAmountOfMoney(bankAccount.getAmountOfMoney() - amountOfMoneyToWithdraw);
             bankAccountDAO.updateBankAccount(bankAccount, session);
         }
+        else // !!!!!!!!!
     }
 
     private BankAccount createBankAccountAndSetValuesOfAttributes(
@@ -103,5 +108,4 @@ public class BankAccountService {
         log.debug("Method findBankAccountById finished");
         return bankAccount;
     }
-
 }

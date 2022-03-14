@@ -28,12 +28,13 @@ public class BankAccountDAO extends DAO<BankAccount> {
         log.debug("DAO method of creation new bankAccount finished");
     }
 
-    public void updateBankAccount(BankAccount bankAccount, Session session) throws SQLException {
+    public void updateBankAccount(BankAccount bankAccount, Session session) throws Exception {
         log.debug("DAO method of bank account updating started");
         try {
             session.update(bankAccount);
         } catch (Exception e) {
-            throw new SQLException("Error during updating bank account");
+            log.error("Error during updating bank account" + e);
+            throw e;
         }
         log.debug("DAO method of bank account updating finished");
     }

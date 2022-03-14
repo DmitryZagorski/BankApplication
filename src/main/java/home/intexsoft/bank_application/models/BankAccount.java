@@ -10,11 +10,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "bank_accounts")
-public class BankAccount {
+public class BankAccount extends Model {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "currency_id", referencedColumnName = "id")
     private Currency currency;
@@ -35,14 +32,6 @@ public class BankAccount {
     private Calendar updateTime;
 
     public BankAccount() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Currency getCurrency() {
@@ -67,30 +56,6 @@ public class BankAccount {
 
     public void setClient(Client client) {
         this.client = client;
-    }
-
-    public List<Action> getActions() {
-        return actions;
-    }
-
-    public void setActions(List<Action> actions) {
-        this.actions = actions;
-    }
-
-    public Calendar getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Calendar createTime) {
-        this.createTime = createTime;
-    }
-
-    public Calendar getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Calendar updateTime) {
-        this.updateTime = updateTime;
     }
 
     @Override

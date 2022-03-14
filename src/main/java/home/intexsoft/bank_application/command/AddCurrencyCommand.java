@@ -1,7 +1,5 @@
 package home.intexsoft.bank_application.command;
 
-import home.intexsoft.bank_application.service.BankService;
-import home.intexsoft.bank_application.service.ClientService;
 import home.intexsoft.bank_application.service.CurrencyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,10 +33,10 @@ public class AddCurrencyCommand extends Command {
 
     @Override
     public void execute() {
-        log.debug("Executing of adding currency started");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' started");
         CurrencyService currencyService = new CurrencyService();
         currencyService.addCurrency(this.getAttributes().get(AddCurrencyCommand.Attribute.CURRENCY_NAME),
                 this.getAttributes().get(AddCurrencyCommand.Attribute.RATE));
-        log.debug("Executing of adding currency finished");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
 }

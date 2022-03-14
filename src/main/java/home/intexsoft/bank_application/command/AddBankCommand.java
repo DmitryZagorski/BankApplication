@@ -35,11 +35,11 @@ public class AddBankCommand extends Command {
 
     @Override
     public void execute() {
-        log.debug("Executing of adding bank started");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' started");
         BankService bankService = new BankService();
         bankService.addBank(this.getAttributes().get(Attribute.BANK_NAME),
                 this.getAttributes().get(Attribute.COMMISSION_FOR_INDIVIDUAL),
                 this.getAttributes().get(Attribute.COMMISSION_FOR_ENTITY));
-        log.debug("Executing of adding bank finished");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
 }

@@ -2,6 +2,7 @@ package home.intexsoft.bank_application.validation.commandValidators;
 
 import home.intexsoft.bank_application.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
+import home.intexsoft.bank_application.command.Command;
 import home.intexsoft.bank_application.command.CommandAttribute;
 import home.intexsoft.bank_application.command.DeleteClientCommand;
 import home.intexsoft.bank_application.validation.Validator;
@@ -35,7 +36,7 @@ public class DeleteClientCommandValidator extends Validator {
     protected void validateAttributeAccordingAttributeDescriptor(
             AttributeDescriptor attributeDescriptor,
             Map.Entry<CommandAttribute, String> commandAttributePair) {
-        log.debug("Validating of command attribute started");
+        log.debug("Validating of '" + Command.CommandType.DELETE_CLIENT.getCommandName() + "' attribute started");
         super.validateAttributeAccordingAttributeDescriptor(attributeDescriptor, commandAttributePair);
         if (DeleteClientCommand.Attribute.CLIENT_NAME.equals(commandAttributePair.getKey())) {
             if (!clientService.checkIfClientNameExist(commandAttributePair.getValue())) {
@@ -43,6 +44,6 @@ public class DeleteClientCommandValidator extends Validator {
                         "client doesn't exists");
             }
         }
-        log.debug("Validating of command attribute finished");
+        log.debug("Validating of '" + Command.CommandType.DELETE_CLIENT.getCommandName() + "' attribute finished");
     }
 }

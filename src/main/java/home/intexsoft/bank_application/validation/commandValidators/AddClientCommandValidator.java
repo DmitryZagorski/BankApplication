@@ -3,6 +3,7 @@ package home.intexsoft.bank_application.validation.commandValidators;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
 import home.intexsoft.bank_application.command.AddClientCommand;
+import home.intexsoft.bank_application.command.Command;
 import home.intexsoft.bank_application.command.CommandAttribute;
 import home.intexsoft.bank_application.validation.Validator;
 import org.slf4j.Logger;
@@ -57,7 +58,7 @@ public class AddClientCommandValidator extends Validator {
     protected void validateAttributeAccordingAttributeDescriptor(
             AttributeDescriptor attributeDescriptor,
             Map.Entry<CommandAttribute, String> commandAttributePair) {
-        log.debug("Validating of command attribute started");
+        log.debug("Validating of '" + Command.CommandType.ADD_CLIENT.getCommandName() + "' attribute started");
         super.validateAttributeAccordingAttributeDescriptor(attributeDescriptor, commandAttributePair);
         if (AddClientCommand.Attribute.CLIENT_STATUS.equals(commandAttributePair.getKey())) {
             if (!clientService.checkIfClientStatusExist(commandAttributePair.getValue()))
@@ -70,6 +71,6 @@ public class AddClientCommandValidator extends Validator {
                         "bank doesn't exists");
             }
         }
-        log.debug("Validating of command attribute finished");
+        log.debug("Validating of '" + Command.CommandType.ADD_CLIENT.getCommandName() + "' attribute finished");
     }
 }

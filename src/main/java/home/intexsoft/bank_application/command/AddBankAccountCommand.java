@@ -41,7 +41,7 @@ public class AddBankAccountCommand extends Command {
 
     @Override
     public void execute() {
-        log.debug("Executing of adding bankAccount started");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' started");
         BankAccountService bankAccountService = new BankAccountService();
         bankAccountService.addBankAccount(this.getAttributes().get(AddBankAccountCommand.Attribute.BANK_NAME),
                 this.getAttributes().get(AddBankAccountCommand.Attribute.CLIENT_NAME),
@@ -49,6 +49,6 @@ public class AddBankAccountCommand extends Command {
                 this.getAttributes().get(AddBankAccountCommand.Attribute.CLIENT_STATUS),
                 this.getAttributes().get(AddBankAccountCommand.Attribute.CURRENCY_NAME),
                 this.getAttributes().get(AddBankAccountCommand.Attribute.AMOUNT_OF_MONEY));
-        log.debug("Executing of adding bankAccount finished");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
 }

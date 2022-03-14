@@ -12,7 +12,7 @@ public class CommandInputValidator {
     private static final String INPUT_NUMBER_ERROR = "Incorrect value '%s'. Try again.";
 
     public boolean checkIfCommandValueExist(String string, Map<String, MenuItem> menuItems) {
-        log.debug("Checking if entered value exist");
+        log.debug("Checking if entered value '" + string + "'exist");
         boolean isExist = false;
         MenuItem menuItem = menuItems.get(string);
         if (menuItem != null || "quit".equals(string) || "back".equals(string)) {
@@ -20,7 +20,7 @@ public class CommandInputValidator {
         } else {
             System.out.println(String.format(INPUT_NUMBER_ERROR, string));
         }
-        log.debug("Checking if entered value exist finished");
+        log.debug("Checking if entered value '" + string + "'exist finished");
         return isExist;
     }
 }

@@ -27,11 +27,10 @@ class CommandFactory {
         commands.put(Command.CommandType.ADD_MONEY_TRANSFER, AddMoneyTransferCommand.class);
         commands.put(Command.CommandType.ADD_SALARY_PAYMENT, AddSalaryPaymentCommand.class);
         commands.put(Command.CommandType.FIND_OPERATIONS_OF_CLIENT, FindOperationsOfClientCommand.class);
-
     }
 
     Command createCommandByCommandName(Command.CommandType commandName) {
-        log.debug("Creating command by commandName " + commandName + " started");
+        log.debug("Creating command by command name " + commandName + " started");
         Command command = null;
         try {
             Class<? extends Command> commandsClass = commands.get(commandName);
@@ -40,7 +39,7 @@ class CommandFactory {
         } catch (Exception e) {
             log.error("Error during creating command", e);
         }
-        log.debug("Creating command by commandName " + commandName + " finished");
+        log.debug("Creating command by command name " + commandName + " finished");
         return command;
     }
 }

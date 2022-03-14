@@ -37,13 +37,13 @@ public class AddClientCommand extends Command {
 
     @Override
     public void execute() {
-        log.debug("Executing of adding client started");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' started");
         ClientService clientService = new ClientService();
         clientService.addClient(this.getAttributes().get(AddClientCommand.Attribute.CLIENT_NAME),
                 this.getAttributes().get(AddClientCommand.Attribute.CLIENT_SURNAME),
                 this.getAttributes().get(AddClientCommand.Attribute.CLIENT_STATUS),
                 this.getAttributes().get(Attribute.BANK_NAME));
-        log.debug("Executing of adding client finished");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
 
 }

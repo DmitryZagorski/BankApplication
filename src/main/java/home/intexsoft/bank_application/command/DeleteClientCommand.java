@@ -30,10 +30,9 @@ public class DeleteClientCommand extends Command {
 
     @Override
     public void execute() {
-        log.debug("Executing of adding bank started");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' started");
         ClientService clientService = new ClientService();
         clientService.deleteClientByName(this.getAttributes().get(DeleteClientCommand.Attribute.CLIENT_NAME));
-        log.debug("Executing of adding bank finished");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
-
 }

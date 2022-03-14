@@ -30,9 +30,10 @@ public class FindBankAccountsOfClientCommand extends Command {
 
     @Override
     public void execute() {
-        log.debug("Executing of finding of bank account started");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' started");
         BankAccountService bankAccountService = new BankAccountService();
-        bankAccountService.findBankAccountsOfClient(this.getAttributes().get(FindBankAccountsOfClientCommand.Attribute.CLIENT_NAME));
-        log.debug("Executing of finding of bank account finished");
+        bankAccountService.findBankAccountsOfClient(this.getAttributes()
+                .get(FindBankAccountsOfClientCommand.Attribute.CLIENT_NAME));
+        log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
 }

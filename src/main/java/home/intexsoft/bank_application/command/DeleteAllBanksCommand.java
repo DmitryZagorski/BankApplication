@@ -14,10 +14,9 @@ public class DeleteAllBanksCommand extends Command {
 
     @Override
     public void execute() {
-        log.debug("Executing of deleting all banks started");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' started");
         BankService bankService = new BankService();
         bankService.deleteAllBanks();
-        log.debug("Executing of deleting all banks finished");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
-
 }

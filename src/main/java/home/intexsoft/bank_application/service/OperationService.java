@@ -35,7 +35,7 @@ public class OperationService {
             operationDAO.create(operation, session);
             operation.setStatus(Command.OperationStatus.IN_PROCESS.getOperationStatusName());
             operationDAO.update(operation, session);
-            operation.getActions().forEach(action -> {
+            operation.getActions().forEach(action -> {   // list in bank account
                 try {
                     bankAccountService.updateBankAccountWithMoney(action, session);
                 } catch (SQLException e) {

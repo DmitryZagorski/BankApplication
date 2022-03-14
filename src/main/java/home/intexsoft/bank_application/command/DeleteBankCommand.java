@@ -30,9 +30,9 @@ public class DeleteBankCommand extends Command {
 
     @Override
     public void execute() {
-        log.debug("Executing of deleting bank started");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' started");
         BankService bankService = new BankService();
         bankService.deleteBankByName(this.getAttributes().get(DeleteBankCommand.Attribute.BANK_NAME));
-        log.debug("Executing of deleting bank finished");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
 }

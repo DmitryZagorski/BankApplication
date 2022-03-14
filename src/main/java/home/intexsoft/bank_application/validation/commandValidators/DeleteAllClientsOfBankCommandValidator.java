@@ -2,6 +2,7 @@ package home.intexsoft.bank_application.validation.commandValidators;
 
 import home.intexsoft.bank_application.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
+import home.intexsoft.bank_application.command.Command;
 import home.intexsoft.bank_application.command.CommandAttribute;
 import home.intexsoft.bank_application.command.DeleteAllClientsOfBankCommand;
 import home.intexsoft.bank_application.validation.Validator;
@@ -35,13 +36,15 @@ public class DeleteAllClientsOfBankCommandValidator extends Validator {
     protected void validateAttributeAccordingAttributeDescriptor(
             AttributeDescriptor attributeDescriptor,
             Map.Entry<CommandAttribute, String> commandAttributePair) {
-        log.debug("Validating of command attribute started");
+        log.debug("Validating of '" + Command.CommandType.DELETE_ALL_CLIENTS_OF_BANK.getCommandName()
+                + "' attribute started");
         super.validateAttributeAccordingAttributeDescriptor(attributeDescriptor, commandAttributePair);
         if (DeleteAllClientsOfBankCommand.Attribute.BANK_NAME.equals(commandAttributePair.getKey())) {
             if (!bankService.checkIfBankNameExist(commandAttributePair.getValue()))
                 addErrorToErrorList(
                         commandAttributePair.getKey(), commandAttributePair.getValue(), "bank doesn't exists");
         }
-        log.debug("Validating of command attribute finished");
+        log.debug("Validating of '" + Command.CommandType.DELETE_ALL_CLIENTS_OF_BANK.getCommandName()
+                + "' attribute finished");
     }
 }

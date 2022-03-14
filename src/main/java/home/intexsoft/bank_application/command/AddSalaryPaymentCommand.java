@@ -41,7 +41,7 @@ public class AddSalaryPaymentCommand extends Command {
 
     @Override
     public void execute() {
-        log.debug("Executing of money transfer started");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' started");
 
         OperationService operationService = new OperationService();
         BankAccountService bankAccountService = new BankAccountService();
@@ -55,12 +55,14 @@ public class AddSalaryPaymentCommand extends Command {
         bankAccount = bankAccountService.findBankAccountById(Integer.valueOf(
                 this.getAttributes().get(Attribute.EMPLOYEE_BANK_ACCOUNT_ID)));
         Action employeeAction = createAndSetAction(bankAccount, AddSalaryPaymentCommand.ActionType.ADDITION, operation,
-                Double.parseDouble(this.getAttributes().get(AddSalaryPaymentCommand.Attribute.AMOUNT_OF_MONEY))*0.8);
+                Double.parseDouble(
+                        this.getAttributes().get(AddSalaryPaymentCommand.Attribute.AMOUNT_OF_MONEY)) * 0.8);
 
         bankAccount = bankAccountService.findBankAccountById(Integer.valueOf(
                 this.getAttributes().get(Attribute.DUES_RECIPIENT_BANK_ACCOUNT_ID)));
         Action duesRecipientAction = createAndSetAction(bankAccount, AddSalaryPaymentCommand.ActionType.ADDITION, operation,
-                Double.parseDouble(this.getAttributes().get(AddSalaryPaymentCommand.Attribute.AMOUNT_OF_MONEY))*0.2);
+                Double.parseDouble(
+                        this.getAttributes().get(AddSalaryPaymentCommand.Attribute.AMOUNT_OF_MONEY)) * 0.2);
 
         operation.setName(this.getName().getCommandName());
         operation.setStatus(Command.OperationStatus.CREATED.getOperationStatusName());
@@ -68,16 +70,18 @@ public class AddSalaryPaymentCommand extends Command {
         operation.getActions().add(employeeAction);
         operation.getActions().add(duesRecipientAction);
         operationService.createOperation(operation);
-        log.debug("Executing of adding money transfer finished");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
 
     private Action createAndSetAction(BankAccount bankAccount, AddSalaryPaymentCommand.ActionType actionType,
                                       Operation operation, Double amountOfMoney) {
+        log.debug("Method 'createAndSetAction' started");
         Action action = new Action();
         action.setOperation(operation);
         action.setAmountOfMoney(amountOfMoney);
         action.setBankAccount(bankAccount);
         action.setActionType(actionType.getOperationTypeName());
+        log.debug("Method 'createAndSetAction' finished");
         return action;
     }
 }

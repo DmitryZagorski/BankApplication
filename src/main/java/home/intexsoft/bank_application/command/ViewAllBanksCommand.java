@@ -14,10 +14,9 @@ public class ViewAllBanksCommand extends Command {
 
     @Override
     public void execute() {
-        log.debug("Executing of viewing all banks started");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' started");
         BankService bankService = new BankService();
         bankService.viewAllBanks();
-        log.debug("Executing of viewing all banks finished");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
-
 }

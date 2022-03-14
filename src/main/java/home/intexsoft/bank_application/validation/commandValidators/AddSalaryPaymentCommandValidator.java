@@ -3,6 +3,7 @@ package home.intexsoft.bank_application.validation.commandValidators;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
 import home.intexsoft.bank_application.command.AddSalaryPaymentCommand;
+import home.intexsoft.bank_application.command.Command;
 import home.intexsoft.bank_application.command.CommandAttribute;
 import home.intexsoft.bank_application.validation.Validator;
 import org.slf4j.Logger;
@@ -56,7 +57,7 @@ public class AddSalaryPaymentCommandValidator extends Validator {
     protected void validateAttributeAccordingAttributeDescriptor(
             AttributeDescriptor attributeDescriptor,
             Map.Entry<CommandAttribute, String> commandAttributePair) {
-        log.debug("Validating of command attribute started");
+        log.debug("Validating of '" + Command.CommandType.ADD_SALARY_PAYMENT.getCommandName() + "' attribute started");
         super.validateAttributeAccordingAttributeDescriptor(attributeDescriptor, commandAttributePair);
         if (AddSalaryPaymentCommand.Attribute.EMPLOYER_BANK_ACCOUNT_ID.equals(commandAttributePair.getKey())) {
             if (!bankAccountService.checkIfBankAccountExist(commandAttributePair.getValue()))
@@ -73,7 +74,6 @@ public class AddSalaryPaymentCommandValidator extends Validator {
                 addErrorToErrorList(commandAttributePair.getKey(), commandAttributePair.getValue(),
                         "bank account doesn't exists");
         }
-        log.debug("Validating of command attribute finished");
+        log.debug("Validating of '" + Command.CommandType.ADD_MONEY_TRANSFER.getCommandName() + "' attribute finished");
     }
-
 }

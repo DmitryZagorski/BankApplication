@@ -10,7 +10,7 @@ public abstract class Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
 
     public int getId() {
         return id;
@@ -18,8 +18,5 @@ public abstract class Model {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Model() {
     }
 }

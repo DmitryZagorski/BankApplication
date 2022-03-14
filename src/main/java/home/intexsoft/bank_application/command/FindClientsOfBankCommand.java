@@ -1,7 +1,5 @@
 package home.intexsoft.bank_application.command;
 
-import com.mysql.cj.jdbc.ClientInfoProviderSP;
-import home.intexsoft.bank_application.service.BankService;
 import home.intexsoft.bank_application.service.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,10 +30,9 @@ public class FindClientsOfBankCommand extends Command {
 
     @Override
     public void execute() {
-        log.debug("Executing of finding clients of bank started");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' started");
         ClientService clientService = new ClientService();
         clientService.findClientsOfBank(this.getAttributes().get(FindClientsOfBankCommand.Attribute.BANK_NAME));
-        log.debug("Executing of finding clients of bank finished");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
-
 }

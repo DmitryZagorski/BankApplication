@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 
 public class FindOperationsOfClientCommand extends Command {
 
-
     private static final Logger log = LoggerFactory.getLogger(FindOperationsOfClientCommand.class);
 
     public enum Attribute implements CommandAttribute {
@@ -31,10 +30,9 @@ public class FindOperationsOfClientCommand extends Command {
 
     @Override
     public void execute() {
-        log.debug("Executing of finding of clients operations started");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' started");
         OperationService operationService = new OperationService();
         operationService.findOperationsOfClient(this.getAttributes().get(Attribute.CLIENT_NAME));
-        log.debug("Executing of finding of clients operations finished");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
-
 }

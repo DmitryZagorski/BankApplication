@@ -38,11 +38,11 @@ public class AddMoneyTransferCommand extends Command {
 
     @Override
     public void execute() {
-        log.debug("Executing of money transfer started");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' started");
 
         OperationService operationService = new OperationService();
         BankAccountService bankAccountService = new BankAccountService();
-        Operation operation = new Operation();
+        Operation operation = new Operation();       // new method !!!!!!!!!!!!!!!!!
 
         BankAccount bankAccount = bankAccountService.findBankAccountById(Integer.valueOf(
                 this.getAttributes().get(Attribute.SENDER_BANK_ACCOUNT_ID)));
@@ -57,15 +57,17 @@ public class AddMoneyTransferCommand extends Command {
         operation.getActions().add(recipientAction);
         operationService.createOperation(operation);
 
-        log.debug("Executing of adding money transfer finished");
+        log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
 
     private Action createAndSetAction(BankAccount bankAccount, ActionType actionType, Operation operation) {
+        log.debug("Method 'createAndSetAction' started");
         Action action = new Action();
         action.setOperation(operation);
         action.setAmountOfMoney(Double.valueOf(this.getAttributes().get(Attribute.AMOUNT_OF_MONEY)));
         action.setBankAccount(bankAccount);
         action.setActionType(actionType.getOperationTypeName());
+        log.debug("Method 'createAndSetAction' finished");
         return action;
     }
 }

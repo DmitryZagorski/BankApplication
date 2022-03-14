@@ -10,11 +10,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "currency")
-public class Currency {
+public class Currency extends Model {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     @Column(name = "currency_name")
     private String name;
     @Column(name = "rate")
@@ -33,14 +30,6 @@ public class Currency {
     public Currency() {
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -49,36 +38,8 @@ public class Currency {
         this.name = name;
     }
 
-    public Double getRate() {
-        return rate;
-    }
-
     public void setRate(Double rate) {
         this.rate = rate;
-    }
-
-    public List<BankAccount> getBankAccounts() {
-        return bankAccounts;
-    }
-
-    public void setBankAccounts(List<BankAccount> bankAccounts) {
-        this.bankAccounts = bankAccounts;
-    }
-
-    public Calendar getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Calendar createTime) {
-        this.createTime = createTime;
-    }
-
-    public Calendar getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Calendar updateTime) {
-        this.updateTime = updateTime;
     }
 
     @Override
