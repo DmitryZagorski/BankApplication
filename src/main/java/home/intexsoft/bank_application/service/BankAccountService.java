@@ -5,11 +5,9 @@ import home.intexsoft.bank_application.models.Action;
 import home.intexsoft.bank_application.models.BankAccount;
 import home.intexsoft.bank_application.models.Client;
 import home.intexsoft.bank_application.models.Currency;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class BankAccountService {
@@ -28,19 +26,26 @@ public class BankAccountService {
         log.debug("Method addBankAccount finished");
     }
 
-    public void executeActionList(List<Action> actions){
-        actions.forEach(action -> updateBankAccountWithMoney());
+    public void executeActionList(List<Action> actions) throws Exception {
+        actions.forEach(action -> {
+            try {
+                updateBankAccountWithMoney(action);
+            } catch (Exception e) {
+                log.error("Error during updating bank account" + e);
+//                throw e;
+            }
+        });
     }
 
-    void updateBankAccountWithMoney(Action action, Session session) throws SQLException {
+    private void updateBankAccountWithMoney(Action action) throws Exception {
         log.debug("Updating of bankAccount started");
         try {
             switch (action.getActionType()) {
-                case "withdraw":
-                    withdrawMoneyFromBankAccount(action, session);
+                case WITHDRAW:
+                    withdrawMoneyFromBankAccount(action);
                     break;
-                case "addition":
-                    addMoneyToBankAccount(action, session);
+                case ADDITION:
+                    addMoneyToBankAccount(action);
                     break;
                 default:
                     throw new IllegalArgumentException("Unsupported action type");
@@ -50,21 +55,21 @@ public class BankAccountService {
         }
     }
 
-    private void addMoneyToBankAccount(Action action, Session session) throws Exception {
+    private void addMoneyToBankAccount(Action action) throws Exception {
         BankAccount bankAccount = bankAccountDAO.findById(action.getBankAccount().getId());
-        Double amountOfMoneyToAdd = action.getAmountOfMoney();
-        bankAccount.setAmountOfMoney(bankAccount.getAmountOfMoney() + amountOfMoneyToAdd);
-        bankAccountDAO.updateBankAccount(bankAccount, session);
+        bankAccount.setAmountOfMoney(bankAccount.getAmountOfMoney() + action.getAmountOfMoney());
+        bankAccountDAO.updateBankAccount(bankAccount);
     }
 
-    private void withdrawMoneyFromBankAccount(Action action, Session session) throws Exception {
+    private void withdrawMoneyFromBankAccount(Action action) throws Exception {
         BankAccount bankAccount = bankAccountDAO.findById(action.getBankAccount().getId());
         Double amountOfMoneyToWithdraw = action.getAmountOfMoney();
         if (amountOfMoneyToWithdraw < bankAccount.getAmountOfMoney()) {
             bankAccount.setAmountOfMoney(bankAccount.getAmountOfMoney() - amountOfMoneyToWithdraw);
-            bankAccountDAO.updateBankAccount(bankAccount, session);
+            bankAccountDAO.updateBankAccount(bankAccount);
+        } else {
+            throw new Exception("Not enough money for transfer");
         }
-        else // !!!!!!!!!
     }
 
     private BankAccount createBankAccountAndSetValuesOfAttributes(

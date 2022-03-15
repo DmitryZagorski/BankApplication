@@ -1,57 +1,46 @@
 package home.intexsoft.bank_application.models;
 
+import home.intexsoft.bank_application.command.Command;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "operations")
 public class Operation extends Model {
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private Command.OperationStatus status;
     @Column(name = "name")
-    private String name;  // type
+    private String type;
     @OneToMany(mappedBy = "operation", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Action> actions = new ArrayList<>();
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
-    private Calendar createTime;       // date
+    private Date createTime;
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "update_time")
-    private Calendar updateTime;
-
-    public Operation() {
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<Action> getActions() {
-        return actions;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private Date updateTime;
 
     @Override
     public String toString() {
         return "Operation{" +
                 "id=" + id +
                 ", status='" + status + '\'' +
-                ", name='" + name + '\'' +
+                ", name='" + type + '\'' +
                 '}';
     }
 }

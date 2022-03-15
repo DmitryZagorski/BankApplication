@@ -1,13 +1,20 @@
 package home.intexsoft.bank_application.models;
 
+import home.intexsoft.bank_application.command.Command;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "clients")
 public class Client extends Model {
@@ -16,8 +23,9 @@ public class Client extends Model {
     private String name;
     @Column(name = "surname")
     private String surname;
-    @Column(name = "status_name")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_name", columnDefinition = "ClientStatusType('INDIVIDUAL','ENTITY')")
+    private Command.ClientStatusType status;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bank_id", referencedColumnName = "id")
     private Bank bank;
@@ -26,38 +34,11 @@ public class Client extends Model {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
-    private Calendar createTime;
+    private Date createTime;
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "update_time")
-    private Calendar updateTime;
-
-    public Client() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Bank getBank() {
-        return bank;
-    }
-
-    public void setBank(Bank bank) {
-        this.bank = bank;
-    }
+    private Date updateTime;
 
     @Override
     public String toString() {

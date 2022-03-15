@@ -64,12 +64,12 @@ public class AddSalaryPaymentCommand extends Command {
                 Double.parseDouble(
                         this.getAttributes().get(AddSalaryPaymentCommand.Attribute.AMOUNT_OF_MONEY)) * 0.2);
 
-        operation.setName(this.getName().getCommandName());
-        operation.setStatus(Command.OperationStatus.CREATED.getOperationStatusName());
+        operation.setType(this.getName().getCommandName());
+        operation.setStatus(Command.OperationStatus.CREATED);
         operation.getActions().add(employerAction);
         operation.getActions().add(employeeAction);
         operation.getActions().add(duesRecipientAction);
-        operationService.createOperation(operation);
+    //    operationService.createOperationDto(operation);
         log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
 
@@ -80,7 +80,7 @@ public class AddSalaryPaymentCommand extends Command {
         action.setOperation(operation);
         action.setAmountOfMoney(amountOfMoney);
         action.setBankAccount(bankAccount);
-        action.setActionType(actionType.getOperationTypeName());
+        action.setActionType(actionType);
         log.debug("Method 'createAndSetAction' finished");
         return action;
     }

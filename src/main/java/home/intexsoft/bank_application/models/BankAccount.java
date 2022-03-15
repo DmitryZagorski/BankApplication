@@ -1,13 +1,19 @@
 package home.intexsoft.bank_application.models;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "bank_accounts")
 public class BankAccount extends Model {
@@ -25,38 +31,11 @@ public class BankAccount extends Model {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
-    private Calendar createTime;
+    private Date createTime;
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "update_time")
-    private Calendar updateTime;
-
-    public BankAccount() {
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
-    public Double getAmountOfMoney() {
-        return amountOfMoney;
-    }
-
-    public void setAmountOfMoney(Double amountOfMoney) {
-        this.amountOfMoney = amountOfMoney;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
+    private Date updateTime;
 
     @Override
     public String toString() {

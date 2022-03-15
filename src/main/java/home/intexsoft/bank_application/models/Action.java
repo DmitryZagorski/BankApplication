@@ -1,11 +1,18 @@
 package home.intexsoft.bank_application.models;
 
+import home.intexsoft.bank_application.command.Command;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.Calendar;
+import java.util.Date;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "actions")
 public class Action extends Model {
@@ -15,52 +22,19 @@ public class Action extends Model {
     private BankAccount bankAccount;
     @Column(name = "amount_of_money")
     private Double amountOfMoney;
+    @Enumerated(EnumType.STRING)
     @Column(name = "action_type")
-    private String actionType;
+    private Command.ActionType actionType;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "operation_id", referencedColumnName = "id")
     private Operation operation;
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
-    private Calendar createTime;
+    private Date createTime;
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "update_time")
-    private Calendar updateTime;
+    private Date updateTime;
 
-    public Action() {
-    }
-
-    public BankAccount getBankAccount() {
-        return bankAccount;
-    }
-
-    public void setBankAccount(BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
-    }
-
-    public Double getAmountOfMoney() {
-        return amountOfMoney;
-    }
-
-    public void setAmountOfMoney(Double amountOfMoney) {
-        this.amountOfMoney = amountOfMoney;
-    }
-
-    public String getActionType() {
-        return actionType;
-    }
-
-    public void setActionType(String actionType) {
-        this.actionType = actionType;
-    }
-
-    public Operation getOperation() {
-        return operation;
-    }
-
-    public void setOperation(Operation operation) {
-        this.operation = operation;
-    }
 }

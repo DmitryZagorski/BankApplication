@@ -1,13 +1,19 @@
 package home.intexsoft.bank_application.models;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "banks")
 public class Bank extends Model {
@@ -23,30 +29,11 @@ public class Bank extends Model {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
-    private Calendar createTime;
+    private Date createTime;
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "update_time")
-    private Calendar updateTime;
-
-    public Bank() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCommissionForIndividual(Double commissionForIndividual) {
-        this.commissionForIndividual = commissionForIndividual;
-    }
-
-    public void setCommissionForEntity(Double commissionForEntity) {
-        this.commissionForEntity = commissionForEntity;
-    }
+    private Date updateTime;
 
     @Override
     public String toString() {

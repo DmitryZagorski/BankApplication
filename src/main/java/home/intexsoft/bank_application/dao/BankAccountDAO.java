@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.sql.SQLException;
 import java.util.List;
 
 public class BankAccountDAO extends DAO<BankAccount> {
@@ -28,12 +27,19 @@ public class BankAccountDAO extends DAO<BankAccount> {
         log.debug("DAO method of creation new bankAccount finished");
     }
 
-    public void updateBankAccount(BankAccount bankAccount, Session session) throws Exception {
+
+    public void updateBankAccount(BankAccount bankAccount) throws Exception {
         log.debug("DAO method of bank account updating started");
+        final Session session = HibernateUtil.getSessionFactory().openSession();
         try {
+            session.beginTransaction();
             session.update(bankAccount);
+            session.getTransaction().commit();
+            session.close();
         } catch (Exception e) {
             log.error("Error during updating bank account" + e);
+            session.getTransaction().rollback();
+            session.close();
             throw e;
         }
         log.debug("DAO method of bank account updating finished");

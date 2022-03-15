@@ -2,7 +2,6 @@ package home.intexsoft.bank_application.dao;
 
 import com.sun.istack.NotNull;
 import home.intexsoft.bank_application.models.Action;
-import home.intexsoft.bank_application.models.BankAccount;
 import home.intexsoft.bank_application.models.Operation;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -12,8 +11,6 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class OperationDAO extends DAO<Operation> {
@@ -21,12 +18,17 @@ public class OperationDAO extends DAO<Operation> {
     private static final Logger log = LoggerFactory.getLogger(OperationDAO.class);
 
 
-    public void create(@NotNull final Operation operation, Session session) throws SQLException {
+    public void createOperation(@NotNull final Operation operation) throws Exception {
         log.debug("DAO method of creation new operation started");
+        final Session session = HibernateUtil.getSessionFactory().openSession();
         try {
+            session.beginTransaction();
             session.save(operation);
+            session.getTransaction().commit();
+            session.close();
         } catch (Exception e) {
-            throw new SQLException("Error during saving operation");
+            log.error("Error during creation new operation" + e);
+            throw e;
         }
         log.debug("DAO method of creation new operation finished");
     }
@@ -41,13 +43,19 @@ public class OperationDAO extends DAO<Operation> {
         return null;
     }
 
-    public void update(Operation operation, Session session) {
+    public void update(Operation operation) {
         log.debug("DAO method of updating operation started");
+        final Session session = HibernateUtil.getSessionFactory().openSession();
         try {
+            session.beginTransaction();
             session.update(operation);
+            session.getTransaction().commit();
+            session.close();
         } catch (Exception e) {
-            log.error("Error during saving transaction");
             session.getTransaction().rollback();
+            session.close();
+            log.error("Error during updating operation" + e);
+            throw e;
         }
         log.debug("DAO method of updating operation finished");
     }
