@@ -3,7 +3,6 @@ package home.intexsoft.bank_application.dao;
 import com.sun.istack.NotNull;
 import home.intexsoft.bank_application.models.Operation;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
