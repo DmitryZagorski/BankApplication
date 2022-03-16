@@ -39,7 +39,7 @@ public class AddMoneyTransferCommand extends Command {
         log.debug("Executing of '" + this.getName().getCommandName() + "' started");
         OperationService operationService = new OperationService();
         OperationDto operationDto = getNewOperationDto();
-        operationService.createOperationDto(operationDto);
+        operationService.createOperation(operationDto);
         log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
 

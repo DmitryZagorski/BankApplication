@@ -69,7 +69,7 @@ public class AddSalaryPaymentCommand extends Command {
         operationDto.getActionsDto().add(employerAction);
         operationDto.getActionsDto().add(employeeAction);
         operationDto.getActionsDto().add(duesRecipientAction);
-        operationService.createOperationDto(operationDto);
+        operationService.createOperation(operationDto);
         log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
 

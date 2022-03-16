@@ -24,11 +24,11 @@ public class OperationService {
     private BankAccountService bankAccountService = new BankAccountService();
     private ActionDAO actionDAO = new ActionDAO();
 
-    public void createOperationDto(OperationDto operationDto) {
+    public void createOperation(OperationDto operationDto) {
         log.debug("Method createOperation started");
         Operation operation = mapToOperation(operationDto);
+        operationDAO.createOperation(operation);
         try {
-            operationDAO.createOperation(operation);
             operation.setStatus(Command.OperationStatus.IN_PROCESS);
             operationDAO.update(operation);
             bankAccountService.executeActionList(operation.getActions());
