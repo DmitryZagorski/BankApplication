@@ -45,5 +45,4 @@ public class AddClientCommand extends Command {
                 this.getAttributes().get(Attribute.BANK_NAME));
         log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
-
 }

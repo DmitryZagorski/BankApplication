@@ -2,7 +2,6 @@ package home.intexsoft.bank_application.validation;
 
 import home.intexsoft.bank_application.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
-import home.intexsoft.bank_application.command.AddBankAccountCommand;
 import home.intexsoft.bank_application.command.CommandAttribute;
 import home.intexsoft.bank_application.service.BankAccountService;
 import home.intexsoft.bank_application.service.BankService;
