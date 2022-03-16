@@ -49,10 +49,10 @@ public class AddMoneyTransferCommand extends Command {
         operationDto.setType(this.getName().getCommandName());
         operationDto.setStatus(OperationStatus.CREATED);
 
-        ActionDto senderActionDto = createAndSetAction(ActionType.WITHDRAW,
-                this.getAttributes().get(Attribute.SENDER_BANK_ACCOUNT_ID));
-        ActionDto recipientActionDto = createAndSetAction(ActionType.ADDITION,
-                this.getAttributes().get(Attribute.RECIPIENT_BANK_ACCOUNT_ID));
+        ActionDto senderActionDto = createActionDto(ActionType.WITHDRAW,
+                this.getAttributes().get(Attribute.SENDER_BANK_ACCOUNT_ID), 2);
+        ActionDto recipientActionDto = createActionDto(ActionType.ADDITION,
+                this.getAttributes().get(Attribute.RECIPIENT_BANK_ACCOUNT_ID), 1);
 
         operationDto.getActionsDto().add(senderActionDto);
         operationDto.getActionsDto().add(recipientActionDto);
@@ -60,12 +60,13 @@ public class AddMoneyTransferCommand extends Command {
         return operationDto;
     }
 
-    private ActionDto createAndSetAction(ActionType actionType, String bankAccountId) {
+    private ActionDto createActionDto(ActionType actionType, String bankAccountId, Integer priority) {
         log.debug("Method 'createAndSetAction' started");
         ActionDto actionDto = new ActionDto();
         actionDto.setActionType(actionType);
         actionDto.setAmountOfMoney(Double.valueOf(this.getAttributes().get(Attribute.AMOUNT_OF_MONEY)));
         actionDto.setBankAccountId(Integer.parseInt(bankAccountId));
+        actionDto.setPriority(priority);
         log.debug("Method 'createAndSetAction' finished");
         return actionDto;
     }

@@ -32,7 +32,7 @@ public class FindOperationsOfClientCommand extends Command {
     public void execute() {
         log.debug("Executing of '" + this.getName().getCommandName() + "' started");
         OperationService operationService = new OperationService();
-        operationService.findOperationsOfClient(this.getAttributes().get(Attribute.CLIENT_NAME));
+        operationService.printOperationsOfClient(this.getAttributes().get(Attribute.CLIENT_NAME));
         log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
 }

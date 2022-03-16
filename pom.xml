@@ -133,7 +133,7 @@
                     </annotationProcessorPaths>
                     <compilerArgs>
                         <compilerArg>
-                            -Amapstruct.unmappedTargetPolicy=ERROR
+                            -Amapstruct.unmappedTargetPolicy=IGNORE
                         </compilerArg>
                     </compilerArgs>
                 </configuration>

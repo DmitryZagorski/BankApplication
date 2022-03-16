@@ -15,6 +15,7 @@ public interface ActionMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "bankAccount", ignore = true)
     @Mapping(target = "operation", ignore = true)
+    //@Mapping(target = "priority", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "updateTime", ignore = true)
     Action fromActionDto(ActionDto actionDTO);

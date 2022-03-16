@@ -13,5 +13,6 @@ public class ActionDto {
     private Command.ActionType actionType;
     private Double amountOfMoney;
     private Integer bankAccountId;
+    private Integer priority;
 
 }

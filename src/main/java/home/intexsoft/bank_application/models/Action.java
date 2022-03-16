@@ -28,6 +28,8 @@ public class Action extends Model {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "operation_id", referencedColumnName = "id")
     private Operation operation;
+    @Column(name = "priority")
+    private Integer priority;
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
