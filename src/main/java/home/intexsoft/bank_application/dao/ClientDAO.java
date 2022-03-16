@@ -1,7 +1,6 @@
 package home.intexsoft.bank_application.dao;
 
 import com.sun.istack.NotNull;
-import home.intexsoft.bank_application.models.Bank;
 import home.intexsoft.bank_application.models.Client;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -20,26 +19,19 @@ public class ClientDAO extends DAO<Client> {
     @Override
     public void create(@NotNull final Client client) {
         log.debug("DAO method of creation client started");
-        try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
+        final Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
             session.beginTransaction();
             session.save(client);
             session.getTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            log.error("Error during creating client" + e);
+            session.getTransaction().rollback();
+            session.close();
         }
         log.debug("DAO method of creation client finished");
     }
-
-//    @Override
-//    public List<Client> findAll() {
-//        log.debug("DAO method of finding all banks started");
-//        List<Client> clientList = null;
-//        try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
-//            session.beginTransaction();
-//            //clientList = session.createQuery("from Client").list();
-//            session.getTransaction().commit();
-//        }
-//        log.debug("DAO method of finding all banks finished");
-//        return clientList;
-//    }
 
     @Override
     Client findById(Integer clientId) {
@@ -103,12 +95,17 @@ public class ClientDAO extends DAO<Client> {
 
     public void delete(@NotNull final Client client) {
         log.debug("DAO method of deleting client started");
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        final Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
             session.beginTransaction();
             session.delete(client);
             session.getTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            log.error("Error during deleting client" + e);
+            session.getTransaction().rollback();
+            session.close();
         }
         log.debug("DAO method of deleting client finished");
     }
-
 }

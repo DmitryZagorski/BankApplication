@@ -29,7 +29,6 @@ public abstract class Command {
         OPERATIONS("operations"),
         ADD_BANK("add bank"),
         DELETE_BANK("delete bank"),
-        DELETE_ALL_BANKS("delete all banks"),
         FIND_CLIENTS_OF_BANK("find clients of bank"),
         VIEW_ALL_BANKS("view all banks"),
         ADD_CLIENT("add client"),

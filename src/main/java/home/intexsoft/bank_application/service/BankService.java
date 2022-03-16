@@ -13,24 +13,16 @@ public class BankService {
     private BankDAO bankDAO = new BankDAO();
 
     public void addBank(String bankName, String commissionForIndividual, String commissionForEntity) {
-        log.debug("Method AddBank started");
+        log.debug("Method AddBank (name = '" + bankName + "' started");
         Bank bank = createBankAndSetValuesOfAttributes(bankName, commissionForIndividual, commissionForEntity);
         bankDAO.create(bank);
-        log.debug("Method AddBank finished");
+        log.debug("Method AddBank (name = '" + bankName + "' finished");
     }
 
     public void deleteBankByName(String bankName) {
-        log.debug("Method DeleteBank started");
+        log.debug("Method DeleteBank '" + bankName + "'started");
         bankDAO.deleteByName(bankName);
-        log.debug("Method DeleteBank finished");
-    }
-
-    public void deleteAllBanks() {
-        log.debug("Method DeleteAllBanks started");
-        bankDAO.deleteAllBanks();
-//        List<Bank> allBanks = bankDAO.findAll();
-//        allBanks.forEach(bank -> bankDAO.delete(bank));
-        log.debug("Method DeleteAllBanks finished");
+        log.debug("Method DeleteBank '" + bankName + "'finished");
     }
 
     public void viewAllBanks() {
@@ -43,26 +35,21 @@ public class BankService {
     private Bank createBankAndSetValuesOfAttributes(String bankName,
                                                     String commissionForIndividual,
                                                     String commissionForEntity) {
-        log.debug("Creating bank with setting its arguments started");
+        log.debug("Creating bank '" + bankName + "'with setting its arguments started");
         final Bank bank = new Bank();
         bank.setName(bankName);
         bank.setCommissionForIndividual(Double.valueOf(commissionForIndividual));
         bank.setCommissionForEntity(Double.valueOf(commissionForEntity));
-        log.debug("Creating bank with setting its arguments finished");
+        log.debug("Creating bank '" + bankName + "'with setting its arguments finished");
         return bank;
     }
 
-    public Bank findBankByName(String bankName){
+    Bank findBankByName(String bankName) {
         return bankDAO.findByName(bankName);
     }
 
     public boolean checkIfBankNameExist(String bankName) {
         return bankDAO.findByName(bankName) != null;
     }
-
-    public boolean checkIfBankIdExist(Integer bankId) {
-        return bankDAO.findById(bankId) != null;
-    }
-
 
 }

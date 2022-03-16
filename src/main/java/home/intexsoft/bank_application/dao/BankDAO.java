@@ -17,7 +17,7 @@ public class BankDAO extends DAO<Bank> {
 
     private static final Logger log = LoggerFactory.getLogger(BankDAO.class);
 
-    @Override // ready
+    @Override
     public void create(@NotNull final Bank bank) {
         log.debug("DAO method of creation new bank started");
         final Session session = HibernateUtil.getSessionFactory().openSession();
@@ -25,29 +25,27 @@ public class BankDAO extends DAO<Bank> {
             session.beginTransaction();
             session.save(bank);
             session.getTransaction().commit();
+            session.close();
         } catch (Exception e) {
-            try {
-                log.error("Error during saving transaction");
-                session.getTransaction().rollback();
-            } catch (Exception ex) {
-                log.error("Error during rollback");
-            }
+            log.error("Error during saving transaction" + e);
+            session.getTransaction().rollback();
+            session.close();
         }
         log.debug("DAO method of creation new bank finished");
     }
 
-    @Override    // NOT USED
+    @Override
     public Bank findById(@NotNull final Integer id) {
-        log.debug("DAO method of finding bank by ID started");
+        log.debug("DAO method of finding bank by ID = '" + id + "' started");
         try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
             final Bank result = session.get(Bank.class, id);
             return result != null ? result : new Bank();
         }
     }
 
-    @Override  // ready
+    @Override
     public Bank findByName(@NotNull final String name) {
-        log.debug("DAO method of finding bank by name started");
+        log.debug("DAO method of finding bank by name '" + name + "' started");
         Bank bank = null;
         try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
@@ -62,11 +60,11 @@ public class BankDAO extends DAO<Bank> {
             }
             session.getTransaction().commit();
         }
-        log.debug("DAO method of finding bank by name finished");
+        log.debug("DAO method of finding bank by name '" + name + "' started");
         return bank;
     }
 
-    @Override            // ready
+    @Override
     public List<Bank> findAll() {
         log.debug("DAO method of finding all banks started");
         List<Bank> bankList;
@@ -84,31 +82,20 @@ public class BankDAO extends DAO<Bank> {
         return bankList;
     }
 
-    @Override    // NOT USED
+    @Override
     public void update(@NotNull final Bank bank) {
-        log.debug("DAO method of updating bank started");
+        log.debug("DAO method of updating bank '" + bank.getName() + "' started");
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.update(bank);
             session.getTransaction().commit();
         }
-        log.debug("DAO method of updating bank finished");
+        log.debug("DAO method of updating bank '" + bank.getName() + "' finished");
     }
 
-    // ready      NOT USED
-    public void delete(@NotNull final Bank bank) {
-        log.debug("DAO method of deleting bank started");
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            session.delete(bank);
-            session.getTransaction().commit();
-        }
-        log.debug("DAO method of deleting bank finished");
-    }
-
-    @Override    // ready
+    @Override
     public void deleteByName(@NotNull final String bankName) {
-        log.debug("DAO method of deleting bank by name started");
+        log.debug("DAO method of deleting bank by name '" + bankName + "'started");
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -120,19 +107,6 @@ public class BankDAO extends DAO<Bank> {
             session.delete(foundBank);
             session.getTransaction().commit();
         }
-        log.debug("DAO method of deleting bank by name finished");
-    }
-
-    // ready
-    public void deleteAllBanks() {
-        log.debug("DAO method of deleting all banks started");
-        String hql = String.format("delete from Bank");
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            Query query = session.createQuery(hql);
-            query.executeUpdate();
-            session.getTransaction().commit();
-        }
-        log.debug("DAO method of deleting all banks finished");
+        log.debug("DAO method of deleting bank by name '" + bankName + "'started");
     }
 }

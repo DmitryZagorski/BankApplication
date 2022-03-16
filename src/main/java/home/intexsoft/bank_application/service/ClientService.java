@@ -27,7 +27,7 @@ public class ClientService {
         final Client client = new Client();
         client.setName(clientName);
         client.setSurname(clientSurname);
-       // client.setStatus(clientStatus);
+        client.setStatus(getClientStatusType(clientStatus));
         Bank bank = bankService.findBankByName(bankName);
         client.setBank(bank);
         log.debug("Creating client with setting its arguments finished");
@@ -45,7 +45,6 @@ public class ClientService {
         log.debug("Method deleteAllClientsOfBank finished");
     }
 
-
     public void deleteClientByName(String clientName) {
         log.debug("Method deleteClientByName started");
         clientDAO.deleteByName(clientName);
@@ -61,7 +60,7 @@ public class ClientService {
         log.debug("Method findClientsOfBank finished");
     }
 
-    public Client findByName(String clientName) {
+    Client findByName(String clientName) {
         return clientDAO.findByName(clientName);
     }
 
@@ -74,8 +73,14 @@ public class ClientService {
                 clientStatus.equals(Command.ClientStatusType.INDIVIDUAL.getClientStatusName());
     }
 
-    public Command.ClientStatusType getClientStatusByName(String statusName){
-return null;
+    private Command.ClientStatusType getClientStatusType(String statusName) {
+        Command.ClientStatusType type = null;
+        Command.ClientStatusType[] values = Command.ClientStatusType.values();
+        for (Command.ClientStatusType value : values) {
+            if (value.getClientStatusName().equals(statusName)) {
+                type = value;
+            }
+        }
+        return type;
     }
-
 }

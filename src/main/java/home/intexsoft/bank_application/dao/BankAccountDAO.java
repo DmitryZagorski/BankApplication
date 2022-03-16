@@ -19,16 +19,21 @@ public class BankAccountDAO extends DAO<BankAccount> {
     @Override
     public void create(@NotNull final BankAccount bankAccount) {
         log.debug("DAO method of creation new bankAccount started");
-        try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
+        final Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
             session.beginTransaction();
             session.save(bankAccount);
             session.getTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            log.error("Error during creating bank account" + e);
+            session.getTransaction().rollback();
+            session.close();
         }
         log.debug("DAO method of creation new bankAccount finished");
     }
 
-
-    public void updateBankAccount(BankAccount bankAccount) throws Exception {
+    public void updateBankAccount(BankAccount bankAccount) {
         log.debug("DAO method of bank account updating started");
         final Session session = HibernateUtil.getSessionFactory().openSession();
         try {
@@ -47,7 +52,7 @@ public class BankAccountDAO extends DAO<BankAccount> {
 
     @Override
     public BankAccount findById(@NotNull final Integer id) {
-        log.debug("DAO method of finding bankAccount by ID started");
+        log.debug("DAO method of finding bankAccount by ID= '" + id + "' started");
         try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
             final BankAccount result = session.get(BankAccount.class, id);
             return result != null ? result : new BankAccount();

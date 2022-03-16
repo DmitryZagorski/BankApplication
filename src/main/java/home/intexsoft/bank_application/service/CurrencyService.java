@@ -10,7 +10,7 @@ public class CurrencyService {
     private static final Logger log = LoggerFactory.getLogger(CurrencyService.class);
     private CurrencyDAO currencyDAO = new CurrencyDAO();
 
-    public void addCurrency(String currencyName, String rate){
+    public void addCurrency(String currencyName, String rate) {
         log.debug("Method addCurrency started");
         Currency currency = new Currency();
         currency.setName(currencyName);
@@ -19,16 +19,11 @@ public class CurrencyService {
         log.debug("Method addCurrency finished");
     }
 
-    public Currency findByName(String currencyName){
+    Currency findByName(String currencyName) {
         return currencyDAO.findByName(currencyName);
     }
 
     public boolean checkIfCurrencyNameExist(String currencyName) {
         return currencyDAO.findByName(currencyName) != null;
     }
-
-    public boolean checkIfCurrencyIdExist(Integer currencyId) {
-        return currencyDAO.findById(currencyId) != null;
-    }
-    
 }

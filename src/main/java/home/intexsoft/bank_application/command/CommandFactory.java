@@ -15,7 +15,6 @@ class CommandFactory {
     {
         commands.put(Command.CommandType.ADD_BANK, AddBankCommand.class);
         commands.put(Command.CommandType.DELETE_BANK, DeleteBankCommand.class);
-        commands.put(Command.CommandType.DELETE_ALL_BANKS, DeleteAllBanksCommand.class);
         commands.put(Command.CommandType.FIND_CLIENTS_OF_BANK, FindClientsOfBankCommand.class);
         commands.put(Command.CommandType.VIEW_ALL_BANKS, ViewAllBanksCommand.class);
         commands.put(Command.CommandType.ADD_CLIENT, AddClientCommand.class);

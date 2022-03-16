@@ -1,11 +1,8 @@
 package home.intexsoft.bank_application.dao;
 
 import com.sun.istack.NotNull;
-import home.intexsoft.bank_application.models.Bank;
-import home.intexsoft.bank_application.models.Client;
 import home.intexsoft.bank_application.models.Currency;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,13 +17,19 @@ public class CurrencyDAO extends DAO<Currency> {
     private static final Logger log = LoggerFactory.getLogger(CurrencyDAO.class);
 
     public void create(@NotNull final Currency currency) {
-        log.debug("DAO method of creation new bank started");
-        try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
+        log.debug("DAO method of creation new currency '" + currency.getName() + "' started");
+        final Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
             session.beginTransaction();
             session.save(currency);
             session.getTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            log.error("Error during saving transaction" + e);
+            session.getTransaction().rollback();
+            session.close();
         }
-        log.debug("DAO method of creation new bank finished");
+        log.debug("DAO method of creation new currency '" + currency.getName() + "' finished");
     }
 
     @Override
@@ -36,7 +39,7 @@ public class CurrencyDAO extends DAO<Currency> {
 
     @Override
     public Currency findByName(@NotNull final String currencyName) {
-        log.debug("DAO method of finding currency by name started");
+        log.debug("DAO method of finding currency by name '" + currencyName + "'started");
         Currency currency = null;
         try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
@@ -51,7 +54,7 @@ public class CurrencyDAO extends DAO<Currency> {
             }
             session.getTransaction().commit();
         }
-        log.debug("DAO method of finding currency by name finished");
+        log.debug("DAO method of finding currency by name '" + currencyName + "'finished");
         return currency;
     }
 }

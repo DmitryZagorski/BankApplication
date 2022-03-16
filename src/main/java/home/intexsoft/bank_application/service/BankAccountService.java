@@ -26,49 +26,38 @@ public class BankAccountService {
         log.debug("Method addBankAccount finished");
     }
 
-    public void executeActionList(List<Action> actions) throws Exception {
-        actions.forEach(action -> {
-            try {
-                updateBankAccountWithMoney(action);
-            } catch (Exception e) {
-                log.error("Error during updating bank account" + e);
-//                throw e;
-            }
-        });
+    void executeActionList(List<Action> actions) {
+        actions.forEach(this::updateBankAccountWithMoney);
     }
 
-    private void updateBankAccountWithMoney(Action action) throws Exception {
+    private void updateBankAccountWithMoney(Action action) {
         log.debug("Updating of bankAccount started");
-        try {
-            switch (action.getActionType()) {
-                case WITHDRAW:
-                    withdrawMoneyFromBankAccount(action);
-                    break;
-                case ADDITION:
-                    addMoneyToBankAccount(action);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unsupported action type");
-            }
-        } finally {
-            log.debug("Method of bankAccount updating finished");
+        switch (action.getActionType()) {
+            case WITHDRAW:
+                withdrawMoneyFromBankAccount(action);
+                break;
+            case ADDITION:
+                addMoneyToBankAccount(action);
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported action type");
         }
     }
 
-    private void addMoneyToBankAccount(Action action) throws Exception {
+    private void addMoneyToBankAccount(Action action) {
         BankAccount bankAccount = bankAccountDAO.findById(action.getBankAccount().getId());
         bankAccount.setAmountOfMoney(bankAccount.getAmountOfMoney() + action.getAmountOfMoney());
         bankAccountDAO.updateBankAccount(bankAccount);
     }
 
-    private void withdrawMoneyFromBankAccount(Action action) throws Exception {
+    private void withdrawMoneyFromBankAccount(Action action) {
         BankAccount bankAccount = bankAccountDAO.findById(action.getBankAccount().getId());
         Double amountOfMoneyToWithdraw = action.getAmountOfMoney();
         if (amountOfMoneyToWithdraw < bankAccount.getAmountOfMoney()) {
             bankAccount.setAmountOfMoney(bankAccount.getAmountOfMoney() - amountOfMoneyToWithdraw);
             bankAccountDAO.updateBankAccount(bankAccount);
         } else {
-            throw new Exception("Not enough money for transfer");
+            throw new IllegalArgumentException("Not enough money for transfer");
         }
     }
 
@@ -105,12 +94,5 @@ public class BankAccountService {
     public boolean checkIfBankAccountExist(String bankAccount) {
         int account = Integer.parseInt(bankAccount);
         return bankAccountDAO.findById(account) != null;
-    }
-
-    public BankAccount findBankAccountById(Integer bankAccountId) {
-        log.debug("Method findBankAccountById started");
-        BankAccount bankAccount = bankAccountDAO.findById(bankAccountId);
-        log.debug("Method findBankAccountById finished");
-        return bankAccount;
     }
 }
