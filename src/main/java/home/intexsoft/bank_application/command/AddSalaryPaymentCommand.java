@@ -1,8 +1,7 @@
 package home.intexsoft.bank_application.command;
 
-import home.intexsoft.bank_application.models.Action;
-import home.intexsoft.bank_application.models.BankAccount;
-import home.intexsoft.bank_application.models.Operation;
+import home.intexsoft.bank_application.dto.ActionDto;
+import home.intexsoft.bank_application.dto.OperationDto;
 import home.intexsoft.bank_application.service.BankAccountService;
 import home.intexsoft.bank_application.service.OperationService;
 import org.slf4j.Logger;
@@ -45,43 +44,44 @@ public class AddSalaryPaymentCommand extends Command {
 
         OperationService operationService = new OperationService();
         BankAccountService bankAccountService = new BankAccountService();
-        Operation operation = new Operation();
+        OperationDto operationDto = new OperationDto();
 
-        BankAccount bankAccount = bankAccountService.findBankAccountById(Integer.valueOf(
-                this.getAttributes().get(Attribute.EMPLOYER_BANK_ACCOUNT_ID)));
-        Action employerAction = createAndSetAction(bankAccount, AddSalaryPaymentCommand.ActionType.WITHDRAW, operation,
-                Double.parseDouble(this.getAttributes().get(AddSalaryPaymentCommand.Attribute.AMOUNT_OF_MONEY)));
+        ActionDto employerAction = createActionDto(
+                this.getAttributes().get(Attribute.EMPLOYER_BANK_ACCOUNT_ID),
+                AddSalaryPaymentCommand.ActionType.WITHDRAW,
+                Double.parseDouble(this.getAttributes()
+                        .get(AddSalaryPaymentCommand.Attribute.AMOUNT_OF_MONEY)), 1);
 
-        bankAccount = bankAccountService.findBankAccountById(Integer.valueOf(
-                this.getAttributes().get(Attribute.EMPLOYEE_BANK_ACCOUNT_ID)));
-        Action employeeAction = createAndSetAction(bankAccount, AddSalaryPaymentCommand.ActionType.ADDITION, operation,
-                Double.parseDouble(
-                        this.getAttributes().get(AddSalaryPaymentCommand.Attribute.AMOUNT_OF_MONEY)) * 0.8);
+        ActionDto employeeAction = createActionDto(
+                this.getAttributes().get(Attribute.EMPLOYEE_BANK_ACCOUNT_ID),
+                AddSalaryPaymentCommand.ActionType.ADDITION,
+                Double.parseDouble(this.getAttributes()
+                        .get(AddSalaryPaymentCommand.Attribute.AMOUNT_OF_MONEY)) * 0.8, 2);
 
-        bankAccount = bankAccountService.findBankAccountById(Integer.valueOf(
-                this.getAttributes().get(Attribute.DUES_RECIPIENT_BANK_ACCOUNT_ID)));
-        Action duesRecipientAction = createAndSetAction(bankAccount, AddSalaryPaymentCommand.ActionType.ADDITION, operation,
-                Double.parseDouble(
-                        this.getAttributes().get(AddSalaryPaymentCommand.Attribute.AMOUNT_OF_MONEY)) * 0.2);
+        ActionDto duesRecipientAction = createActionDto(
+                this.getAttributes().get(Attribute.DUES_RECIPIENT_BANK_ACCOUNT_ID),
+                AddSalaryPaymentCommand.ActionType.ADDITION,
+                Double.parseDouble(this.getAttributes()
+                        .get(AddSalaryPaymentCommand.Attribute.AMOUNT_OF_MONEY)) * 0.2, 3);
 
-        operation.setType(this.getName().getCommandName());
-        operation.setStatus(Command.OperationStatus.CREATED);
-        operation.getActions().add(employerAction);
-        operation.getActions().add(employeeAction);
-        operation.getActions().add(duesRecipientAction);
-    //    operationService.createOperationDto(operation);
+        operationDto.setType(this.getName().getCommandName());
+        operationDto.setStatus(Command.OperationStatus.CREATED);
+        operationDto.getActionsDto().add(employerAction);
+        operationDto.getActionsDto().add(employeeAction);
+        operationDto.getActionsDto().add(duesRecipientAction);
+        operationService.createOperationDto(operationDto);
         log.debug("Executing of '" + this.getName().getCommandName() + "' finished");
     }
 
-    private Action createAndSetAction(BankAccount bankAccount, AddSalaryPaymentCommand.ActionType actionType,
-                                      Operation operation, Double amountOfMoney) {
-        log.debug("Method 'createAndSetAction' started");
-        Action action = new Action();
-        action.setOperation(operation);
-        action.setAmountOfMoney(amountOfMoney);
-        action.setBankAccount(bankAccount);
-        action.setActionType(actionType);
-        log.debug("Method 'createAndSetAction' finished");
-        return action;
+    private ActionDto createActionDto(String bankAccountId, ActionType actionType,
+                                      Double amountOfMoney, Integer priority) {
+        log.debug("Method 'createActionDto' started");
+        ActionDto actionDto = new ActionDto();
+        actionDto.setAmountOfMoney(amountOfMoney);
+        actionDto.setBankAccountId(Integer.parseInt(bankAccountId));
+        actionDto.setActionType(actionType);
+        actionDto.setPriority(priority);
+        log.debug("Method 'createActionDto' finished");
+        return actionDto;
     }
 }
