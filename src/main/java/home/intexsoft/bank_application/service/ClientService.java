@@ -7,6 +7,7 @@ import home.intexsoft.bank_application.models.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ClientService {
@@ -74,13 +75,8 @@ public class ClientService {
     }
 
     private Command.ClientStatusType getClientStatusType(String statusName) {
-        Command.ClientStatusType type = null;
-        Command.ClientStatusType[] values = Command.ClientStatusType.values();
-        for (Command.ClientStatusType value : values) {
-            if (value.getClientStatusName().equals(statusName)) {
-                type = value;
-            }
-        }
-        return type;
+        return Arrays
+                .stream(Command.ClientStatusType.values())
+                .filter(statusType -> statusType.getClientStatusName().equals(statusName)).findAny().orElse(null);
     }
 }
