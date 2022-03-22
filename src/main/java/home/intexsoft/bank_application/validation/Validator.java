@@ -9,11 +9,14 @@ import home.intexsoft.bank_application.service.ClientService;
 import home.intexsoft.bank_application.service.CurrencyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public abstract class Validator {
 
     private static final Logger log = LoggerFactory.getLogger(Validator.class);
@@ -23,12 +26,22 @@ public abstract class Validator {
     private static final String VALIDATION_PROBLEM_PATTERN =
             "Problem: %s\n";
 
-    protected ClientService clientService = new ClientService();
-    protected BankService bankService = new BankService();
-    protected CurrencyService currencyService = new CurrencyService();
-    protected BankAccountService bankAccountService = new BankAccountService();
     protected Map<CommandAttribute, List<String>> validationErrors = new HashMap<>();
     protected Map<CommandAttribute, List<AttributeDescriptor>> attributeRules = new HashMap<>();
+
+    protected ClientService clientService;
+    protected BankService bankService;
+    protected CurrencyService currencyService;
+    protected BankAccountService bankAccountService;
+
+    @Autowired
+    public Validator(ClientService clientService, BankService bankService, CurrencyService currencyService,
+                     BankAccountService bankAccountService) {
+        this.clientService = clientService;
+        this.bankService = bankService;
+        this.currencyService = currencyService;
+        this.bankAccountService = bankAccountService;
+    }
 
     public Map<CommandAttribute, List<String>> getValidationErrors() {
         return validationErrors;

@@ -5,15 +5,25 @@ import home.intexsoft.bank_application.validation.CommandValidatorFactory;
 import home.intexsoft.bank_application.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class CommandCreator {
 
     private static final Logger log = LoggerFactory.getLogger(CommandCreator.class);
-    private CommandValidatorFactory commandValidatorFactory = new CommandValidatorFactory();
-    private CommandFactory commandFactory = new CommandFactory();
-    private CommandLineParser commandLineParser = new CommandLineParser();
+    private CommandValidatorFactory commandValidatorFactory;
+    private CommandFactory commandFactory;
+    private CommandLineParser commandLineParser;
+
+    @Autowired
+    public CommandCreator(CommandValidatorFactory commandValidatorFactory, CommandFactory commandFactory, CommandLineParser commandLineParser) {
+        this.commandValidatorFactory = commandValidatorFactory;
+        this.commandFactory = commandFactory;
+        this.commandLineParser = commandLineParser;
+    }
 
     public Command createCommand(MenuItem activeItem) {
         log.debug("Creation of executable command " + activeItem.getName().getCommandName() + " started");

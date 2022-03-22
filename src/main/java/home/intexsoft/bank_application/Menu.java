@@ -2,7 +2,8 @@ package home.intexsoft.bank_application;
 
 import home.intexsoft.bank_application.command.CommandLineParser;
 
-class Menu {
+
+public class Menu {
 
     private MenuItem activeItem;
     private CommandLineParser commandLineParser = new CommandLineParser();
@@ -15,7 +16,7 @@ class Menu {
         return activeItem;
     }
 
-    void setActiveItem(MenuItem activeItem) {
+    public void setActiveItem(MenuItem activeItem) {
         this.activeItem = activeItem;
     }
 }

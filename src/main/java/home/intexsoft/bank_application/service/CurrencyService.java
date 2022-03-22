@@ -4,11 +4,19 @@ import home.intexsoft.bank_application.dao.CurrencyDAO;
 import home.intexsoft.bank_application.models.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CurrencyService {
 
     private static final Logger log = LoggerFactory.getLogger(CurrencyService.class);
-    private CurrencyDAO currencyDAO = new CurrencyDAO();
+    private CurrencyDAO currencyDAO;
+
+    @Autowired
+    public CurrencyService(CurrencyDAO currencyDAO) {
+        this.currencyDAO = currencyDAO;
+    }
 
     public void addCurrency(String currencyName, String rate) {
         log.debug("Method addCurrency started");

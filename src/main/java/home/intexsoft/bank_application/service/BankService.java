@@ -4,13 +4,22 @@ import home.intexsoft.bank_application.dao.BankDAO;
 import home.intexsoft.bank_application.models.Bank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BankService {
 
     private static final Logger log = LoggerFactory.getLogger(BankService.class);
-    private BankDAO bankDAO = new BankDAO();
+
+    private BankDAO bankDAO;
+
+    @Autowired
+    public BankService(BankDAO bankDAO) {
+        this.bankDAO = bankDAO;
+    }
 
     public void addBank(String bankName, String commissionForIndividual, String commissionForEntity) {
         log.debug("Method AddBank (name = '" + bankName + "' started");

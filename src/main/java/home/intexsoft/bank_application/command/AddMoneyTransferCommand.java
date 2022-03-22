@@ -5,10 +5,20 @@ import home.intexsoft.bank_application.dto.OperationDto;
 import home.intexsoft.bank_application.service.OperationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AddMoneyTransferCommand extends Command {
 
     private static final Logger log = LoggerFactory.getLogger(AddMoneyTransferCommand.class);
+
+    private OperationService operationService;
+
+    @Autowired
+    public AddMoneyTransferCommand(OperationService operationService) {
+        this.operationService = operationService;
+    }
 
     public enum Attribute implements CommandAttribute {
 
@@ -37,7 +47,6 @@ public class AddMoneyTransferCommand extends Command {
     @Override
     public void execute() {
         log.debug("Executing of '" + this.getName().getCommandName() + "' started");
-        OperationService operationService = new OperationService();
         OperationDto operationDto = getNewOperationDto();
         operationService.createOperation(operationDto);
         log.debug("Executing of '" + this.getName().getCommandName() + "' finished");

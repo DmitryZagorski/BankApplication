@@ -6,15 +6,24 @@ import home.intexsoft.bank_application.models.Bank;
 import home.intexsoft.bank_application.models.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Service
 public class ClientService {
 
     private static final Logger log = LoggerFactory.getLogger(ClientService.class);
-    private ClientDAO clientDAO = new ClientDAO();
-    private BankService bankService = new BankService();
+    private ClientDAO clientDAO;
+    private BankService bankService;
+
+    @Autowired
+    public ClientService(ClientDAO clientDAO, BankService bankService) {
+        this.clientDAO = clientDAO;
+        this.bankService = bankService;
+    }
 
     public void addClient(String clientName, String clientSurname, String clientStatus, String bankName) {
         log.debug("Method AddClient started");

@@ -5,6 +5,10 @@ import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
 import home.intexsoft.bank_application.command.AddMoneyTransferCommand;
 import home.intexsoft.bank_application.command.Command;
 import home.intexsoft.bank_application.command.CommandAttribute;
+import home.intexsoft.bank_application.service.BankAccountService;
+import home.intexsoft.bank_application.service.BankService;
+import home.intexsoft.bank_application.service.ClientService;
+import home.intexsoft.bank_application.service.CurrencyService;
 import home.intexsoft.bank_application.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +43,10 @@ public class AddMoneyTransferCommandValidator extends Validator {
                         AttributeType.DOUBLE.getAttributedName()),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MAX_VALUE, "10000"),
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MIN_VALUE, "1")));
+    }
+
+    public AddMoneyTransferCommandValidator(ClientService clientService, BankService bankService, CurrencyService currencyService, BankAccountService bankAccountService) {
+        super(clientService, bankService, currencyService, bankAccountService);
     }
 
     @Override

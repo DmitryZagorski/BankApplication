@@ -4,11 +4,13 @@ import home.intexsoft.bank_application.command.Command;
 import home.intexsoft.bank_application.validation.commandValidators.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class CommandValidatorFactory {
 
     private static final Logger log = LoggerFactory.getLogger(CommandValidatorFactory.class);

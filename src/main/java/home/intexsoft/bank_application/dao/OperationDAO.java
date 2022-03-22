@@ -5,7 +5,9 @@ import home.intexsoft.bank_application.models.Operation;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class OperationDAO extends DAO<Operation> {
 
     private static final Logger log = LoggerFactory.getLogger(OperationDAO.class);
