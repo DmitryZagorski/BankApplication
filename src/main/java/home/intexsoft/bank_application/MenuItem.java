@@ -28,7 +28,7 @@ public class MenuItem {
         this.name = name;
     }
 
-    public MenuItem getParent() {
+    MenuItem getParent() {
         return parent;
     }
 

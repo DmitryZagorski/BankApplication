@@ -3,9 +3,11 @@ package home.intexsoft.bank_application.dao;
 import com.sun.istack.NotNull;
 import home.intexsoft.bank_application.models.BankAccount;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -18,10 +20,17 @@ public class BankAccountDAO extends DAO<BankAccount> {
 
     private static final Logger log = LoggerFactory.getLogger(BankAccountDAO.class);
 
+    private final SessionFactory sessionFactory;
+
+    @Autowired
+    public BankAccountDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     @Override
     public void create(@NotNull final BankAccount bankAccount) {
         log.debug("DAO method of creation new bankAccount started");
-        final Session session = HibernateUtil.getSessionFactory().openSession();
+        final Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
             session.save(bankAccount);
@@ -37,7 +46,7 @@ public class BankAccountDAO extends DAO<BankAccount> {
 
     public void updateBankAccount(BankAccount bankAccount) {
         log.debug("DAO method of bank account updating started");
-        final Session session = HibernateUtil.getSessionFactory().openSession();
+        final Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
             session.update(bankAccount);
@@ -55,7 +64,7 @@ public class BankAccountDAO extends DAO<BankAccount> {
     @Override
     public BankAccount findById(@NotNull final Integer id) {
         log.debug("DAO method of finding bankAccount by ID= '" + id + "' started");
-        try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (final Session session = sessionFactory.openSession()) {
             final BankAccount result = session.get(BankAccount.class, id);
             return result != null ? result : new BankAccount();
         }
@@ -64,7 +73,7 @@ public class BankAccountDAO extends DAO<BankAccount> {
     public List<BankAccount> findBankAccountsOfClient(Integer clientId) {
         log.debug("DAO method of finding bankAccounts of client started");
         List<BankAccount> bankAccounts;
-        try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (final Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<BankAccount> query = criteriaBuilder.createQuery(BankAccount.class);

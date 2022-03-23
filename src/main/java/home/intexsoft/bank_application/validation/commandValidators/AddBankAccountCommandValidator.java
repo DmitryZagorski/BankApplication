@@ -13,14 +13,21 @@ import home.intexsoft.bank_application.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class AddBankAccountCommandValidator extends Validator {
 
     private static final Logger log = LoggerFactory.getLogger(AddBankAccountCommandValidator.class);
+
+    @Autowired
+    private BankService bankService;
+    @Autowired
+    private CurrencyService currencyService;
 
     {
         validationErrors.put(AddBankAccountCommand.Attribute.BANK_NAME, new ArrayList<>());
@@ -67,10 +74,10 @@ public class AddBankAccountCommandValidator extends Validator {
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MIN_VALUE, "1")));
     }
 
-    public AddBankAccountCommandValidator(ClientService clientService, BankService bankService,
-                                          CurrencyService currencyService, BankAccountService bankAccountService) {
-        super(clientService, bankService, currencyService, bankAccountService);
-    }
+//    public AddBankAccountCommandValidator(ClientService clientService, BankService bankService,
+//                                          CurrencyService currencyService, BankAccountService bankAccountService) {
+//        super(clientService, bankService, currencyService, bankAccountService);
+//    }
 
     @Override
     public void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair) {

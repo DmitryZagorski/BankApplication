@@ -5,21 +5,28 @@ import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
 import home.intexsoft.bank_application.command.AddBankCommand;
 import home.intexsoft.bank_application.command.Command;
 import home.intexsoft.bank_application.command.CommandAttribute;
-import home.intexsoft.bank_application.service.BankAccountService;
 import home.intexsoft.bank_application.service.BankService;
-import home.intexsoft.bank_application.service.ClientService;
-import home.intexsoft.bank_application.service.CurrencyService;
 import home.intexsoft.bank_application.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class AddBankCommandValidator extends Validator {
 
     private static final Logger log = LoggerFactory.getLogger(AddBankCommandValidator.class);
+
+    private final BankService bankService;
+
+    @Autowired
+    public AddBankCommandValidator(BankService bankService) {
+        this.bankService = bankService;
+    }
 
     {
         validationErrors.put(AddBankCommand.Attribute.BANK_NAME, new ArrayList<>());
@@ -45,9 +52,9 @@ public class AddBankCommandValidator extends Validator {
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MIN_VALUE, "2")));
     }
 
-    public AddBankCommandValidator(ClientService clientService, BankService bankService, CurrencyService currencyService, BankAccountService bankAccountService) {
-        super(clientService, bankService, currencyService, bankAccountService);
-    }
+//    public AddBankCommandValidator(ClientService clientService, BankService bankService, CurrencyService currencyService, BankAccountService bankAccountService) {
+//        super(clientService, bankService, currencyService, bankAccountService);
+//    }
 
     @Override
     public void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair) {

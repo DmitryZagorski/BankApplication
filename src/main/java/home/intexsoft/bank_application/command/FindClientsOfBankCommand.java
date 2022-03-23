@@ -4,19 +4,18 @@ import home.intexsoft.bank_application.service.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FindClientsOfBankCommand extends Command {
 
     private static final Logger log = LoggerFactory.getLogger(FindClientsOfBankCommand.class);
 
-    private ClientService clientService;
-
     @Autowired
-    public FindClientsOfBankCommand(ClientService clientService) {
-        this.clientService = clientService;
-    }
+    private ClientService clientService;
 
     public enum Attribute implements CommandAttribute {
 

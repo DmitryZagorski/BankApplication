@@ -12,14 +12,20 @@ import home.intexsoft.bank_application.service.CurrencyService;
 import home.intexsoft.bank_application.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class DeleteClientCommandValidator extends Validator {
 
     private static final Logger log = LoggerFactory.getLogger(DeleteClientCommandValidator.class);
+
+    @Autowired
+    private ClientService clientService;
 
     {
         validationErrors.put(DeleteClientCommand.Attribute.CLIENT_NAME, new ArrayList<>());
@@ -31,9 +37,9 @@ public class DeleteClientCommandValidator extends Validator {
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MIN_VALUE, "2")));
     }
 
-    public DeleteClientCommandValidator(ClientService clientService, BankService bankService, CurrencyService currencyService, BankAccountService bankAccountService) {
-        super(clientService, bankService, currencyService, bankAccountService);
-    }
+//    public DeleteClientCommandValidator(ClientService clientService, BankService bankService, CurrencyService currencyService, BankAccountService bankAccountService) {
+//        super(clientService, bankService, currencyService, bankAccountService);
+//    }
 
     @Override
     public void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair) {

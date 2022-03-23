@@ -6,9 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
+
+import static home.intexsoft.bank_application.BankAppRunner.applicationContext;
 
 @Component
 public class CommandValidatorFactory {
@@ -33,14 +34,8 @@ public class CommandValidatorFactory {
 
     public Validator createCommandValidator(Command.CommandType commandName) {
         log.debug("Method of creationValidationCommand to command '" + commandName + "' started");
-        Validator commandValidator = null;
-        try {
-            Class<? extends Validator> commandsClass = commandValidators.get(commandName);
-            Constructor<?>[] constructors = commandsClass.getConstructors();
-            commandValidator = (Validator) constructors[0].newInstance();
-        } catch (Exception e) {
-            log.error("Error during creating commandValidator");
-        }
+        Class<? extends Validator> commandsClass = commandValidators.get(commandName);
+        Validator commandValidator = applicationContext.getBean(commandsClass);
         log.debug("Method of creationValidationCommand to command '" + commandName + "' finished");
         return commandValidator;
     }

@@ -3,13 +3,8 @@ package home.intexsoft.bank_application.validation;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeDescriptor;
 import home.intexsoft.bank_application.attributeDescriptor.AttributeType;
 import home.intexsoft.bank_application.command.CommandAttribute;
-import home.intexsoft.bank_application.service.BankAccountService;
-import home.intexsoft.bank_application.service.BankService;
-import home.intexsoft.bank_application.service.ClientService;
-import home.intexsoft.bank_application.service.CurrencyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -28,20 +23,6 @@ public abstract class Validator {
 
     protected Map<CommandAttribute, List<String>> validationErrors = new HashMap<>();
     protected Map<CommandAttribute, List<AttributeDescriptor>> attributeRules = new HashMap<>();
-
-    protected ClientService clientService;
-    protected BankService bankService;
-    protected CurrencyService currencyService;
-    protected BankAccountService bankAccountService;
-
-    @Autowired
-    public Validator(ClientService clientService, BankService bankService, CurrencyService currencyService,
-                     BankAccountService bankAccountService) {
-        this.clientService = clientService;
-        this.bankService = bankService;
-        this.currencyService = currencyService;
-        this.bankAccountService = bankAccountService;
-    }
 
     public Map<CommandAttribute, List<String>> getValidationErrors() {
         return validationErrors;

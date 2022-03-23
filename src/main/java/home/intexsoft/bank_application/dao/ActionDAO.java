@@ -2,9 +2,11 @@ package home.intexsoft.bank_application.dao;
 
 import home.intexsoft.bank_application.models.Action;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -18,9 +20,16 @@ public class ActionDAO extends DAO<Action> {
 
     private static final Logger log = LoggerFactory.getLogger(ActionDAO.class);
 
+    private final SessionFactory sessionFactory;
+
+    @Autowired
+    public ActionDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     public List<Action> findActionsByBankAccountId(Integer bankAccountId) {
         log.debug("DAO method of finding actions by bank account id '" + bankAccountId + "' started");
-        final Session session = HibernateUtil.getSessionFactory().openSession();
+        final Session session = sessionFactory.openSession();
         List<Action> actions = new ArrayList<>();
         try {
             session.beginTransaction();

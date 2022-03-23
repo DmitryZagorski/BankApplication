@@ -3,9 +3,11 @@ package home.intexsoft.bank_application.dao;
 import com.sun.istack.NotNull;
 import home.intexsoft.bank_application.models.Currency;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -18,9 +20,16 @@ public class CurrencyDAO extends DAO<Currency> {
 
     private static final Logger log = LoggerFactory.getLogger(CurrencyDAO.class);
 
+    private final SessionFactory sessionFactory;
+
+    @Autowired
+    public CurrencyDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     public void create(@NotNull final Currency currency) {
         log.debug("DAO method of creation new currency '" + currency.getName() + "' started");
-        final Session session = HibernateUtil.getSessionFactory().openSession();
+        final Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
             session.save(currency);
@@ -43,7 +52,7 @@ public class CurrencyDAO extends DAO<Currency> {
     public Currency findByName(@NotNull final String currencyName) {
         log.debug("DAO method of finding currency by name '" + currencyName + "'started");
         Currency currency = null;
-        try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (final Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<Currency> query = criteriaBuilder.createQuery(Currency.class);

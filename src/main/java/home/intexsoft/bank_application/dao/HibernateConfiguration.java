@@ -6,13 +6,16 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
+import org.springframework.context.annotation.Bean;
 
 import java.util.Properties;
 
-class HibernateUtil {
+@org.springframework.context.annotation.Configuration
+public class HibernateConfiguration {
     private static SessionFactory sessionFactory;
 
-    static SessionFactory getSessionFactory() {
+    @Bean
+    public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();

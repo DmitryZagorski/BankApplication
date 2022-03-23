@@ -54,36 +54,36 @@ public class BankAppRunnerConfiguration {
         addClientItem.setName(Command.CommandType.ADD_CLIENT);
         addClientItem.setParent(clientsItem);
 
-        home.intexsoft.bank_application.MenuItem deleteClientItem = new home.intexsoft.bank_application.MenuItem();
+        MenuItem deleteClientItem = new MenuItem();
         deleteClientItem.setCommand(Boolean.TRUE);
         deleteClientItem.setName(Command.CommandType.DELETE_CLIENT);
         deleteClientItem.setParent(clientsItem);
 
-        home.intexsoft.bank_application.MenuItem deleteAllClientsItem = new home.intexsoft.bank_application.MenuItem();
+        MenuItem deleteAllClientsItem = new MenuItem();
         deleteAllClientsItem.setCommand(Boolean.TRUE);
         deleteAllClientsItem.setName(Command.CommandType.DELETE_ALL_CLIENTS_OF_BANK);
         deleteAllClientsItem.setParent(clientsItem);
 
-        home.intexsoft.bank_application.MenuItem findBankAccountOfClientItem = new home.intexsoft.bank_application.MenuItem();
+        MenuItem findBankAccountOfClientItem = new MenuItem();
         findBankAccountOfClientItem.setCommand(Boolean.TRUE);
         findBankAccountOfClientItem.setName(Command.CommandType.FIND_BANK_ACCOUNTS_OF_CLIENT);
         findBankAccountOfClientItem.setParent(clientsItem);
 
-        home.intexsoft.bank_application.MenuItem operationsItem = new home.intexsoft.bank_application.MenuItem();
+        MenuItem operationsItem = new MenuItem();
         operationsItem.setName(Command.CommandType.OPERATIONS);
         operationsItem.setParent(mainMenuItem);
 
-        home.intexsoft.bank_application.MenuItem addMoneyTransferItem = new home.intexsoft.bank_application.MenuItem();
+        MenuItem addMoneyTransferItem = new MenuItem();
         addMoneyTransferItem.setCommand(Boolean.TRUE);
         addMoneyTransferItem.setName(Command.CommandType.ADD_MONEY_TRANSFER);
         addMoneyTransferItem.setParent(operationsItem);
 
-        home.intexsoft.bank_application.MenuItem addSalaryPaymentItem = new home.intexsoft.bank_application.MenuItem();
+        MenuItem addSalaryPaymentItem = new MenuItem();
         addSalaryPaymentItem.setCommand(Boolean.TRUE);
         addSalaryPaymentItem.setName(Command.CommandType.ADD_SALARY_PAYMENT);
         addSalaryPaymentItem.setParent(operationsItem);
 
-        home.intexsoft.bank_application.MenuItem addCurrencyItem = new home.intexsoft.bank_application.MenuItem();
+        MenuItem addCurrencyItem = new MenuItem();
         addCurrencyItem.setCommand(Boolean.TRUE);
         addCurrencyItem.setName(Command.CommandType.ADD_CURRENCY);
         addCurrencyItem.setParent(banksItem);

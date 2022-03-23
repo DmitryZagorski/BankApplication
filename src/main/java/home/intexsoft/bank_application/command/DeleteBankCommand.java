@@ -4,19 +4,18 @@ import home.intexsoft.bank_application.service.BankService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class DeleteBankCommand extends Command {
 
     private static final Logger log = LoggerFactory.getLogger(DeleteBankCommand.class);
 
-    private BankService bankService;
-
     @Autowired
-    public DeleteBankCommand(BankService bankService) {
-        this.bankService = bankService;
-    }
+    private BankService bankService;
 
     public enum Attribute implements CommandAttribute {
 
