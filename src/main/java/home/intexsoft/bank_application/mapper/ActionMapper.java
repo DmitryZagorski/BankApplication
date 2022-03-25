@@ -6,7 +6,7 @@ import home.intexsoft.bank_application.models.Action;
 import home.intexsoft.bank_application.models.BankAccount;
 import org.mapstruct.*;
 
-@Mapper(componentModel = "spring", uses = BankAccountDAO.class)
+@Mapper(componentModel = "spring")
 public interface ActionMapper {
 
     @Mapping(target = "id", ignore = true)
@@ -14,7 +14,7 @@ public interface ActionMapper {
     @Mapping(target = "operation", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "updateTime", ignore = true)
-    Action fromActionDto(ActionDto actionDTO, @Context BankAccountDAO bankAccountDAO);
+    Action fromActionDto(ActionDto actionDTO);
 
     @AfterMapping
     default void mapBankAccount(ActionDto actionDto, @MappingTarget Action action, @Context BankAccountDAO bankAccountDAO){

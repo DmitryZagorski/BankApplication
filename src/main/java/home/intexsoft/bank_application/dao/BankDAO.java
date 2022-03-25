@@ -14,6 +14,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.io.Serializable;
 import java.util.List;
 
 @Repository
@@ -28,8 +29,7 @@ public class BankDAO extends DAO<Bank> {
         this.sessionFactory = sessionFactory;
     }
 
-    @Override
-    public void create(@NotNull final Bank bank) {
+    public Bank createBank(@NotNull Bank bank) {
         log.debug("DAO method of creation new bank started");
         final Session session = sessionFactory.openSession();
         try {
@@ -37,12 +37,15 @@ public class BankDAO extends DAO<Bank> {
             session.save(bank);
             session.getTransaction().commit();
             session.close();
+            log.debug("DAO method of creation new bank successfully finished");
+            return bank;
         } catch (Exception e) {
             log.error("Error during saving transaction" + e);
             session.getTransaction().rollback();
             session.close();
+            log.debug("DAO method of creation new bank finished with error!!!");
+            return bank;
         }
-        log.debug("DAO method of creation new bank finished");
     }
 
     @Override

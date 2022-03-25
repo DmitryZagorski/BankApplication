@@ -1,5 +1,7 @@
 package home.intexsoft.bank_application.service;
 
+import home.intexsoft.bank_application.controller.dto.BankDto;
+import home.intexsoft.bank_application.controller.dto.BankMapperImpl;
 import home.intexsoft.bank_application.dao.BankDAO;
 import home.intexsoft.bank_application.models.Bank;
 import org.slf4j.Logger;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BankService {
@@ -21,11 +24,12 @@ public class BankService {
         this.bankDAO = bankDAO;
     }
 
-    public void addBank(String bankName, String commissionForIndividual, String commissionForEntity) {
+    public Bank addBank(String bankName, String commissionForIndividual, String commissionForEntity) {
         log.debug("Method AddBank (name = '" + bankName + "' started");
         Bank bank = createBankAndSetValuesOfAttributes(bankName, commissionForIndividual, commissionForEntity);
-        bankDAO.create(bank);
+        Bank createdBank = bankDAO.createBank(bank);
         log.debug("Method AddBank (name = '" + bankName + "' finished");
+        return createdBank;
     }
 
     public void deleteBankByName(String bankName) {
@@ -34,18 +38,28 @@ public class BankService {
         log.debug("Method DeleteBank '" + bankName + "'finished");
     }
 
-    public void viewAllBanks() {
+//    public List<Bank> viewAllBanks() {
+//        log.debug("Method ViewAllBanks started");
+//        List<Bank> bankList = bankDAO.findAll();
+//        //bankList.forEach(System.out::println);    // temporary commented by adding bank controller
+//        return bankList;
+//       // log.debug("Method ViewAllBanks finished");
+//    }
+
+    public List<BankDto> viewAllBanks() {
         log.debug("Method ViewAllBanks started");
+        BankMapperImpl bankMapper = new BankMapperImpl();
         List<Bank> bankList = bankDAO.findAll();
-        bankList.forEach(System.out::println);
+        List<BankDto> bankDtoList = bankList.stream().map(bankMapper::fromBank).collect(Collectors.toList());
         log.debug("Method ViewAllBanks finished");
+        return bankDtoList;
     }
 
     private Bank createBankAndSetValuesOfAttributes(String bankName,
                                                     String commissionForIndividual,
                                                     String commissionForEntity) {
         log.debug("Creating bank '" + bankName + "'with setting its arguments started");
-        final Bank bank = new Bank();
+        Bank bank = new Bank();
         bank.setName(bankName);
         bank.setCommissionForIndividual(Double.valueOf(commissionForIndividual));
         bank.setCommissionForEntity(Double.valueOf(commissionForEntity));
@@ -60,5 +74,6 @@ public class BankService {
     public boolean checkIfBankNameExist(String bankName) {
         return bankDAO.findByName(bankName) != null;
     }
+
 
 }
