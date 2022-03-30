@@ -34,28 +34,28 @@ public class BankController {
         return applicationContext.getBeanDefinitionNames();
     }
 
-    @GetMapping(value = "/viewAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/view-all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<BankDto>> viewAll() {
         return new ResponseEntity<>(bankService.viewAllBanks(), HttpStatus.OK);
     }
+//
+//    @PostMapping(value = "/addBankParam", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<BankDto> saveBank(@RequestParam String bankName,
+//                                            @RequestParam String commissionForIndividual,
+//                                            @RequestParam String commissionForEntity) {
+//        BankDto createdBank = bankService.addBank(bankName, commissionForIndividual, commissionForEntity);
+//        return new ResponseEntity<>(createdBank, HttpStatus.OK);
+//    }
 
-    @PostMapping(value = "/addBankParam", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BankDto> saveBank(@RequestParam String bankName,
-                                            @RequestParam String commissionForIndividual,
-                                            @RequestParam String commissionForEntity) {
-        BankDto createdBank = bankService.addBank(bankName, commissionForIndividual, commissionForEntity);
-        return new ResponseEntity<>(createdBank, HttpStatus.OK);
-    }
-
-    @PostMapping(value = "/addBank", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/add-bank", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BankDto> saveBank(@RequestBody BankDto bankDto) {
         BankDto createdBank = bankService.addBank(bankDto);
         return new ResponseEntity<>(createdBank, HttpStatus.OK);
     }
-
-    @PostMapping(value = "/addBankPar/{bankId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BankDto> saveBank(@PathVariable String bankId) {
-        //BankDto createdBank = bankService.addBank(bankName, commissionForIndividual, commissionForEntity);
-        return new ResponseEntity<>(null, HttpStatus.OK);
-    }
+//
+//    @PostMapping(value = "/addBankPar/{bankId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<BankDto> saveBank(@PathVariable String bankId) {
+//        //BankDto createdBank = bankService.addBank(bankName, commissionForIndividual, commissionForEntity);
+//        return new ResponseEntity<>(null, HttpStatus.OK);
+//    }
 }

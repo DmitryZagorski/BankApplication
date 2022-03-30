@@ -2,27 +2,21 @@ package home.intexsoft.bank_application.command;
 
 import home.intexsoft.bank_application.validation.CommandValidatorFactory;
 import home.intexsoft.bank_application.validation.Validator;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class CommandLineCommandCreator implements CommandCreator{
+@RequiredArgsConstructor
+public class CommandLineCommandCreator implements CommandCreator {
 
     private static final Logger log = LoggerFactory.getLogger(CommandLineCommandCreator.class);
     private CommandValidatorFactory commandValidatorFactory;
     private CommandFactory commandFactory;
     private CommandLineParser commandLineParser;
-
-    @Autowired
-    public CommandLineCommandCreator(CommandValidatorFactory commandValidatorFactory, CommandFactory commandFactory, CommandLineParser commandLineParser) {
-        this.commandValidatorFactory = commandValidatorFactory;
-        this.commandFactory = commandFactory;
-        this.commandLineParser = commandLineParser;
-    }
 
     @Override
     public Command createCommand(Command.CommandType commandName) {
