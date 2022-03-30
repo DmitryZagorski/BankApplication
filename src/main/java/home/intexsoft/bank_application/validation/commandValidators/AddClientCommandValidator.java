@@ -62,10 +62,6 @@ public class AddClientCommandValidator extends Validator {
 
     }
 
-//    public AddClientCommandValidator(ClientService clientService, BankService bankService, CurrencyService currencyService, BankAccountService bankAccountService) {
-//        super(clientService, bankService, currencyService, bankAccountService);
-//    }
-
     @Override
     public void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair) {
         super.validateAttribute(commandAttributePair);

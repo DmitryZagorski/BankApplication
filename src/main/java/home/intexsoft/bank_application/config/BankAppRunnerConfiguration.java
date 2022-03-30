@@ -1,14 +1,12 @@
-package home.intexsoft.bank_application.configuration;
+package home.intexsoft.bank_application.config;
 
 import home.intexsoft.bank_application.Menu;
 import home.intexsoft.bank_application.MenuItem;
 import home.intexsoft.bank_application.command.Command;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("home.intexsoft.bank_application")
 public class BankAppRunnerConfiguration {
 
     @Bean

@@ -4,26 +4,21 @@ import home.intexsoft.bank_application.command.Command;
 import home.intexsoft.bank_application.dao.ClientDAO;
 import home.intexsoft.bank_application.models.Bank;
 import home.intexsoft.bank_application.models.Client;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ClientService {
 
     private static final Logger log = LoggerFactory.getLogger(ClientService.class);
     private ClientDAO clientDAO;
     private BankService bankService;
-
-    @Autowired
-    public ClientService(ClientDAO clientDAO, BankService bankService) {
-        this.clientDAO = clientDAO;
-        this.bankService = bankService;
-    }
 
     public void addClient(String clientName, String clientSurname, String clientStatus, String bankName) {
         log.debug("Method AddClient started");

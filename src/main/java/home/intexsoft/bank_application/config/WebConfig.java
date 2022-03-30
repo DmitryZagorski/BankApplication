@@ -1,4 +1,4 @@
-package home.intexsoft.bank_application.mvc_config;
+package home.intexsoft.bank_application.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +17,10 @@ public class WebConfig implements WebMvcConfigurer, WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
+
         AnnotationConfigWebApplicationContext applicationContext =
                 new AnnotationConfigWebApplicationContext();
-        applicationContext.register(AppConfig.class);
+        applicationContext.register(WebAppConfig.class);
 
         DispatcherServlet dispatcherServlet = new DispatcherServlet(applicationContext);
 

@@ -2,6 +2,7 @@ package home.intexsoft.bank_application.dao;
 
 import com.sun.istack.NotNull;
 import home.intexsoft.bank_application.models.Client;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -16,16 +17,12 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class ClientDAO extends DAO<Client> {
 
     private static final Logger log = LoggerFactory.getLogger(ClientDAO.class);
 
     private final SessionFactory sessionFactory;
-
-    @Autowired
-    public ClientDAO(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public void create(@NotNull final Client client) {

@@ -1,7 +1,7 @@
 package home.intexsoft.bank_application;
 
 import home.intexsoft.bank_application.command.Command;
-import home.intexsoft.bank_application.command.CommandCreator;
+import home.intexsoft.bank_application.command.CommandLineCommandCreator;
 import home.intexsoft.bank_application.command.CommandLineParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ public class Menu {
     private CommandLineParser commandLineParser = new CommandLineParser();
 
     @Autowired
-    private CommandCreator commandCreator;
+    private CommandLineCommandCreator commandLineCommandCreator;
 
     CommandLineParser getCommandLineParser() {
         return commandLineParser;
@@ -57,6 +57,6 @@ public class Menu {
     }
 
     private Command createCommand(MenuItem menuItem) {
-        return commandCreator.createCommand(menuItem);
+        return commandLineCommandCreator.createCommand(menuItem.getName());
     }
 }

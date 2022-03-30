@@ -5,27 +5,22 @@ import home.intexsoft.bank_application.models.Action;
 import home.intexsoft.bank_application.models.BankAccount;
 import home.intexsoft.bank_application.models.Client;
 import home.intexsoft.bank_application.models.Currency;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BankAccountService {
 
     private static final Logger log = LoggerFactory.getLogger(BankAccountService.class);
+
     private BankAccountDAO bankAccountDAO;
     private ClientService clientService;
     private CurrencyService currencyService;
-
-    @Autowired
-    public BankAccountService(BankAccountDAO bankAccountDAO, ClientService clientService, CurrencyService currencyService) {
-        this.bankAccountDAO = bankAccountDAO;
-        this.clientService = clientService;
-        this.currencyService = currencyService;
-    }
 
     public void addBankAccount(String bankName, String clientName, String clientSurname,
                                String clientStatus, String currencyName, String amountOfMoney) {

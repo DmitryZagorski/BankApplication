@@ -2,6 +2,7 @@ package home.intexsoft.bank_application.dao;
 
 import com.sun.istack.NotNull;
 import home.intexsoft.bank_application.models.Bank;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -18,16 +19,12 @@ import java.io.Serializable;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class BankDAO extends DAO<Bank> {
 
     private static final Logger log = LoggerFactory.getLogger(BankDAO.class);
 
     private final SessionFactory sessionFactory;
-
-    @Autowired
-    public BankDAO(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     public Bank createBank(@NotNull Bank bank) {
         log.debug("DAO method of creation new bank started");

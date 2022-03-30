@@ -1,6 +1,7 @@
 package home.intexsoft.bank_application.dao;
 
 import home.intexsoft.bank_application.models.Action;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -16,16 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class ActionDAO extends DAO<Action> {
 
     private static final Logger log = LoggerFactory.getLogger(ActionDAO.class);
 
     private final SessionFactory sessionFactory;
-
-    @Autowired
-    public ActionDAO(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     public List<Action> findActionsByBankAccountId(Integer bankAccountId) {
         log.debug("DAO method of finding actions by bank account id '" + bankAccountId + "' started");

@@ -10,10 +10,9 @@ import home.intexsoft.bank_application.mapper.OperationMapperImpl;
 import home.intexsoft.bank_application.models.Action;
 import home.intexsoft.bank_application.models.BankAccount;
 import home.intexsoft.bank_application.models.Operation;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,19 +20,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class OperationService {
 
     private static final Logger log = LoggerFactory.getLogger(OperationService.class);
     private OperationDAO operationDAO;
     private BankAccountService bankAccountService;
     private ActionDAO actionDAO;
-
-    @Autowired
-    public OperationService(OperationDAO operationDAO, BankAccountService bankAccountService, ActionDAO actionDAO) {
-        this.operationDAO = operationDAO;
-        this.bankAccountService = bankAccountService;
-        this.actionDAO = actionDAO;
-    }
 
     public void createOperation(OperationDto operationDto) {
         log.debug("Method createOperation started");

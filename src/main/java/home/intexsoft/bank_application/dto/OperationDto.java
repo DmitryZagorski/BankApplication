@@ -1,6 +1,7 @@
 package home.intexsoft.bank_application.dto;
 
 import home.intexsoft.bank_application.command.Command;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,9 +9,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public class OperationDto {
 
     private Command.OperationStatus status;

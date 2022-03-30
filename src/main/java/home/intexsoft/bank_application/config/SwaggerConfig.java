@@ -1,4 +1,4 @@
-package home.intexsoft.bank_application.mvc_config;
+package home.intexsoft.bank_application.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

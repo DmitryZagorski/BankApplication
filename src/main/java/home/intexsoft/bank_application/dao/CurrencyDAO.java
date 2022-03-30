@@ -2,6 +2,7 @@ package home.intexsoft.bank_application.dao;
 
 import com.sun.istack.NotNull;
 import home.intexsoft.bank_application.models.Currency;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -16,16 +17,12 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class CurrencyDAO extends DAO<Currency> {
 
     private static final Logger log = LoggerFactory.getLogger(CurrencyDAO.class);
 
     private final SessionFactory sessionFactory;
-
-    @Autowired
-    public CurrencyDAO(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     public void create(@NotNull final Currency currency) {
         log.debug("DAO method of creation new currency '" + currency.getName() + "' started");

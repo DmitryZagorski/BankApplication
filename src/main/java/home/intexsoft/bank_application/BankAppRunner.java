@@ -1,5 +1,6 @@
 package home.intexsoft.bank_application;
 
+import home.intexsoft.bank_application.config.CommandLineConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class BankAppRunner {
 
     private Menu menu;
 
-    public static ApplicationContext applicationContext = new AnnotationConfigApplicationContext(BankAppRunner.class);
+    public static ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CommandLineConfig.class);
 
     @Autowired
     public BankAppRunner(Menu menu) {
@@ -28,5 +29,8 @@ public class BankAppRunner {
         Menu menu = applicationContext.getBean(Menu.class);
         menu.runMenu();
         log.debug("PSVM finished");
+
+//        Arrays.stream(applicationContext.getBeanDefinitionNames()).forEach(System.out::println);
+
     }
 }

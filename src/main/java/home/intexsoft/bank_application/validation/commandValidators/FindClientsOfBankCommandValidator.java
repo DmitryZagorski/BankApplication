@@ -37,10 +37,6 @@ public class FindClientsOfBankCommandValidator extends Validator {
                 new AttributeDescriptor(AttributeDescriptor.DescriptorParameter.MIN_VALUE, "2")));
     }
 
-//    public FindClientsOfBankCommandValidator(ClientService clientService, BankService bankService, CurrencyService currencyService, BankAccountService bankAccountService) {
-//        super(clientService, bankService, currencyService, bankAccountService);
-//    }
-
     @Override
     public void validateAttribute(Map.Entry<CommandAttribute, String> commandAttributePair) {
         super.validateAttribute(commandAttributePair);

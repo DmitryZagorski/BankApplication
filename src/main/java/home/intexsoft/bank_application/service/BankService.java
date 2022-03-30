@@ -1,35 +1,35 @@
 package home.intexsoft.bank_application.service;
 
-import home.intexsoft.bank_application.controller.dto.BankDto;
-import home.intexsoft.bank_application.controller.dto.BankMapperImpl;
 import home.intexsoft.bank_application.dao.BankDAO;
+import home.intexsoft.bank_application.dto.BankDto;
+import home.intexsoft.bank_application.mapper.BankMapper;
+import home.intexsoft.bank_application.mapper.BankMapperImpl;
 import home.intexsoft.bank_application.models.Bank;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class BankService {
 
     private static final Logger log = LoggerFactory.getLogger(BankService.class);
 
-    private BankDAO bankDAO;
+    private final BankDAO bankDAO;
+    private final BankMapper bankMapper;
 
-    @Autowired
-    public BankService(BankDAO bankDAO) {
-        this.bankDAO = bankDAO;
-    }
-
-    public Bank addBank(String bankName, String commissionForIndividual, String commissionForEntity) {
+    public BankDto addBank(String bankName, String commissionForIndividual, String commissionForEntity) {
         log.debug("Method AddBank (name = '" + bankName + "' started");
+        BankMapperImpl bankMapper = new BankMapperImpl();
         Bank bank = createBankAndSetValuesOfAttributes(bankName, commissionForIndividual, commissionForEntity);
         Bank createdBank = bankDAO.createBank(bank);
+        BankDto bankDto = bankMapper.fromBank(createdBank);
         log.debug("Method AddBank (name = '" + bankName + "' finished");
-        return createdBank;
+        return bankDto;
     }
 
     public void deleteBankByName(String bankName) {
@@ -75,5 +75,9 @@ public class BankService {
         return bankDAO.findByName(bankName) != null;
     }
 
-
+    public BankDto addBank(BankDto bankDto) {
+        Bank bank = bankMapper.fromBankDto(bankDto);
+        Bank createdBank = bankDAO.createBank(bank);
+        return bankMapper.fromBank(createdBank);
+    }
 }
