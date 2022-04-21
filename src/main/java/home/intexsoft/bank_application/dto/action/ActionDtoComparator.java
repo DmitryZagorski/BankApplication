@@ -1,6 +1,4 @@
-package home.intexsoft.bank_application.dto;
-
-import home.intexsoft.bank_application.dto.ActionDto;
+package home.intexsoft.bank_application.dto.action;
 
 import java.util.Comparator;
 

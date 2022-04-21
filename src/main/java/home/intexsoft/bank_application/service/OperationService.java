@@ -3,12 +3,13 @@ package home.intexsoft.bank_application.service;
 import home.intexsoft.bank_application.command.Command;
 import home.intexsoft.bank_application.dao.ActionDAO;
 import home.intexsoft.bank_application.dao.OperationDAO;
-import home.intexsoft.bank_application.dto.ActionDtoComparator;
-import home.intexsoft.bank_application.dto.OperationDto;
-import home.intexsoft.bank_application.mapper.ActionMapperImpl;
-import home.intexsoft.bank_application.mapper.OperationMapperImpl;
+import home.intexsoft.bank_application.controller.ModelDto;
+import home.intexsoft.bank_application.dto.action.ActionDtoComparator;
+import home.intexsoft.bank_application.controller.operationController.dto.OperationDto;
+import home.intexsoft.bank_application.mapper.ActionMapper;
+import home.intexsoft.bank_application.mapper.BankAccountMapper;
+import home.intexsoft.bank_application.mapper.OperationMapper;
 import home.intexsoft.bank_application.models.Action;
-import home.intexsoft.bank_application.models.BankAccount;
 import home.intexsoft.bank_application.models.Operation;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -24,54 +25,62 @@ import java.util.stream.Collectors;
 public class OperationService {
 
     private static final Logger log = LoggerFactory.getLogger(OperationService.class);
-    private OperationDAO operationDAO;
-    private BankAccountService bankAccountService;
-    private ActionDAO actionDAO;
+    private final OperationDAO operationDAO;
+    private final BankAccountService bankAccountService;
+    private final ActionDAO actionDAO;
+    private final OperationMapper operationMapper;
+    private final ActionMapper actionMapper;
+    private final BankAccountMapper bankAccountMapper;
 
-    public void createOperation(OperationDto operationDto) {
+    public List<ModelDto> createOperation(OperationDto operationDto) {
         log.debug("Method createOperation started");
         Operation operation = mapToOperation(operationDto);
         operationDAO.createOperation(operation);
+        Operation addedOperation = null;
         try {
             operation.setStatus(Command.OperationStatus.IN_PROCESS);
             operationDAO.update(operation);
             bankAccountService.executeActionList(operation.getActions());
             operation.setStatus(Command.OperationStatus.SUCCESS);
-            operationDAO.update(operation);
+            addedOperation = operationDAO.update(operation);
         } catch (Exception e) {
             operation.setStatus(Command.OperationStatus.FAILED);
             operationDAO.update(operation);
         }
+        List<ModelDto> modelsDto = new ArrayList<>();
+        modelsDto.add(operationMapper.fromOperation(addedOperation));
         log.debug("Method createOperation finished");
+        return modelsDto;
     }
 
     private Operation mapToOperation(OperationDto operationDto) {
-        OperationMapperImpl operationMapper = new OperationMapperImpl();
         Operation operation = operationMapper.fromOperationDto(operationDto);
-
-        ActionMapperImpl actionMapper = new ActionMapperImpl();
-
         List<Action> actionList = operationDto.getActionsDto()
                 .stream()
                 .sorted(new ActionDtoComparator())
                 .map(actionMapper::fromActionDto)
                 .peek(action -> action.setOperation(operation))
                 .collect(Collectors.toList());
-
         operation.setActions(actionList);
         return operation;
     }
 
-    public void printOperationsOfClient(String clientName) {
+    public List<ModelDto> printOperationsOfClient(String clientName) {
         log.debug("Method findOperationsOfClient started");
-        List<BankAccount> bankAccountsOfClient = bankAccountService.findBankAccountsOfClient(clientName);
-        List<List<Action>> allActions = new ArrayList<>();
-        bankAccountsOfClient.forEach(bankAccount -> allActions.add(actionDAO.findActionsByBankAccountId(bankAccount.getId())));
-        List<Action> actions = new ArrayList<>();
-        allActions.forEach(actions::addAll);
-        List<Operation> operations = new ArrayList<>();
-        actions.forEach(action -> operations.add(action.getOperation()));
-        operations.forEach(System.out::println);
-        log.debug("Method findOperationsOfClient finished");
+//        List<FindBankAccountsOfClientRequestDto> bankAccountsOfClient = bankAccountService.findBankAccountsOfClient(clientName);
+//        List<BankAccount> bankAccounts = bankAccountsOfClient
+//                .stream()
+//                .map(bankAccountMapper::fromFindBankAccountsDto)
+//                .collect(Collectors.toList());
+//        List<List<Action>> allActions = new ArrayList<>();
+//        bankAccounts.forEach(bankAccount -> allActions.add(actionDAO.findActionsByBankAccountId(bankAccount.getId())));
+//        List<Action> actions = new ArrayList<>();
+//        allActions.forEach(actions::addAll);
+//        List<Operation> operations = new ArrayList<>();
+//        actions.forEach(action -> operations.add(action.getOperation()));
+//        return operations.stream()
+//                .map(operationMapper::fromOperation)
+//                .collect(Collectors.toList());
+        return null;
     }
 }

@@ -20,7 +20,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class BankDAO extends DAO<Bank> {
+public class BankDAO {
 
     private static final Logger log = LoggerFactory.getLogger(BankDAO.class);
 
@@ -45,7 +45,6 @@ public class BankDAO extends DAO<Bank> {
         }
     }
 
-    @Override
     public Bank findById(@NotNull final Integer id) {
         log.debug("DAO method of finding bank by ID = '" + id + "' started");
         try (final Session session = sessionFactory.openSession()) {
@@ -54,7 +53,6 @@ public class BankDAO extends DAO<Bank> {
         }
     }
 
-    @Override
     public Bank findByName(@NotNull final String name) {
         log.debug("DAO method of finding bank by name '" + name + "' started");
         Bank bank = null;
@@ -75,7 +73,6 @@ public class BankDAO extends DAO<Bank> {
         return bank;
     }
 
-    @Override
     public List<Bank> findAll() {
         log.debug("DAO method of finding all banks started");
         List<Bank> bankList;
@@ -93,7 +90,6 @@ public class BankDAO extends DAO<Bank> {
         return bankList;
     }
 
-    @Override
     public void update(@NotNull final Bank bank) {
         log.debug("DAO method of updating bank '" + bank.getName() + "' started");
         try (Session session = sessionFactory.openSession()) {
@@ -104,9 +100,9 @@ public class BankDAO extends DAO<Bank> {
         log.debug("DAO method of updating bank '" + bank.getName() + "' finished");
     }
 
-    @Override
-    public void deleteByName(@NotNull final String bankName) {
+    public Bank deleteByName(@NotNull final String bankName) {
         log.debug("DAO method of deleting bank by name '" + bankName + "'started");
+        Bank foundBank = null;
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -114,10 +110,11 @@ public class BankDAO extends DAO<Bank> {
             Root<Bank> root = query.from(Bank.class);
             query.where(criteriaBuilder.equal(root.get("name"), bankName));
             Query<Bank> newQuery = session.createQuery(query);
-            Bank foundBank = newQuery.getSingleResult();
+            foundBank = newQuery.getSingleResult();
             session.delete(foundBank);
             session.getTransaction().commit();
         }
         log.debug("DAO method of deleting bank by name '" + bankName + "'started");
+        return foundBank;
     }
 }

@@ -1,15 +1,16 @@
 package home.intexsoft.bank_application.service;
 
+import home.intexsoft.bank_application.controller.ModelDto;
+import home.intexsoft.bank_application.controller.bankController.dto.BankDto;
 import home.intexsoft.bank_application.dao.BankDAO;
-import home.intexsoft.bank_application.dto.BankDto;
 import home.intexsoft.bank_application.mapper.BankMapper;
-import home.intexsoft.bank_application.mapper.BankMapperImpl;
 import home.intexsoft.bank_application.models.Bank;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,20 +23,23 @@ public class BankService {
     private final BankDAO bankDAO;
     private final BankMapper bankMapper;
 
-    public BankDto addBank(String bankName, String commissionForIndividual, String commissionForEntity) {
+    public List<ModelDto> addBank(String bankName, String commissionForIndividual, String commissionForEntity) {
         log.debug("Method AddBank (name = '" + bankName + "' started");
-        BankMapperImpl bankMapper = new BankMapperImpl();
         Bank bank = createBankAndSetValuesOfAttributes(bankName, commissionForIndividual, commissionForEntity);
         Bank createdBank = bankDAO.createBank(bank);
-        BankDto bankDto = bankMapper.fromBank(createdBank);
+        List<ModelDto> modelsDto = new ArrayList<>();
+        modelsDto.add(bankMapper.fromBank(createdBank));
         log.debug("Method AddBank (name = '" + bankName + "' finished");
-        return bankDto;
+        return modelsDto;
     }
 
-    public void deleteBankByName(String bankName) {
+    public List<ModelDto> deleteBankByName(String bankName) {
         log.debug("Method DeleteBank '" + bankName + "'started");
-        bankDAO.deleteByName(bankName);
+        Bank deletedBank = bankDAO.deleteByName(bankName);
+        List<ModelDto> modelsDto = new ArrayList<>();
+        modelsDto.add(bankMapper.fromBank(deletedBank));
         log.debug("Method DeleteBank '" + bankName + "'finished");
+        return modelsDto;
     }
 
 //    public List<Bank> viewAllBanks() {
@@ -46,13 +50,13 @@ public class BankService {
 //       // log.debug("Method ViewAllBanks finished");
 //    }
 
-    public List<BankDto> viewAllBanks() {
+    public List<ModelDto> findAllBanks() {
         log.debug("Method ViewAllBanks started");
-        BankMapperImpl bankMapper = new BankMapperImpl();
         List<Bank> bankList = bankDAO.findAll();
-        List<BankDto> bankDtoList = bankList.stream().map(bankMapper::fromBank).collect(Collectors.toList());
-        log.debug("Method ViewAllBanks finished");
-        return bankDtoList;
+        bankList.forEach(System.out::println);
+        return bankList.stream()
+                .map(bankMapper::fromBank)
+                .collect(Collectors.toList());
     }
 
     private Bank createBankAndSetValuesOfAttributes(String bankName,
@@ -71,13 +75,13 @@ public class BankService {
         return bankDAO.findByName(bankName);
     }
 
+    public BankDto findById(Integer id) {
+        Bank bank = bankDAO.findById(id);
+        return bankMapper.fromBank(bank);
+    }
+
     public boolean checkIfBankNameExist(String bankName) {
         return bankDAO.findByName(bankName) != null;
     }
 
-    public BankDto addBank(BankDto bankDto) {
-        Bank bank = bankMapper.fromBankDto(bankDto);
-        Bank createdBank = bankDAO.createBank(bank);
-        return bankMapper.fromBank(createdBank);
-    }
 }

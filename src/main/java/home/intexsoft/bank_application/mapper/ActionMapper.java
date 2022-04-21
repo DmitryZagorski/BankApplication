@@ -1,12 +1,12 @@
 package home.intexsoft.bank_application.mapper;
 
-import home.intexsoft.bank_application.dao.BankAccountDAO;
-import home.intexsoft.bank_application.dto.ActionDto;
+import home.intexsoft.bank_application.dto.action.ActionDto;
 import home.intexsoft.bank_application.models.Action;
 import home.intexsoft.bank_application.models.BankAccount;
+import home.intexsoft.bank_application.service.BankAccountService;
 import org.mapstruct.*;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface ActionMapper {
 
     @Mapping(target = "id", ignore = true)
@@ -17,8 +17,8 @@ public interface ActionMapper {
     Action fromActionDto(ActionDto actionDTO);
 
     @AfterMapping
-    default void mapBankAccount(ActionDto actionDto, @MappingTarget Action action, @Context BankAccountDAO bankAccountDAO){
-        BankAccount bankAccount = bankAccountDAO.findById(actionDto.getBankAccountId());
+    default void mapBankAccount(ActionDto actionDto, @MappingTarget Action action, @Context BankAccountService bankAccountService) {
+        BankAccount bankAccount = bankAccountService.findBankAccountById(actionDto.getBankAccountId());
         action.setBankAccount(bankAccount);
     }
 }

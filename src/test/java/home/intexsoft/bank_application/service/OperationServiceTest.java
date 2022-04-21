@@ -2,8 +2,8 @@
 //
 //import home.intexsoft.bank_application.command.Command;
 //import home.intexsoft.bank_application.dao.BankAccountDAO;
-//import home.intexsoft.bank_application.dto.ActionDto;
-//import home.intexsoft.bank_application.dto.OperationDto;
+//import home.intexsoft.bank_application.dto.actionDto.ActionDto;
+//import home.intexsoft.bank_application.dto.operationDto.OperationDto;
 //import home.intexsoft.bank_application.models.BankAccount;
 //import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.Test;

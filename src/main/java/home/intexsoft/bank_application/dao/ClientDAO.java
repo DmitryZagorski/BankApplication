@@ -1,6 +1,7 @@
 package home.intexsoft.bank_application.dao;
 
 import com.sun.istack.NotNull;
+import home.intexsoft.bank_application.models.Bank;
 import home.intexsoft.bank_application.models.Client;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
@@ -18,13 +19,12 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class ClientDAO extends DAO<Client> {
+public class ClientDAO {
 
     private static final Logger log = LoggerFactory.getLogger(ClientDAO.class);
 
     private final SessionFactory sessionFactory;
 
-    @Override
     public void create(@NotNull final Client client) {
         log.debug("DAO method of creation client started");
         final Session session = sessionFactory.openSession();
@@ -41,12 +41,14 @@ public class ClientDAO extends DAO<Client> {
         log.debug("DAO method of creation client finished");
     }
 
-    @Override
-    Client findById(Integer clientId) {
-        return super.findById(clientId);
+    public Client findById(@NotNull final Integer id) {
+        log.debug("DAO method of finding client by ID = '" + id + "' started");
+        try (final Session session = sessionFactory.openSession()) {
+            final Client result = session.get(Client.class, id);
+            return result != null ? result : new Client();
+        }
     }
 
-    @Override
     public Client findByName(@NotNull final String clientName) {
         log.debug("DAO method of finding client by name started");
         Client client = null;
@@ -84,9 +86,9 @@ public class ClientDAO extends DAO<Client> {
         return clients;
     }
 
-    @Override
-    public void deleteByName(@NotNull final String clientName) {
+    public Client deleteByName(@NotNull final String clientName) {
         log.debug("DAO method of deleting client by name started");
+        Client foundClient = null;
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -94,11 +96,12 @@ public class ClientDAO extends DAO<Client> {
             Root<Client> root = query.from(Client.class);
             query.where(criteriaBuilder.equal(root.get("name"), clientName));
             Query<Client> newQuery = session.createQuery(query);
-            Client foundClient = newQuery.getSingleResult();
+            foundClient = newQuery.getSingleResult();
             session.delete(foundClient);
             session.getTransaction().commit();
         }
         log.debug("DAO method of deleting client by name finished");
+        return foundClient;
     }
 
     public void delete(@NotNull final Client client) {

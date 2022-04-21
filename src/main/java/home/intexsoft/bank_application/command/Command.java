@@ -1,8 +1,12 @@
 package home.intexsoft.bank_application.command;
 
-import java.util.HashMap;
-import java.util.Map;
+import home.intexsoft.bank_application.controller.ModelDto;
+import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+@Component
 public abstract class Command {
 
     private CommandType name;
@@ -20,7 +24,7 @@ public abstract class Command {
         return attributes;
     }
 
-    public abstract void execute();
+    public abstract List<ModelDto> execute();
 
     public enum CommandType {
 

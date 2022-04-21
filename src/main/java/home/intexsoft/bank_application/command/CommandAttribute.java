@@ -4,4 +4,6 @@ public interface CommandAttribute {
 
     String getAttributeName();
 
+    CommandAttribute getConstant(String attributeName);
+
 }

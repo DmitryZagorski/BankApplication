@@ -12,13 +12,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class OperationDAO extends DAO<Operation> {
+public class OperationDAO {
 
     private static final Logger log = LoggerFactory.getLogger(OperationDAO.class);
 
     private final SessionFactory sessionFactory;
 
-    public void createOperation(@NotNull final Operation operation) {
+    public Operation createOperation(@NotNull final Operation operation) {
         log.debug("DAO method of creation new operation started");
         final Session session = sessionFactory.openSession();
         try {
@@ -26,16 +26,16 @@ public class OperationDAO extends DAO<Operation> {
             session.save(operation);
             session.getTransaction().commit();
             session.close();
+            return operation;
         } catch (Exception e) {
             log.error("Error during creation new operation" + e);
             session.getTransaction().rollback();
             session.close();
             throw e;
         }
-        log.debug("DAO method of creation new operation finished");
     }
 
-    public void update(Operation operation) {
+    public Operation update(Operation operation) {
         log.debug("DAO method of updating operation started");
         final Session session = sessionFactory.openSession();
         try {
@@ -43,12 +43,12 @@ public class OperationDAO extends DAO<Operation> {
             session.update(operation);
             session.getTransaction().commit();
             session.close();
+            return operation;
         } catch (Exception e) {
             session.getTransaction().rollback();
             session.close();
             log.error("Error during updating operation" + e);
             throw e;
         }
-        log.debug("DAO method of updating operation finished");
     }
 }

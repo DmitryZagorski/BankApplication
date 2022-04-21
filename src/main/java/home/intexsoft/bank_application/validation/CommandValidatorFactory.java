@@ -1,6 +1,7 @@
 package home.intexsoft.bank_application.validation;
 
 import home.intexsoft.bank_application.command.Command;
+import home.intexsoft.bank_application.command.ViewAllBanksCommand;
 import home.intexsoft.bank_application.validation.commandValidators.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +22,9 @@ public class CommandValidatorFactory {
         commandValidators.put(Command.CommandType.ADD_BANK, AddBankCommandValidator.class);
         commandValidators.put(Command.CommandType.DELETE_BANK, DeleteBankCommandValidator.class);
         commandValidators.put(Command.CommandType.FIND_CLIENTS_OF_BANK, FindClientsOfBankCommandValidator.class);
+        commandValidators.put(Command.CommandType.VIEW_ALL_BANKS, ViewAllBanksCommandValidator.class);
         commandValidators.put(Command.CommandType.ADD_CLIENT, AddClientCommandValidator.class);
         commandValidators.put(Command.CommandType.DELETE_CLIENT, DeleteClientCommandValidator.class);
-        commandValidators.put(Command.CommandType.DELETE_ALL_CLIENTS_OF_BANK, DeleteAllClientsOfBankCommandValidator.class);
         commandValidators.put(Command.CommandType.FIND_BANK_ACCOUNTS_OF_CLIENT, FindBankAccountsOfClientCommandValidator.class);
         commandValidators.put(Command.CommandType.ADD_BANK_ACCOUNT, AddBankAccountCommandValidator.class);
         commandValidators.put(Command.CommandType.ADD_CURRENCY, AddCurrencyCommandValidator.class);

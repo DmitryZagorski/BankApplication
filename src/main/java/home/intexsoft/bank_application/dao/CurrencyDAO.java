@@ -1,6 +1,7 @@
 package home.intexsoft.bank_application.dao;
 
 import com.sun.istack.NotNull;
+import home.intexsoft.bank_application.models.Bank;
 import home.intexsoft.bank_application.models.Currency;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
@@ -40,9 +41,12 @@ public class CurrencyDAO extends DAO<Currency> {
         log.debug("DAO method of creation new currency '" + currency.getName() + "' finished");
     }
 
-    @Override
-    public Currency findById(Integer value) {
-        return super.findById(value);
+    public Currency findById(@NotNull final Integer id) {
+        log.debug("DAO method of finding bank by ID = '" + id + "' started");
+        try (final Session session = sessionFactory.openSession()) {
+            final Currency result = session.get(Currency.class, id);
+            return result != null ? result : new Currency();
+        }
     }
 
     @Override

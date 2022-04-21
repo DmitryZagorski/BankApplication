@@ -1,4 +1,4 @@
-package home.intexsoft.bank_application.dto;
+package home.intexsoft.bank_application.dto.action;
 
 import home.intexsoft.bank_application.command.Command;
 import lombok.Data;
