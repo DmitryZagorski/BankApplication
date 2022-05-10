@@ -5,7 +5,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebMvc
-//@Profile("web")
+@Profile("web")
 @ComponentScan(basePackages = "home.intexsoft.bank_application.*")
 public class WebAppConfig {
 

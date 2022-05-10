@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-//@Profile("web")
+@Profile("web")
 public class WebCommandCreator implements CommandCreator {
 
     private static final Logger log = LoggerFactory.getLogger(WebCommandCreator.class);
