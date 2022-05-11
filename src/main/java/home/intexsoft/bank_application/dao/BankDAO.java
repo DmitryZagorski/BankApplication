@@ -1,22 +1,16 @@
 package home.intexsoft.bank_application.dao;
 
-import com.sun.istack.NotNull;
-import home.intexsoft.bank_application.models.Bank;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import com.sun.istack.*;
+import home.intexsoft.bank_application.models.*;
+import lombok.*;
+import org.hibernate.*;
 import org.hibernate.query.Query;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.slf4j.*;
+import org.springframework.stereotype.*;
 
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.io.Serializable;
-import java.util.List;
+import javax.persistence.*;
+import javax.persistence.criteria.*;
+import java.util.*;
 
 @Repository
 @RequiredArgsConstructor
