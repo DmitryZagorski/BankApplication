@@ -1,8 +1,6 @@
 package home.intexsoft.bank_application.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,9 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Setter
-@Getter
-@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "currency")
 public class Currency extends Model {

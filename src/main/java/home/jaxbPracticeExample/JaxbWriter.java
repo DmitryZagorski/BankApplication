@@ -1,4 +1,4 @@
-package home.jaxb;
+package home.jaxbPracticeExample;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

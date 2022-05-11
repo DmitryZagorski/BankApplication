@@ -1,9 +1,7 @@
 package home.intexsoft.bank_application.models;
 
 import home.intexsoft.bank_application.command.Command;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,9 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Setter
-@Getter
-@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "operations")
 public class Operation extends Model {

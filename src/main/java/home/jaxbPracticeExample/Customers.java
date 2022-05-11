@@ -1,4 +1,4 @@
-package home.jaxb;
+package home.jaxbPracticeExample;
 
 import lombok.Data;
 
@@ -6,17 +6,15 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
-@XmlRootElement
+@XmlRootElement(name = "customers")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class Customer {
+public class Customers {
 
     @XmlElement
-    private int id;
-    @XmlElement
-    private String name;
-    @XmlElement
-    private int age;
+    private List<Customer> customers = new ArrayList<>();
 
 }
