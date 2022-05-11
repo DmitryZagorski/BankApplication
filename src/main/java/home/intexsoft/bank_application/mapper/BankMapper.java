@@ -16,4 +16,6 @@ public interface BankMapper {
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "updateTime", ignore = true)
     Bank fromBankDto(AddBankRequestDto addBankRequestDto);
+
+//    BankXml fromBankToBankXml(Bank bank);
 }

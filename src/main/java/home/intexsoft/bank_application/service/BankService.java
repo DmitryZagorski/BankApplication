@@ -59,6 +59,11 @@ public class BankService {
                 .collect(Collectors.toList());
     }
 
+    public List<Bank> findAllBanksForJaxb() {
+        log.debug("Method ViewAllBanks for jaxb started");
+        return bankDAO.findAll();
+    }
+
     private Bank createBankAndSetValuesOfAttributes(String bankName,
                                                     String commissionForIndividual,
                                                     String commissionForEntity) {
