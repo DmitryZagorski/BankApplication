@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
         "home.intexsoft.bank_application.command",
         "home.intexsoft.bank_application.validation",
         "home.intexsoft.bank_application.jms",
+        "home.intexsoft.bank_application.jaxb",
         "home.intexsoft.bank_application.mapper"})
 public class GeneralConfig {
 

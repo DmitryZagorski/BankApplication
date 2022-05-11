@@ -8,9 +8,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
 @ComponentScan
+@Profile("commandLine")
 public class BankAppRunner {
 
     private static final Logger log = LoggerFactory.getLogger(BankAppRunner.class);
@@ -32,5 +34,9 @@ public class BankAppRunner {
 
 //        Arrays.stream(applicationContext.getBeanDefinitionNames()).forEach(System.out::println);
 
+    }
+
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
     }
 }

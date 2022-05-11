@@ -2,15 +2,18 @@ package home.intexsoft.bank_application.command;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static home.intexsoft.bank_application.BankAppRunner.applicationContext;
-
 @Component
 class CommandFactory {
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     private static final Logger log = LoggerFactory.getLogger(CommandFactory.class);
     private Map<Command.CommandType, Class<? extends Command>> commands = new HashMap<>();
@@ -34,7 +37,7 @@ class CommandFactory {
         log.debug("Creating command by command name " + commandName + " started");
         Class<? extends Command> commandsClass = commands.get(commandName);
         Command command = applicationContext.getBean(commandsClass);
-        log.debug("Creating command by command name " + commandName + " finished");
+        log.debug("Creating command by command name " + command.getName() + " finished");
         return command;
     }
 }

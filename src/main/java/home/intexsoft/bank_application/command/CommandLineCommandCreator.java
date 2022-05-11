@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
- @Profile("commandLine")
+@Profile("commandLine")
 public class CommandLineCommandCreator implements CommandCreator {
 
     private static final Logger log = LoggerFactory.getLogger(CommandLineCommandCreator.class);
